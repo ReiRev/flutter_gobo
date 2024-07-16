@@ -1,0 +1,20 @@
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width=${stoneRadius * 2}
+      height=${stoneRadius * 2}
+    >
+      <defs>
+        <radialGradient r=".8" cx=".3" cy=".3" id=$svgId>
+          <stop stopColor="#777" offset="0" />
+          <stop stopColor="#222" offset=".3" />
+          <stop stopColor="#000" offset="1" />
+        </radialGradient>
+      </defs>
+      <circle
+        fill={`url(#$svgId)`}
+        fillOpacity="$opacity"
+        r=$stoneRadius
+        cx="$stoneRadius"
+        cy="$stoneRadius"
+      />
+    </svg>
