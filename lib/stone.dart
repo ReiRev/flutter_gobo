@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum _StoneVariant {
@@ -13,6 +14,7 @@ class Stone extends StatelessWidget {
   final double opacity;
   final VoidCallback? onPressed;
   final VoidCallback? onDoublePressed;
+  final SystemMouseCursor mouseCursor;
   final _StoneVariant _stone_variant;
   const Stone({
     super.key,
@@ -20,6 +22,7 @@ class Stone extends StatelessWidget {
     this.opacity = 1,
     this.onPressed,
     this.onDoublePressed,
+    this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
         _stone_variant = _StoneVariant.standard;
@@ -30,6 +33,7 @@ class Stone extends StatelessWidget {
     this.opacity = 1,
     this.onPressed,
     this.onDoublePressed,
+    this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
         _stone_variant = _StoneVariant.white;
@@ -40,6 +44,7 @@ class Stone extends StatelessWidget {
     this.opacity = 1,
     this.onPressed,
     this.onDoublePressed,
+    this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
         _stone_variant = _StoneVariant.black;
@@ -105,6 +110,7 @@ class Stone extends StatelessWidget {
       surfaceTintColor: Colors.transparent,
       shape: const CircleBorder(),
       child: InkWell(
+        mouseCursor: mouseCursor,
         onTap: onPressed,
         onDoubleTap: onDoublePressed,
         focusColor: Colors.transparent,
