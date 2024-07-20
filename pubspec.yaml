@@ -1,10 +1,10 @@
-name: flutter_gobo
+name: gobo
 description: "A new Flutter package project."
 version: 0.0.1
 homepage: https://github.com/ReiRev/flutter_gobo
 
 environment:
-  sdk: '>=2.18.2 <4.0.0'
+  sdk: ">=2.18.2 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:

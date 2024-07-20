@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
-// Import the widget from your app
-import 'package:flutter_gobo/stones/black_stone.dart';
+import 'package:gobo/stone.dart';
+import "../utils.dart";
 
-@widgetbook.UseCase(name: 'BlackStone', type: BlackStone, path: 'Stones')
+@widgetbook.UseCase(name: 'Black Stone', type: Stone, path: 'Stones')
 Widget buildFavoriteButtonUseCase(BuildContext context) {
-  return BlackStone(
-      stoneRadius:
-          context.knobs.double.slider(label: 'stoneRadius', min: 0, max: 100));
+  return Stone.black(
+    radius: context.knobs.double
+        .slider(label: 'radius', initialValue: 50, min: 1, max: 1000),
+    opacity: context.knobs.double
+        .slider(label: 'opacity', initialValue: 1, min: 0, max: 1),
+    onPressed: () {
+      popup(context, 'pressed');
+    },
+    onDoublePressed: () {
+      popup(context, 'double pressed');
+    },
+  );
 }

@@ -17,20 +17,19 @@ final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
     name: 'Stones',
     children: [
-      _i1.WidgetbookLeafComponent(
-        name: 'BlackStone',
-        useCase: _i1.WidgetbookUseCase(
-          name: 'BlackStone',
-          builder: _i2.buildFavoriteButtonUseCase,
-        ),
-      ),
-      _i1.WidgetbookLeafComponent(
-        name: 'WhiteStone',
-        useCase: _i1.WidgetbookUseCase(
-          name: 'WhiteStone',
-          builder: _i3.buildFavoriteButtonUseCase,
-        ),
-      ),
+      _i1.WidgetbookComponent(
+        name: 'Stone',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Black Stone',
+            builder: _i2.buildFavoriteButtonUseCase,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'White Stone',
+            builder: _i3.buildFavoriteButtonUseCase,
+          ),
+        ],
+      )
     ],
   )
 ];

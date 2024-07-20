@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BlackStone extends StatelessWidget {
-  final double stoneRadius;
+  final double radius;
   final String svgId;
   final double opacity = 1;
   const BlackStone({
     super.key,
-    required this.stoneRadius,
+    required this.radius,
     this.svgId = 'black-stone-radial-gradient',
   });
 
@@ -16,8 +16,8 @@ class BlackStone extends StatelessWidget {
     final String rawSvg = '''
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="${stoneRadius * 2}"
-      height="${stoneRadius * 2}"
+      width="${radius * 2}"
+      height="${radius * 2}"
     >
       <defs><radialGradient r=".8" cx=".3" id="$svgId" cy=".3">
       <stop offset="0" stop-color="#777"/>
@@ -27,9 +27,9 @@ class BlackStone extends StatelessWidget {
       <circle
         fill="url(#$svgId)"
         fillOpacity="$opacity"
-        r="$stoneRadius"
-        cx="$stoneRadius"
-        cy="$stoneRadius"
+        r="$radius"
+        cx="$radius"
+        cy="$radius"
       />
     </svg>
   ''';
