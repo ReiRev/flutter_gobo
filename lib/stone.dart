@@ -102,24 +102,39 @@ class Stone extends StatelessWidget {
     }
   }
 
+  String semanticLabelOf(_StoneVariant variant) {
+    switch (variant) {
+      case _StoneVariant.standard:
+        return 'Empty Stone';
+
+      case _StoneVariant.black:
+        return 'Black Stone';
+
+      case _StoneVariant.white:
+        return 'White Stone';
+
+      default:
+        throw ArgumentError('Invalid variant: $variant');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      shadowColor: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
-      shape: const CircleBorder(),
-      child: InkWell(
-        mouseCursor: mouseCursor,
-        onTap: onPressed,
-        onDoubleTap: onDoublePressed,
-        focusColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        child: SvgPicture.string(
-          _rawSvgOf(_stone_variant),
-        ),
+    return InkWell(
+      borderRadius: BorderRadius.circular(radius),
+      customBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      mouseCursor: mouseCursor,
+      onTap: onPressed,
+      onDoubleTap: onDoublePressed,
+      focusColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      child: SvgPicture.string(
+        _rawSvgOf(_stone_variant),
+        semanticsLabel: semanticLabelOf(_stone_variant),
       ),
     );
   }
