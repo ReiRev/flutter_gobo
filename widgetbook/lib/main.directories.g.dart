@@ -10,26 +10,20 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:widgetbook/widgetbook.dart' as _i1;
-import 'package:widgetbook_flutter_gobo/stones/black_stone.dart' as _i2;
-import 'package:widgetbook_flutter_gobo/stones/white_stone.dart' as _i3;
+import 'package:widgetbook_flutter_gobo/stone.dart' as _i2;
 
 final directories = <_i1.WidgetbookNode>[
-  _i1.WidgetbookFolder(
-    name: 'Stones',
-    children: [
-      _i1.WidgetbookComponent(
-        name: 'Stone',
-        useCases: [
-          _i1.WidgetbookUseCase(
-            name: 'Black Stone',
-            builder: _i2.buildFavoriteButtonUseCase,
-          ),
-          _i1.WidgetbookUseCase(
-            name: 'White Stone',
-            builder: _i3.buildFavoriteButtonUseCase,
-          ),
-        ],
-      )
+  _i1.WidgetbookComponent(
+    name: 'Stone',
+    useCases: [
+      _i1.WidgetbookUseCase(
+        name: 'Black Stone',
+        builder: _i2.buildBlackStoneUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'White Stone',
+        builder: _i2.buildWhiteStoneUseCase,
+      ),
     ],
   )
 ];
