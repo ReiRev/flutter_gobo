@@ -49,8 +49,8 @@ class Stone extends StatelessWidget {
   })  : assert(0 <= opacity && opacity <= 1),
         _stoneVariant = _StoneVariant.black;
 
-  String _rawSvgOf(_StoneVariant variant) {
-    switch (variant) {
+  String rawSvg() {
+    switch (_stoneVariant) {
       case _StoneVariant.standard:
         return '';
 
@@ -98,7 +98,7 @@ class Stone extends StatelessWidget {
           </svg>
         ''';
       default:
-        throw ArgumentError('Invalid variant: $variant');
+        throw ArgumentError('Invalid variant: $_stoneVariant');
     }
   }
 
@@ -130,7 +130,7 @@ class Stone extends StatelessWidget {
           decoration: const BoxDecoration(
               shape: BoxShape.circle, color: Colors.transparent),
           child: SvgPicture.string(
-            _rawSvgOf(_stoneVariant),
+            rawSvg(),
             clipBehavior: Clip.none,
           ),
         ));
