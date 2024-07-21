@@ -3,6 +3,7 @@ import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 import 'package:gobo/intersection.dart';
+import "./utils.dart";
 
 @widgetbook.UseCase(name: 'Black Stone', type: Intersection)
 Widget buildIntersectionUseCase(BuildContext context) {
@@ -26,6 +27,8 @@ Widget buildIntersectionUseCase(BuildContext context) {
           context.knobs.boolean(label: 'isStarPoint', initialValue: false),
       starPointRadius: context.knobs.double
           .slider(label: 'starPointRadius', initialValue: 3, min: 1, max: 100),
+      onPressed: () => popup(context, 'pressed'),
+      onDoublePressed: () => popup(context, 'double pressed'),
     ),
   );
 }
