@@ -15,7 +15,7 @@ class Stone extends StatelessWidget {
   final VoidCallback? onPressed;
   final VoidCallback? onDoublePressed;
   final SystemMouseCursor mouseCursor;
-  final _StoneVariant _stone_variant;
+  final _StoneVariant _stoneVariant;
   const Stone({
     super.key,
     required this.radius,
@@ -25,7 +25,7 @@ class Stone extends StatelessWidget {
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
-        _stone_variant = _StoneVariant.standard;
+        _stoneVariant = _StoneVariant.standard;
 
   const Stone.white({
     super.key,
@@ -36,7 +36,7 @@ class Stone extends StatelessWidget {
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
-        _stone_variant = _StoneVariant.white;
+        _stoneVariant = _StoneVariant.white;
 
   const Stone.black({
     super.key,
@@ -47,7 +47,7 @@ class Stone extends StatelessWidget {
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
-        _stone_variant = _StoneVariant.black;
+        _stoneVariant = _StoneVariant.black;
 
   String _rawSvgOf(_StoneVariant variant) {
     switch (variant) {
@@ -120,22 +120,20 @@ class Stone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(radius),
-      customBorder: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(radius),
-      ),
-      mouseCursor: mouseCursor,
-      onTap: onPressed,
-      onDoubleTap: onDoublePressed,
-      focusColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      child: SvgPicture.string(
-        _rawSvgOf(_stone_variant),
-        semanticsLabel: semanticLabelOf(_stone_variant),
-      ),
-    );
+    return GestureDetector(
+        onTap: onPressed,
+        onDoubleTap: onDoublePressed,
+        child: Container(
+          clipBehavior: Clip.hardEdge,
+          height: radius * 2,
+          width: radius * 2,
+          decoration: const BoxDecoration(
+              shape: BoxShape.circle, color: Colors.transparent),
+          child: SvgPicture.string(
+            _rawSvgOf(_stoneVariant),
+            semanticsLabel: semanticLabelOf(_stoneVariant),
+            clipBehavior: Clip.none,
+          ),
+        ));
   }
 }
