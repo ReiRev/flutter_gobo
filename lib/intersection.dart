@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gobo/stone.dart';
 
 class Intersection extends StatelessWidget {
   final double height;
   final double width;
+  final Stone? stone;
   final double lineThickness;
   final bool isTopMost;
   final bool isBottomMost;
@@ -17,6 +19,7 @@ class Intersection extends StatelessWidget {
     super.key,
     required this.height,
     required this.width,
+    this.stone,
     this.lineThickness = 1,
     this.isTopMost = false,
     this.isBottomMost = false,
@@ -65,20 +68,25 @@ class Intersection extends StatelessWidget {
       </svg>
     ''';
 
-    return GestureDetector(
-      onTap: onPressed,
-      onDoubleTap: onDoublePressed,
-      child: Container(
-        clipBehavior: Clip.hardEdge,
-        height: height,
-        width: width,
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
+    return Stack(
+      fit: StackFit.values[0],
+      alignment: Alignment.center,
+      children: [
+        GestureDetector(
+          onTap: onPressed,
+          onDoubleTap: onDoublePressed,
+          child: Container(
+            clipBehavior: Clip.hardEdge,
+            height: height,
+            width: width,
+            decoration: const BoxDecoration(
+              color: Colors.transparent,
+            ),
+            child: SvgPicture.string(rawSvg, width: width, height: height),
+          ),
         ),
-        child: SvgPicture.string(
-          rawSvg,
-        ),
-      ),
+        stone != null ? Center(child: stone as Stone) : Container(),
+      ],
     );
   }
 }
