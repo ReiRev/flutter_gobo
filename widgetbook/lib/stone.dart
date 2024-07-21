@@ -3,7 +3,7 @@ import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 import 'package:gobo/stone.dart';
-import "../utils.dart";
+import "./utils.dart";
 
 @widgetbook.UseCase(name: 'Black Stone', type: Stone)
 Widget buildBlackStoneUseCase(BuildContext context) {
