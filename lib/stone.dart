@@ -131,7 +131,6 @@ class Stone extends StatelessWidget {
               shape: BoxShape.circle, color: Colors.transparent),
           child: SvgPicture.string(
             _rawSvgOf(_stoneVariant),
-            semanticsLabel: semanticLabelOf(_stoneVariant),
             clipBehavior: Clip.none,
           ),
         ));
