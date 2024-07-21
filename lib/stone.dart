@@ -49,6 +49,11 @@ class Stone extends StatelessWidget {
   })  : assert(0 <= opacity && opacity <= 1),
         _stoneVariant = _StoneVariant.black;
 
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return _stoneVariant.name;
+  }
+
   String rawSvg() {
     switch (_stoneVariant) {
       case _StoneVariant.standard:
