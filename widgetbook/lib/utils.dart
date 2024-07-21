@@ -8,7 +8,7 @@ Future<dynamic> popup(BuildContext context, String message) {
         title: Text(message),
         actions: [
           TextButton(
-            child: Text('OK'),
+            child: const Text('OK'),
             onPressed: () {
               Navigator.of(context).pop();
             },
