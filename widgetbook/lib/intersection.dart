@@ -9,15 +9,14 @@ import "./utils.dart";
 @widgetbook.UseCase(name: 'Intersection', type: Intersection)
 Widget buildIntersectionUseCase(BuildContext context) {
   return Container(
-      // color: const Color.fromRGBO(214, 181, 105, 1),
       color: context.knobs.color(
           label: 'container color',
           initialValue: const Color.fromRGBO(214, 181, 105, 1)),
       child: Intersection(
           height: context.knobs.double
-              .slider(label: 'height', initialValue: 50, min: 1, max: 1000),
+              .slider(label: 'height', initialValue: 100, min: 1, max: 1000),
           width: context.knobs.double
-              .slider(label: 'width', initialValue: 50, min: 1, max: 1000),
+              .slider(label: 'width', initialValue: 100, min: 1, max: 1000),
           lineThickness: context.knobs.double.slider(
               label: 'lineThickness', initialValue: 1, min: 1, max: 100),
           isTopMost:
@@ -41,15 +40,15 @@ Widget buildIntersectionUseCase(BuildContext context) {
                 radius: context.knobs.double.slider(
                     label: 'stone radius', initialValue: 50, min: 1, max: 1000),
                 opacity: 1,
-                onPressed: () => popup(context, 'pressed'),
-                onDoublePressed: () => popup(context, 'double pressed'),
+                onPressed: () => popup(context, 'stone pressed'),
+                onDoublePressed: () => popup(context, 'stone double pressed'),
               ),
               Stone.white(
                 radius: context.knobs.double.slider(
                     label: 'stone radius', initialValue: 50, min: 1, max: 1000),
                 opacity: 1,
-                onPressed: () => popup(context, 'pressed'),
-                onDoublePressed: () => popup(context, 'double pressed'),
+                onPressed: () => popup(context, 'stone pressed'),
+                onDoublePressed: () => popup(context, 'stone double pressed'),
               ),
             ],
             labelBuilder: (Stone? stone) => stone.toString(),
