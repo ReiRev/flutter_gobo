@@ -1,5 +1,11 @@
 {
     "cSpell.words": [
         "widgetbook"
-    ]
+    ],
+    "files.watcherExclude": {
+        "**/.dart_tool": true,
+        "**/build": true,
+        "widgetbook/**/*": false,
+        "widgetbook/lib/**/*": false
+    }
 }
