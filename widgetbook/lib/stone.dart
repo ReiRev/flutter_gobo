@@ -5,6 +5,20 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 import 'package:gobo/stone.dart';
 import "./utils.dart";
 
+@widgetbook.UseCase(name: 'Empty Stone', type: Stone)
+Widget buildEmptyStoneUseCase(BuildContext context) {
+  return Stone(
+    radius: context.knobs.double
+        .slider(label: 'radius', initialValue: 50, min: 1, max: 1000),
+    onPressed: () {
+      popup(context, 'pressed');
+    },
+    onDoublePressed: () {
+      popup(context, 'double pressed');
+    },
+  );
+}
+
 @widgetbook.UseCase(name: 'Black Stone', type: Stone)
 Widget buildBlackStoneUseCase(BuildContext context) {
   return Stone.black(
@@ -23,7 +37,7 @@ Widget buildBlackStoneUseCase(BuildContext context) {
 
 @widgetbook.UseCase(name: 'White Stone', type: Stone)
 Widget buildWhiteStoneUseCase(BuildContext context) {
-  return Stone.white(
+  final Stone stone = Stone.white(
     radius: context.knobs.double
         .slider(label: 'radius', initialValue: 50, min: 1, max: 1000),
     opacity: context.knobs.double
@@ -35,4 +49,6 @@ Widget buildWhiteStoneUseCase(BuildContext context) {
       popup(context, 'double pressed');
     },
   );
+  // change stone variant to black
+  return stone;
 }
