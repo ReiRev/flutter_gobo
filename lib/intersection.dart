@@ -15,6 +15,7 @@ class Intersection extends StatelessWidget {
   final double starPointRadius;
   final VoidCallback? onPressed;
   final VoidCallback? onDoublePressed;
+  final VoidCallback? onHover;
   const Intersection({
     super.key,
     required this.height,
@@ -29,6 +30,7 @@ class Intersection extends StatelessWidget {
     this.starPointRadius = 3,
     this.onPressed,
     this.onDoublePressed,
+    this.onHover,
   });
 
   @override
