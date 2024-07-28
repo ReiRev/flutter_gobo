@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum _StoneVariant {
-  standard,
+enum StoneVariant {
+  empty,
   black,
   white,
 }
 
-class Stone extends StatelessWidget {
+class Stone extends StatefulWidget {
   final double radius;
   final String svgId;
   final double opacity;
   final VoidCallback? onPressed;
   final VoidCallback? onDoublePressed;
   final SystemMouseCursor mouseCursor;
-  final _StoneVariant _stoneVariant;
+  final StoneVariant variant;
   const Stone({
     super.key,
     required this.radius,
@@ -24,8 +24,8 @@ class Stone extends StatelessWidget {
     this.onDoublePressed,
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
-  })  : assert(0 <= opacity && opacity <= 1),
-        _stoneVariant = _StoneVariant.standard;
+    this.variant = StoneVariant.empty,
+  }) : assert(0 <= opacity && opacity <= 1);
 
   const Stone.white({
     super.key,
@@ -36,7 +36,7 @@ class Stone extends StatelessWidget {
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
-        _stoneVariant = _StoneVariant.white;
+        variant = StoneVariant.white;
 
   const Stone.black({
     super.key,
@@ -47,75 +47,108 @@ class Stone extends StatelessWidget {
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
-        _stoneVariant = _StoneVariant.black;
+        variant = StoneVariant.black;
+
+  @override
+  State<Stone> createState() => _StoneState();
+}
+
+class _StoneState extends State<Stone> {
+  late StoneVariant variant;
+
+  @override
+  void initState() {
+    super.initState();
+    variant = widget.variant;
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return _stoneVariant.name;
+    return widget.variant.name;
+  }
+
+  // function to change variant
+  void changeVariant(StoneVariant newVariant) {
+    setState(() {
+      variant = newVariant;
+    });
   }
 
   String rawSvg() {
-    switch (_stoneVariant) {
-      case _StoneVariant.standard:
-        return '';
-
-      case _StoneVariant.black:
+    switch (widget.variant) {
+      case StoneVariant.empty:
         return '''
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="${radius * 2}"
-            height="${radius * 2}"
+            width="${widget.radius * 2}"
+            height="${widget.radius * 2}"
           >
-            <defs><radialGradient r=".8" cx=".3" id="$svgId" cy=".3">
+            <circle
+              fill-opacity="0"
+              r="${widget.radius}"
+              cx="${widget.radius}"
+              cy="${widget.radius}"
+            />
+          </svg>
+        ''';
+
+      case StoneVariant.black:
+        return '''
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="${widget.radius * 2}"
+            height="${widget.radius * 2}"
+          >
+            <defs><radialGradient r=".8" cx=".3" id="${widget.svgId}" cy=".3">
             <stop offset="0" stop-color="#777"/>
             <stop offset=".3" stop-color="#222"/>
             <stop offset="1" stop-color="#000"/>
             </radialGradient></defs>
             <circle
-              fill="url(#$svgId)"
-              fill-opacity="$opacity"
-              r="$radius"
-              cx="$radius"
-              cy="$radius"
+              fill="url(#${widget.svgId})"
+              fill-opacity="${widget.opacity}"
+              r="${widget.radius}"
+              cx="${widget.radius}"
+              cy="${widget.radius}"
             />
           </svg>
         ''';
 
-      case _StoneVariant.white:
+      case StoneVariant.white:
         return '''
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="${radius * 2}"
-            height="${radius * 2}"
+            width="${widget.radius * 2}"
+            height="${widget.radius * 2}"
           >
-            <defs><radialGradient r=".48" cx=".47" id="$svgId" cy=".49">
+            <defs><radialGradient r=".48" cx=".47" id="${widget.svgId}" cy=".49">
             <stop offset=".7" stop-color="#FFF"/>
             <stop offset=".9" stop-color="#DDD"/>
             <stop offset="1" stop-color="#777"/>
             </radialGradient></defs>
             <circle
-              fill="url(#$svgId)"
-              fill-opacity="$opacity"
-              r="$radius"
-              cx="$radius"
-              cy="$radius"
+              fill="url(#${widget.svgId})"
+              fill-opacity="${widget.opacity}"
+              r="${widget.radius}"
+              cx="${widget.radius}"
+              cy="${widget.radius}"
             />
           </svg>
         ''';
       default:
-        throw ArgumentError('Invalid variant: $_stoneVariant');
+        throw ArgumentError('Invalid variant: ${widget.variant}');
     }
   }
 
-  String semanticLabelOf(_StoneVariant variant) {
+  String semanticLabelOf(StoneVariant variant) {
     switch (variant) {
-      case _StoneVariant.standard:
+      case StoneVariant.empty:
         return 'Empty Stone';
 
-      case _StoneVariant.black:
+      case StoneVariant.black:
         return 'Black Stone';
 
-      case _StoneVariant.white:
+      case StoneVariant.white:
         return 'White Stone';
 
       default:
@@ -126,12 +159,12 @@ class Stone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: onPressed,
-        onDoubleTap: onDoublePressed,
+        onTap: widget.onPressed,
+        onDoubleTap: widget.onDoublePressed,
         child: Container(
           clipBehavior: Clip.hardEdge,
-          height: radius * 2,
-          width: radius * 2,
+          height: widget.radius * 2,
+          width: widget.radius * 2,
           decoration: const BoxDecoration(
               shape: BoxShape.circle, color: Colors.transparent),
           child: SvgPicture.string(
