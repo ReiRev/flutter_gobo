@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum _StoneVariant {
+enum StoneVariant {
   standard,
   black,
   white,
@@ -15,7 +15,7 @@ class Stone extends StatelessWidget {
   final VoidCallback? onPressed;
   final VoidCallback? onDoublePressed;
   final SystemMouseCursor mouseCursor;
-  final _StoneVariant _stoneVariant;
+  final StoneVariant stoneVariant;
   const Stone({
     super.key,
     required this.radius,
@@ -25,7 +25,7 @@ class Stone extends StatelessWidget {
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
-        _stoneVariant = _StoneVariant.standard;
+        stoneVariant = StoneVariant.standard;
 
   const Stone.white({
     super.key,
@@ -36,7 +36,7 @@ class Stone extends StatelessWidget {
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
-        _stoneVariant = _StoneVariant.white;
+        stoneVariant = StoneVariant.white;
 
   const Stone.black({
     super.key,
@@ -47,19 +47,19 @@ class Stone extends StatelessWidget {
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
-        _stoneVariant = _StoneVariant.black;
+        stoneVariant = StoneVariant.black;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return _stoneVariant.name;
+    return stoneVariant.name;
   }
 
   String rawSvg() {
-    switch (_stoneVariant) {
-      case _StoneVariant.standard:
+    switch (stoneVariant) {
+      case StoneVariant.standard:
         return '';
 
-      case _StoneVariant.black:
+      case StoneVariant.black:
         return '''
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +81,7 @@ class Stone extends StatelessWidget {
           </svg>
         ''';
 
-      case _StoneVariant.white:
+      case StoneVariant.white:
         return '''
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -103,19 +103,19 @@ class Stone extends StatelessWidget {
           </svg>
         ''';
       default:
-        throw ArgumentError('Invalid variant: $_stoneVariant');
+        throw ArgumentError('Invalid variant: $stoneVariant');
     }
   }
 
-  String semanticLabelOf(_StoneVariant variant) {
+  String semanticLabelOf(StoneVariant variant) {
     switch (variant) {
-      case _StoneVariant.standard:
+      case StoneVariant.standard:
         return 'Empty Stone';
 
-      case _StoneVariant.black:
+      case StoneVariant.black:
         return 'Black Stone';
 
-      case _StoneVariant.white:
+      case StoneVariant.white:
         return 'White Stone';
 
       default:
