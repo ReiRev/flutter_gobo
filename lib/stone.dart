@@ -12,12 +12,12 @@ class Stone extends StatefulWidget {
   final double radius;
   final String svgId;
   final double opacity;
-  final VoidCallback? onPressed;
+  VoidCallback? onPressed;
   final VoidCallback? onDoublePressed;
-  final PointerHoverEventListener? onHover;
+  final VoidCallback? onHover;
   final SystemMouseCursor mouseCursor;
   final StoneVariant variant;
-  const Stone({
+  Stone({
     super.key,
     required this.radius,
     this.opacity = 1,
@@ -29,7 +29,7 @@ class Stone extends StatefulWidget {
     this.variant = StoneVariant.empty,
   }) : assert(0 <= opacity && opacity <= 1);
 
-  const Stone.white({
+  Stone.white({
     super.key,
     required this.radius,
     this.opacity = 1,
@@ -41,7 +41,7 @@ class Stone extends StatefulWidget {
   })  : assert(0 <= opacity && opacity <= 1),
         variant = StoneVariant.white;
 
-  const Stone.black({
+  Stone.black({
     super.key,
     required this.radius,
     this.opacity = 1,
@@ -169,7 +169,9 @@ class _StoneState extends State<Stone> {
       height: widget.radius * 2,
       width: widget.radius * 2,
       child: MouseRegion(
-          onHover: widget.onHover,
+          onHover: (event) {
+            widget.onHover?.call();
+          },
           cursor: widget.mouseCursor,
           child: GestureDetector(
               onTap: widget.onPressed,

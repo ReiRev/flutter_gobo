@@ -37,6 +37,10 @@ final directories = <_i1.WidgetbookNode>[
         builder: _i4.buildBlackStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
+        name: 'Empty Stone',
+        builder: _i4.buildEmptyStoneUseCase,
+      ),
+      _i1.WidgetbookUseCase(
         name: 'White Stone',
         builder: _i4.buildWhiteStoneUseCase,
       ),
