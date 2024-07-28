@@ -14,6 +14,7 @@ class Stone extends StatefulWidget {
   final double opacity;
   final VoidCallback? onPressed;
   final VoidCallback? onDoublePressed;
+  final PointerHoverEventListener? onHover;
   final SystemMouseCursor mouseCursor;
   final StoneVariant variant;
   const Stone({
@@ -22,6 +23,7 @@ class Stone extends StatefulWidget {
     this.opacity = 1,
     this.onPressed,
     this.onDoublePressed,
+    this.onHover,
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
     this.variant = StoneVariant.empty,
@@ -33,6 +35,7 @@ class Stone extends StatefulWidget {
     this.opacity = 1,
     this.onPressed,
     this.onDoublePressed,
+    this.onHover,
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
@@ -44,6 +47,7 @@ class Stone extends StatefulWidget {
     this.opacity = 1,
     this.onPressed,
     this.onDoublePressed,
+    this.onHover,
     this.mouseCursor = SystemMouseCursors.basic,
     this.svgId = 'rg',
   })  : assert(0 <= opacity && opacity <= 1),
@@ -158,19 +162,23 @@ class _StoneState extends State<Stone> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: widget.onPressed,
-        onDoubleTap: widget.onDoublePressed,
-        child: Container(
-          clipBehavior: Clip.hardEdge,
-          height: widget.radius * 2,
-          width: widget.radius * 2,
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle, color: Colors.transparent),
-          child: SvgPicture.string(
-            rawSvg(),
-            clipBehavior: Clip.none,
-          ),
-        ));
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: const BoxDecoration(
+          shape: BoxShape.circle, color: Colors.transparent),
+      height: widget.radius * 2,
+      width: widget.radius * 2,
+      child: MouseRegion(
+          onHover: widget.onHover,
+          cursor: widget.mouseCursor,
+          child: GestureDetector(
+              onTap: widget.onPressed,
+              onDoubleTap: widget.onDoublePressed,
+              // onHover: widget.onHover,
+              child: SvgPicture.string(
+                rawSvg(),
+                clipBehavior: Clip.none,
+              ))),
+    );
   }
 }
