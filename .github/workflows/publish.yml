@@ -7,26 +7,33 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+*"
 
 jobs:
-  create_release_branch:
-    runs-on: ubuntu-latest
+  # create_release_branch:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Extract tag version
-        id: extract_version
-        run: echo "TAG_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+  #     - name: Extract tag version
+  #       id: extract_version
+  #       run: echo "TAG_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-      - name: Create release branch
-        run: |
-          BRANCH_NAME="release/${TAG_VERSION}"
-          git checkout -b $BRANCH_NAME
-          git push origin $BRANCH_NAME
-        env:
-          TAG_VERSION: ${{ env.TAG_VERSION }}
+  #     - name: Create release branch
+  #       run: |
+  #         BRANCH_NAME="release/${TAG_VERSION}"
+  #         git checkout -b $BRANCH_NAME
+  #         git push origin $BRANCH_NAME
+  #       env:
+  #         TAG_VERSION: ${{ env.TAG_VERSION }}
 
   publish:
     permissions:
       id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Publish
+        run: dart pub publish --force
