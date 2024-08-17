@@ -21,9 +21,8 @@ extension PlayerX on Player {
 Widget buildEmptyBoardUseCase(BuildContext context) {
   return Board(
     dimension: BoardDimension(
-      width: 500,
-      stoneRadius: context.knobs.double
-          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000),
+      width: context.knobs.double
+          .slider(label: 'width', initialValue: 50, min: 1, max: 1000),
     ),
     theme: BoardTheme(
       boardColor: context.knobs.color(
@@ -46,9 +45,8 @@ Widget buildAlternatingStoneBoardUseCase(BuildContext context) {
 
   return Board(
     dimension: BoardDimension(
-      width: 500,
-      stoneRadius: context.knobs.double
-          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000),
+      width: context.knobs.double
+          .slider(label: 'width', initialValue: 50, min: 1, max: 1000),
     ),
     theme: BoardTheme(
       boardColor: context.knobs.color(
