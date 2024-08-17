@@ -1,7 +1,6 @@
-library flutter_gobo;
+library gobo;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/board_config/board_config.dart';
+export 'src/intersection/intersection.dart';
+export 'src/stone/stone.dart';
+export 'src/board/board.dart';
