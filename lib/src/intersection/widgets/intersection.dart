@@ -1,40 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gobo/stone.dart';
+import 'package:gobo/gobo.dart';
 
 class Intersection extends StatelessWidget {
-  final double height;
-  final double width;
-  final Stone? stone;
-  final double lineThickness;
-  final bool isTopMost;
-  final bool isBottomMost;
-  final bool isLeftMost;
-  final bool isRightMost;
-  final bool isStarPoint;
-  final double starPointRadius;
-  final VoidCallback? onPressed;
-  final VoidCallback? onDoublePressed;
-  final VoidCallback? onHover;
   const Intersection({
     super.key,
-    required this.height,
-    required this.width,
-    this.stone,
-    this.lineThickness = 1,
-    this.isTopMost = false,
-    this.isBottomMost = false,
-    this.isLeftMost = false,
-    this.isRightMost = false,
-    this.isStarPoint = false,
-    this.starPointRadius = 3,
-    this.onPressed,
-    this.onDoublePressed,
-    this.onHover,
+    required this.x,
+    required this.y,
+    required this.stone,
   });
+
+  final int x;
+  final int y;
+  final Stone stone;
 
   @override
   Widget build(BuildContext context) {
+    final int boardSize = BoardConfig.of(context).dimension.size;
+    bool isTopMost = y == 0;
+    bool isBottomMost = y == boardSize - 1;
+    bool isLeftMost = x == 0;
+    bool isRightMost = x == boardSize - 1;
+    bool isStarPoint =
+        (x == 3 || x == (boardSize / 2).floor() || x == boardSize - 1 - 3) &&
+            (y == 3 || y == (boardSize / 2).floor() || y == boardSize - 1 - 3);
+
+    final double lineThickness =
+        BoardConfig.of(context).dimension.lineThickness;
+    final double lineSpacing = BoardConfig.of(context).dimension.lineSpacing;
+    final double starPointRadius =
+        BoardConfig.of(context).dimension.starPointRadius;
+    final double width = lineSpacing + lineThickness;
+    final double height = lineSpacing + lineThickness;
+
     final String rawSvg = '''
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -74,20 +72,8 @@ class Intersection extends StatelessWidget {
       fit: StackFit.values[0],
       alignment: Alignment.center,
       children: [
-        GestureDetector(
-          onTap: onPressed,
-          onDoubleTap: onDoublePressed,
-          child: Container(
-            clipBehavior: Clip.hardEdge,
-            height: height,
-            width: width,
-            decoration: const BoxDecoration(
-              color: Colors.transparent,
-            ),
-            child: SvgPicture.string(rawSvg, width: width, height: height),
-          ),
-        ),
-        stone != null ? Center(child: stone as Stone) : Container(),
+        SvgPicture.string(rawSvg, width: width, height: height),
+        stone,
       ],
     );
   }

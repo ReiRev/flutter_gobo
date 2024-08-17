@@ -8,9 +8,13 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  bloc: ^8.1.4
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.6
   flutter_svg: ^2.0.10+1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
