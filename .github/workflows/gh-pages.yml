@@ -14,14 +14,16 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.13.3"
+          flutter-version: "3.24.0"
 
       - name: build widgetbook
         working-directory: widgetbook
         run: |
+          flutter clean
           flutter pub get
-          flutter build web -t lib/main.dart --web-renderer canvaskit
+          flutter build web -t lib/main.dart
           sed -i 's/base href="\/"/base href="\/flutter_gobo\/"/g' build/web/index.html
+          echo "Widgetbook build completed"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
