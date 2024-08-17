@@ -29,11 +29,11 @@ Widget buildIntersectionUseCase(BuildContext context) {
           ],
           labelBuilder: (Stone? stone) {
             switch (stone.runtimeType) {
-              case EmptyStone:
+              case const (EmptyStone):
                 return 'Empty Stone';
-              case BlackStone:
+              case const (BlackStone):
                 return 'Black Stone';
-              case WhiteStone:
+              case const (WhiteStone):
                 return 'White Stone';
               default:
                 throw Exception('Unknown stone type');

@@ -20,7 +20,7 @@ class BoardView extends StatelessWidget {
               crossAxisCount: BoardConfig.of(context).dimension.size,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               children: stoneTable.withCallback(context).transpose().flatten(),
             ),
           ),

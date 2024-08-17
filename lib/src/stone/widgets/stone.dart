@@ -39,10 +39,10 @@ abstract class Stone extends StatelessWidget {
         child: MouseRegion(
           onHover: onHover,
           onEnter: (_) {
-            print('onEnter');
+            // TODO: implement onEnter
           },
           onExit: (_) {
-            print('onExit');
+            // TODO: implement onExit
           },
           cursor: mouseCursor,
           child: render(context),

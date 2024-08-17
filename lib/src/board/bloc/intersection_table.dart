@@ -34,8 +34,10 @@ class IntersectionTable extends Equatable {
   IntersectionTable added(int x, int y, Stone stone) {
     final List<List<Intersection>> newData = List.generate(
       boardSize,
+      // ignore: no_leading_underscores_for_local_identifiers
       (_x) => List.generate(
         boardSize,
+        // ignore: no_leading_underscores_for_local_identifiers
         (_y) => (_x == x && _y == y)
             ? Intersection(x: x, y: y, stone: stone)
             : data[_x][_y],
@@ -60,15 +62,12 @@ class IntersectionTable extends Equatable {
               y: y,
               stone: data[x][y].stone.copyWith(
                 onPressed: () {
-                  print('onPressed $x $y');
                   context.read<BoardBloc>().add(StonePressed(x, y));
                 },
                 onDoublePressed: () {
-                  print('onDoublePressed $x $y');
                   context.read<BoardBloc>().add(StoneDoublePressed(x, y));
                 },
                 onHover: (event) {
-                  print('onHover $x $y');
                   context.read<BoardBloc>().add(StoneHovered(x, y));
                 },
               ))),
