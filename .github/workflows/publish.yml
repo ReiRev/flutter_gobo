@@ -8,9 +8,9 @@ on:
 
 jobs:
   publish:
+    if: ${{ github.repository_owner == 'ReiRev' }}
     permissions:
       id-token: write
-    if: ${{ github.repository_owner == 'ReiRev' }}
     uses: dart-lang/ecosystem/.github/workflows/publish.yaml@main
     with:
       use-flutter: true
