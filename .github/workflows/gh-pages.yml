@@ -21,6 +21,7 @@ jobs:
         run: |
           flutter pub get
           flutter build web -t lib/main.dart --web-renderer canvaskit
+          sed -i 's/base href="\/"/base href="\/flutter_gobo\/"/g' build/web/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -40,7 +41,7 @@ jobs:
     # Deploy to the github-pages environment
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}/widgetbook
+      url: ${{ steps.deployment.outputs.page_url }}
 
     # Specify runner + deployment step
     runs-on: ubuntu-latest
