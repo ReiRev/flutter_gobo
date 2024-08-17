@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gobo/gobo.dart';
 import 'package:widgetbook/widgetbook.dart';
@@ -19,10 +21,21 @@ extension PlayerX on Player {
 
 @widgetbook.UseCase(name: 'Empty Board', type: Board)
 Widget buildEmptyBoardUseCase(BuildContext context) {
+  double width = min(
+    min(
+      MediaQuery.of(context).size.width,
+      MediaQuery.of(context).size.height,
+    ),
+    context.knobs.double.slider(
+      label: 'width (constrained by screen size)',
+      initialValue: 300,
+      min: 1,
+      max: 1000,
+    ),
+  );
   return Board(
     dimension: BoardDimension(
-      width: context.knobs.double
-          .slider(label: 'width', initialValue: 50, min: 1, max: 1000),
+      width: width,
     ),
     theme: BoardTheme(
       boardColor: context.knobs.color(
@@ -43,10 +56,22 @@ Widget buildEmptyBoardUseCase(BuildContext context) {
 Widget buildAlternatingStoneBoardUseCase(BuildContext context) {
   Player player = Player.black;
 
+  double width = min(
+    min(
+      MediaQuery.of(context).size.width,
+      MediaQuery.of(context).size.height,
+    ),
+    context.knobs.double.slider(
+      label: 'width (constrained by screen size)',
+      initialValue: 300,
+      min: 1,
+      max: 1000,
+    ),
+  );
+
   return Board(
     dimension: BoardDimension(
-      width: context.knobs.double
-          .slider(label: 'width', initialValue: 50, min: 1, max: 1000),
+      width: width,
     ),
     theme: BoardTheme(
       boardColor: context.knobs.color(
