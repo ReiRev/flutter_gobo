@@ -16,8 +16,6 @@ class BoardView extends StatelessWidget {
           ),
           child: Container(
             color: BoardConfig.of(context).theme.boardColor,
-            // width: BoardConfig.of(context).dimension.width,
-            // height: BoardConfig.of(context).dimension.height,
             child: GridView.count(
               crossAxisCount: BoardConfig.of(context).dimension.size,
               physics: const NeverScrollableScrollPhysics(),
