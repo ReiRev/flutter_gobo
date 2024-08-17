@@ -9,13 +9,19 @@ class BoardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BoardBloc, IntersectionTable>(
       builder: (context, stoneTable) {
-        return Container(
-          color: BoardConfig.of(context).theme.boardColor,
-          width: BoardConfig.of(context).dimension.width,
-          height: BoardConfig.of(context).dimension.width,
-          child: GridView.count(
-            crossAxisCount: BoardConfig.of(context).dimension.size,
-            children: stoneTable.withCallback(context).transpose().flatten(),
+        return AspectRatio(
+          aspectRatio: BoardConfig.of(context).dimension.width /
+              BoardConfig.of(context).dimension.height,
+          child: Container(
+            color: BoardConfig.of(context).theme.boardColor,
+            width: BoardConfig.of(context).dimension.width,
+            height: BoardConfig.of(context).dimension.width,
+            child: GridView.count(
+              crossAxisCount: BoardConfig.of(context).dimension.size,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              children: stoneTable.withCallback(context).transpose().flatten(),
+            ),
           ),
         );
       },
