@@ -6,12 +6,36 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
 
+# jobs:
+#   publish:
+#     if: ${{ github.repository_owner == 'ReiRev' }}
+#     permissions:
+#       id-token: write
+#       pull-requests: write
+#     uses: dart-lang/ecosystem/.github/workflows/publish.yaml@main
+#     with:
+#       use-flutter: true
+
 jobs:
   publish:
-    if: ${{ github.repository_owner == 'ReiRev' }}
     permissions:
-      id-token: write
-      pull-requests: write
-    uses: dart-lang/ecosystem/.github/workflows/publish.yaml@main
-    with:
-      use-flutter: true
+      id-token: write # Required for authentication using OIDC
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # setup OIDC token
+      - uses: dart-lang/setup-dart@v1
+      # https://github.com/dart-lang/setup-dart/blob/v1/.github/workflows/publish.yml
+      - name: Fetch flutter config
+        uses: kuhnroyal/flutter-fvm-config-action@v2
+        id: fvm-config-action
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Publish
+        run: flutter pub publish --force
