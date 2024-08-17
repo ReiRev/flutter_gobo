@@ -15,3 +15,5 @@ permissions:
 jobs:
   publish:
     uses: dart-lang/ecosystem/.github/workflows/publish.yaml@main
+    with:
+      use-flutter: true
