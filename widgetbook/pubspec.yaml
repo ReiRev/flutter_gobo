@@ -13,6 +13,9 @@ dependencies:
   widgetbook: ^3.8.1
   gobo:
     path: ../
+  flame: ^1.18.0
+  bloc: ^8.1.4
+  flutter_bloc: ^8.1.6
 
 dev_dependencies:
   flutter_test:

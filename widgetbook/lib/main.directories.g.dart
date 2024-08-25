@@ -11,44 +11,30 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:widgetbook/widgetbook.dart' as _i1;
 import 'package:widgetbook_flutter_gobo/board.dart' as _i2;
-import 'package:widgetbook_flutter_gobo/intersection.dart' as _i3;
-import 'package:widgetbook_flutter_gobo/stone.dart' as _i4;
+import 'package:widgetbook_flutter_gobo/stone.dart' as _i3;
 
 final directories = <_i1.WidgetbookNode>[
-  _i1.WidgetbookComponent(
-    name: 'Board',
-    useCases: [
-      _i1.WidgetbookUseCase(
-        name: 'Alternating Stone Board',
-        builder: _i2.buildAlternatingStoneBoardUseCase,
-      ),
-      _i1.WidgetbookUseCase(
-        name: 'Empty Board',
-        builder: _i2.buildEmptyBoardUseCase,
-      ),
-    ],
-  ),
   _i1.WidgetbookLeafComponent(
-    name: 'Intersection',
+    name: 'BoardComponent',
     useCase: _i1.WidgetbookUseCase(
-      name: 'Intersection',
-      builder: _i3.buildIntersectionUseCase,
+      name: 'Empty Board',
+      builder: _i2.buildBoardUseCase,
     ),
   ),
   _i1.WidgetbookComponent(
-    name: 'Stone',
+    name: 'StoneComponent',
     useCases: [
       _i1.WidgetbookUseCase(
         name: 'Black Stone',
-        builder: _i4.buildBlackStoneUseCase,
+        builder: _i3.buildBlackStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
-        name: 'Empty Stone',
-        builder: _i4.buildEmptyStoneUseCase,
+        name: 'Invisible Stone',
+        builder: _i3.buildInvisibleStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'White Stone',
-        builder: _i4.buildWhiteStoneUseCase,
+        builder: _i3.buildWhiteStoneUseCase,
       ),
     ],
   ),

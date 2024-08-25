@@ -1,90 +1,68 @@
-import 'dart:math';
-
+import 'package:bloc/bloc.dart';
+import 'package:flame/components.dart';
+import 'package:flame/events.dart';
+import 'package:flame/game.dart';
+import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
-import 'package:gobo/gobo.dart';
+import 'package:gobo/src/models/coordinate.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
+import 'package:gobo/gobo.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:gobo/src/bloc/board_bloc.dart';
 
-import "./utils.dart";
+class BoardGame extends FlameGame {
+  BoardGame({
+    required this.board,
+  });
 
-enum Player {
-  black,
-  white,
-}
+  final BoardComponent board;
 
-extension PlayerX on Player {
-  Player get opponent => this == Player.black ? Player.white : Player.black;
+  Map<Coordinate, StoneComponent> stones = {};
 
-  Stone get stone =>
-      this == Player.black ? const BlackStone() : const WhiteStone();
-}
-
-@widgetbook.UseCase(name: 'Empty Board', type: Board)
-Widget buildEmptyBoardUseCase(BuildContext context) {
-  double width = min(
-    min(
-      MediaQuery.of(context).size.width,
-      MediaQuery.of(context).size.height,
-    ),
-    context.knobs.double.slider(
-      label: 'width (constrained by screen size)',
-      initialValue: 300,
-      min: 1,
-      max: 1000,
-    ),
-  );
-  return Board(
-    dimension: BoardDimension(
-      width: width,
-    ),
-    theme: BoardTheme(
-      boardColor: context.knobs.color(
-        label: 'container color',
-        initialValue: const Color.fromRGBO(214, 181, 105, 1),
+  @override
+  Future<void> onLoad() async {
+    // world.add(board);
+    // final stone = InvisibleStone();
+    // board.addStone(
+    //   const Coordinate(10, 10),
+    //   InvisibleStone(),
+    // );
+    world.add(
+      FlameBlocProvider<BoardBloc, BoardState>.value(
+        value: BoardBloc(),
+        children: [board],
       ),
-    ),
-    onStonePressed: (event, emit, state) {
-      popup(context, 'pressed (${event.x}, ${event.y})');
-    },
-    onStoneDoublePressed: (event, emit, state) {
-      popup(context, 'double pressed (${event.x}, ${event.y})');
-    },
-  );
+    );
+    camera.follow(board);
+  }
 }
 
-@widgetbook.UseCase(name: 'Alternating Stone Board', type: Board)
-Widget buildAlternatingStoneBoardUseCase(BuildContext context) {
-  Player player = Player.black;
+class BoardWrapper extends StatelessWidget {
+  const BoardWrapper({
+    super.key,
+    required this.board,
+  });
 
-  double width = min(
-    min(
-      MediaQuery.of(context).size.width,
-      MediaQuery.of(context).size.height,
-    ),
-    context.knobs.double.slider(
-      label: 'width (constrained by screen size)',
-      initialValue: 300,
-      min: 1,
-      max: 1000,
-    ),
-  );
+  final BoardComponent board;
 
-  return Board(
-    dimension: BoardDimension(
-      width: width,
-    ),
-    theme: BoardTheme(
-      boardColor: context.knobs.color(
-        label: 'container color',
-        initialValue: const Color.fromRGBO(214, 181, 105, 1),
-      ),
-    ),
-    onStonePressed: (event, emit, state) {
-      emit(state.added(event.x, event.y, player.stone));
-      player = player.opponent;
-    },
-    onStoneDoublePressed: (event, emit, state) {
-      emit(state.removed(event.x, event.y));
-    },
+  @override
+  Widget build(BuildContext context) {
+    return GameWidget(
+      game: BoardGame(board: board),
+    );
+  }
+}
+
+@widgetbook.UseCase(name: 'Empty Board', type: BoardComponent)
+Widget buildBoardUseCase(BuildContext context) {
+  return BoardWrapper(
+    board: BoardComponent(
+      size: context.knobs.double
+          .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
+      boardSize: context.knobs.int
+          .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+    )..debugMode =
+        context.knobs.boolean(label: 'debug mode', initialValue: false),
   );
 }
