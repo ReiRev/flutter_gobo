@@ -4,9 +4,11 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
 import 'package:gobo/src/bloc/board_bloc.dart';
+import 'package:flame/src/events/messages/position_event.dart';
 import 'package:gobo/src/models/coordinate.dart';
 
-class BoardComponent extends RectangleComponent {
+class BoardComponent extends RectangleComponent
+    with TapCallbacks, FlameBlocReader<BoardBloc, BoardState> {
   BoardComponent({
     required super.size,
     super.position,
@@ -34,41 +36,14 @@ class BoardComponent extends RectangleComponent {
 
   Map<Coordinate, StoneComponent> stones = {};
 
-  @override
-  Future<void> onLoad() async {
-    // fill the board with invisible stones
-    List.generate(
-      boardSize,
-      (x) => {
-        List.generate(
-          boardSize,
-          (y) => {
-            addStone(
-              Coordinate(x, y),
-              InvisibleStone(),
-            )
-          },
-        )
-      },
-    );
-  }
-
   void addStone(Coordinate coordinate, StoneComponent stone) {
     stones[coordinate] = stone
       ..radius = stoneRadius
       ..position = coordinate.toPosition(intersectionWidth, intersectionHeight)
       ..coordinate = coordinate;
     assert(stones[coordinate] != null);
-    add(stones[coordinate]!);
-  }
-
-  void addListenableStone(Coordinate coordinate) {
-    add(
-      FlameBlocListener<BoardBloc, BoardState>(
-        listenWhen: (previousState, newState) => true,
-        onNewState: (state) => {},
-      ),
-    );
+    // add(stones[coordinate]!);
+    add(stone);
   }
 
   @override
@@ -131,5 +106,20 @@ class BoardComponent extends RectangleComponent {
         )
       },
     );
+  }
+
+  void addInputEvent(PositionEvent event) {
+    bloc.add(InputEvent(
+      event.runtimeType,
+      Coordinate(
+        (event.localPosition.x / intersectionWidth).floor(),
+        (event.localPosition.y / intersectionHeight).floor(),
+      ),
+    ));
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    addInputEvent(event);
   }
 }
