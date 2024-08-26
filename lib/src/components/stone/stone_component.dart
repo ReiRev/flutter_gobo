@@ -11,8 +11,7 @@ import 'dart:ui';
 
 import 'package:gobo/src/models/coordinate.dart';
 
-abstract class StoneComponent extends CircleComponent
-    with TapCallbacks, FlameBlocReaderOrNull<BoardBloc, BoardState> {
+abstract class StoneComponent extends CircleComponent with Snapshot {
   StoneComponent({
     super.radius,
     required this.painter,
@@ -24,6 +23,7 @@ abstract class StoneComponent extends CircleComponent
 
   @override
   void render(Canvas canvas) {
+    // assert(radius != null);
     canvas.drawCircle(
       Offset(radius, radius),
       radius,
@@ -36,8 +36,10 @@ abstract class StoneComponent extends CircleComponent
 
   // TODO: enforce to assign coordinate
   // TODO: enforce to wrap with FlameBlocProvider
-  @override
-  void onTapDown(TapDownEvent event) {
-    bloc?.add(TappedDown(coordinate!));
-  }
+  // @override
+  // void onTapDown(TapDownEvent event) {
+  //   if (bloc != null && coordinate != null) {
+  //     bloc?.add(TappedDown(coordinate!));
+  //   }
+  // }
 }
