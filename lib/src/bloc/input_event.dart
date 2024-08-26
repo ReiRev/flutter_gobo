@@ -1,18 +1,19 @@
 part of 'board_bloc.dart';
 
-abstract class InputEvent extends Equatable {
+class InputEvent extends Equatable {
   const InputEvent(
+    this.type,
     this.coordinate,
   );
 
   final Coordinate coordinate;
+  final Type type;
 
   @override
-  List<Object> get props => [coordinate];
-}
+  String toString() {
+    return '$type, ($coordinate)';
+  }
 
-class TappedDown extends InputEvent {
-  const TappedDown(
-    super.coordinate,
-  );
+  @override
+  List<Object> get props => [type, coordinate];
 }
