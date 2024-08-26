@@ -18,5 +18,10 @@ class Coordinate extends Equatable {
   }
 
   @override
+  String toString() {
+    return 'Coordinate($x, $y)';
+  }
+
+  @override
   List<Object> get props => [x, y];
 }
