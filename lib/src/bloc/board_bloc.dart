@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gobo/src/models/coordinate.dart';
 import 'package:flame/components.dart';
@@ -13,5 +14,16 @@ class BoardBloc extends Bloc<InputEvent, BoardState> {
     on<InputEvent>(_onInputEvent);
   }
 
-  void _onInputEvent(InputEvent event, Emitter<BoardState> emit) {}
+  // String stoneOverlay
+  // Map<String, PositionComponent Function()> stoneOverlayBuilderMap
+  // use stoneOverlayBuilderMap to add stone
+
+  void _onInputEvent(InputEvent event, Emitter<BoardState> emit) {
+    emit(state.copyWith(
+      lastBoardAction: BoardAction(
+        actionType: BoardActionType.add,
+        coordinate: event.coordinate,
+      ),
+    ));
+  }
 }

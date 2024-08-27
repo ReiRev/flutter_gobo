@@ -36,14 +36,37 @@ class BoardComponent extends RectangleComponent
 
   Map<Coordinate, StoneComponent> stones = {};
 
-  void addStone(Coordinate coordinate, StoneComponent stone) {
-    stones[coordinate] = stone
+  void addStone(StoneComponent stone, Coordinate at) {
+    stones[at] = stone
       ..radius = stoneRadius
-      ..position = coordinate.toPosition(intersectionWidth, intersectionHeight)
-      ..coordinate = coordinate;
-    assert(stones[coordinate] != null);
-    // add(stones[coordinate]!);
-    add(stone);
+      ..position = at.toPosition(intersectionWidth, intersectionHeight)
+      ..coordinate = at;
+    add(stones[at]!);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    super.onLoad();
+    await add(FlameBlocListener<BoardBloc, BoardState>(
+      onNewState: (BoardState state) {
+        switch (state.lastBoardAction.actionType) {
+          case BoardActionType.add:
+            addStone(
+              WikipediaBlackStone(),
+              state.lastBoardAction.coordinate,
+            );
+            break;
+          case BoardActionType.remove:
+            dynamic stone = stones[state.lastBoardAction.coordinate];
+            if (stone != null) {
+              remove(stone);
+            }
+            break;
+          default:
+            break;
+        }
+      },
+    ));
   }
 
   @override
@@ -118,6 +141,7 @@ class BoardComponent extends RectangleComponent
     ));
   }
 
+  // TODO: implement as mixin
   @override
   void onTapDown(TapDownEvent event) {
     addInputEvent(event);

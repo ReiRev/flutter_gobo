@@ -11,22 +11,20 @@ import 'package:gobo/gobo.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:gobo/src/bloc/board_bloc.dart';
 
-class BoardGame extends FlameGame {
+class BoardGame extends FlameGame with TapCallbacks {
   BoardGame({
     required this.board,
   });
 
   final BoardComponent board;
 
-  Map<Coordinate, StoneComponent> stones = {};
-
   @override
   Future<void> onLoad() async {
-    // world.add(board);
-    // final stone = InvisibleStone();
+    // world.add(board..priority = 100);
+    // final stone = WikipediaBlackStone();
     // board.addStone(
     //   const Coordinate(10, 10),
-    //   InvisibleStone(),
+    //   stone,
     // );
     world.add(
       FlameBlocProvider<BoardBloc, BoardState>.value(
@@ -36,6 +34,14 @@ class BoardGame extends FlameGame {
     );
     camera.follow(board);
   }
+
+  // @override
+  // void onTapDown(TapDownEvent event) {
+  //   print(event.localPosition);
+  //   print(event.canvasPosition);
+  //   print(event.devicePosition);
+  //   print(event.parentContext);
+  // }
 }
 
 class BoardWrapper extends StatelessWidget {
