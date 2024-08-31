@@ -1,0 +1,38 @@
+name: cicd
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  lint_package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.0"
+          cache: true
+      - name: format
+        run: dart format --set-exit-if-changed .
+      - name: analyze
+        run: flutter analyze .
+
+  lint_widgetbook:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: widgetbook
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.0"
+          cache: true
+      - name: format
+        run: dart format --set-exit-if-changed .
+      - name: analyze
+        run: flutter analyze .
