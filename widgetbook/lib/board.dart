@@ -35,5 +35,5 @@ Widget buildBoardUseCase(BuildContext context) {
     },
   );
 
-  return GameWidget(game: GoboGame(board: board, boardBloc: bloc));
+  return Gobo(board: board, boardBloc: bloc);
 }
