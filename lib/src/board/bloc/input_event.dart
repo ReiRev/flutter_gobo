@@ -17,3 +17,8 @@ class BoardInputEvent extends Equatable {
   @override
   List<Object> get props => [type, coordinate];
 }
+
+class BoardTappedEvent extends BoardInputEvent {
+  const BoardTappedEvent(Coordinate coordinate)
+      : super(BoardTappedEvent, coordinate);
+}

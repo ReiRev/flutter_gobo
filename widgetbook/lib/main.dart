@@ -9,17 +9,20 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
+    // ignore: avoid_print
     print('onChange(${bloc.runtimeType}, $change)');
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    // ignore: avoid_print
     print('onError(${bloc.runtimeType}, $error, $stackTrace)');
     super.onError(bloc, error, stackTrace);
   }
 
   @override
   void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
+    // ignore: avoid_print
     print('onEvent(${bloc.runtimeType}, $event)');
     super.onEvent(bloc, event);
   }
