@@ -1,90 +1,38 @@
-import 'dart:math';
-
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:gobo/gobo.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
+import 'package:gobo/gobo.dart';
 
-import "./utils.dart";
+class MyBoardBloc extends BoardBloc {
+  MyBoardBloc({
+    required super.stoneOverlayBuilderMap,
+  });
 
-enum Player {
-  black,
-  white,
+  bool isBlack = true;
+
+  @override
+  void onBoardInputEvent(BoardInputEvent event, Emitter<BoardState> emit) {
+    putStone(isBlack ? 'black' : 'white', event.coordinate, emit);
+    isBlack = !isBlack;
+  }
 }
 
-extension PlayerX on Player {
-  Player get opponent => this == Player.black ? Player.white : Player.black;
-
-  Stone get stone =>
-      this == Player.black ? const BlackStone() : const WhiteStone();
-}
-
-@widgetbook.UseCase(name: 'Empty Board', type: Board)
-Widget buildEmptyBoardUseCase(BuildContext context) {
-  double width = min(
-    min(
-      MediaQuery.of(context).size.width,
-      MediaQuery.of(context).size.height,
-    ),
-    context.knobs.double.slider(
-      label: 'width (constrained by screen size)',
-      initialValue: 300,
-      min: 1,
-      max: 1000,
-    ),
-  );
-  return Board(
-    dimension: BoardDimension(
-      width: width,
-    ),
-    theme: BoardTheme(
-      boardColor: context.knobs.color(
-        label: 'container color',
-        initialValue: const Color.fromRGBO(214, 181, 105, 1),
-      ),
-    ),
-    onStonePressed: (event, emit, state) {
-      popup(context, 'pressed (${event.x}, ${event.y})');
-    },
-    onStoneDoublePressed: (event, emit, state) {
-      popup(context, 'double pressed (${event.x}, ${event.y})');
+@widgetbook.UseCase(name: 'Empty Board', type: BoardComponent)
+Widget buildBoardUseCase(BuildContext context) {
+  BoardComponent board = BoardComponent(
+    size: context.knobs.double
+        .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
+    boardSize: context.knobs.int
+        .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+  )..debugMode =
+      context.knobs.boolean(label: 'debug mode', initialValue: false);
+  BoardBloc bloc = MyBoardBloc(
+    stoneOverlayBuilderMap: {
+      'black': () => WikipediaBlackStone(),
+      'white': () => WikipediaWhiteStone(),
     },
   );
-}
 
-@widgetbook.UseCase(name: 'Alternating Stone Board', type: Board)
-Widget buildAlternatingStoneBoardUseCase(BuildContext context) {
-  Player player = Player.black;
-
-  double width = min(
-    min(
-      MediaQuery.of(context).size.width,
-      MediaQuery.of(context).size.height,
-    ),
-    context.knobs.double.slider(
-      label: 'width (constrained by screen size)',
-      initialValue: 300,
-      min: 1,
-      max: 1000,
-    ),
-  );
-
-  return Board(
-    dimension: BoardDimension(
-      width: width,
-    ),
-    theme: BoardTheme(
-      boardColor: context.knobs.color(
-        label: 'container color',
-        initialValue: const Color.fromRGBO(214, 181, 105, 1),
-      ),
-    ),
-    onStonePressed: (event, emit, state) {
-      emit(state.added(event.x, event.y, player.stone));
-      player = player.opponent;
-    },
-    onStoneDoublePressed: (event, emit, state) {
-      emit(state.removed(event.x, event.y));
-    },
-  );
+  return Gobo(board: board, boardBloc: bloc);
 }

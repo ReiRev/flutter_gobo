@@ -1,6 +1,7 @@
 library gobo;
 
-export 'src/board_config/board_config.dart';
-export 'src/intersection/intersection.dart';
 export 'src/stone/stone.dart';
 export 'src/board/board.dart';
+export 'src/game/gobo_game.dart';
+export 'src/game/gobo.dart';
+export 'src/models/models.dart';
