@@ -14,7 +14,7 @@ class BoardBloc extends Bloc<BoardInputEvent, BoardState> {
 
   final Map<String, StoneComponent Function()> stoneOverlayBuilderMap;
 
-  void addStone(String stoneOverlay, Coordinate at, Emitter<BoardState> emit) {
+  void putStone(String stoneOverlay, Coordinate at, Emitter<BoardState> emit) {
     emit(state.copyWith(
       lastBoardAction: BoardAction(
         actionType: BoardActionType.add,

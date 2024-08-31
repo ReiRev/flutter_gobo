@@ -34,7 +34,7 @@ class BoardComponent extends RectangleComponent
 
   Map<Coordinate, StoneComponent> stones = {};
 
-  void addStone(StoneComponent stone, Coordinate at) {
+  void putStone(StoneComponent stone, Coordinate at) {
     if (stones[at] != null) {
       remove(stones[at]!);
       stones.remove(at);
@@ -54,7 +54,7 @@ class BoardComponent extends RectangleComponent
         switch (state.lastBoardAction.actionType) {
           case BoardActionType.add:
             if (stones[state.lastBoardAction.coordinate] != null) {}
-            addStone(
+            putStone(
               bloc.stoneOverlayBuilderMap[
                   state.lastBoardAction.stoneOverlay]!(),
               state.lastBoardAction.coordinate,

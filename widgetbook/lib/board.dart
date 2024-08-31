@@ -14,7 +14,7 @@ class MyBoardBloc extends BoardBloc {
 
   @override
   void onBoardInputEvent(BoardInputEvent event, Emitter<BoardState> emit) {
-    addStone(isBlack ? 'black' : 'white', event.coordinate, emit);
+    putStone(isBlack ? 'black' : 'white', event.coordinate, emit);
     isBlack = !isBlack;
   }
 }
