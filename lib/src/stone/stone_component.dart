@@ -22,16 +22,4 @@ abstract class StoneComponent extends CircleComponent with Snapshot {
       painter(radius),
     );
   }
-
-  // @override
-  // String toString();
-
-  // TODO: enforce to assign coordinate
-  // TODO: enforce to wrap with FlameBlocProvider
-  // @override
-  // void onTapDown(TapDownEvent event) {
-  //   if (bloc != null && coordinate != null) {
-  //     bloc?.add(TappedDown(coordinate!));
-  //   }
-  // }
 }
