@@ -1,6 +1,6 @@
 name: gobo
 description: An awesome flutter package for Go/Igo/Weiqi/Baduk board.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/ReiRev/flutter_gobo
 repository: https://github.com/ReiRev/flutter_gobo
 
