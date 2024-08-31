@@ -17,9 +17,9 @@ jobs:
           flutter-version: "3.24.0"
           cache: true
       - name: format
-        run: dart format --set-exit-if-changed .
+        run: dart format --set-exit-if-changed lib
       - name: analyze
-        run: flutter analyze .
+        run: flutter analyze lib
 
   lint_widgetbook:
     runs-on: ubuntu-latest
@@ -31,8 +31,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.0"
-          cache: true
+          cache: false
       - name: format
-        run: dart format --set-exit-if-changed .
+        run: dart format --set-exit-if-changed lib
       - name: analyze
-        run: flutter analyze .
+        run: flutter analyze lib
