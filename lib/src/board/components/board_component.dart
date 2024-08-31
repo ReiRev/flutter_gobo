@@ -3,7 +3,6 @@ import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
-import 'package:flame/src/events/messages/position_event.dart';
 
 class BoardComponent extends RectangleComponent
     with TapCallbacks, FlameBlocReader<BoardBloc, BoardState> {
@@ -135,18 +134,18 @@ class BoardComponent extends RectangleComponent
     );
   }
 
-  void addBoardInputEvent(PositionEvent event) {
-    bloc.add(BoardInputEvent(
-      event.runtimeType,
-      Coordinate(
-        (event.localPosition.x / intersectionWidth).floor(),
-        (event.localPosition.y / intersectionHeight).floor(),
-      ),
-    ));
+  // write func to convert the event position to the coordinate on the board
+  Coordinate eventPositionToCoordinate(Vector2 eventPosition) {
+    return Coordinate(
+      (eventPosition.x / intersectionWidth).floor(),
+      (eventPosition.y / intersectionHeight).floor(),
+    );
   }
 
   @override
   void onTapDown(TapDownEvent event) {
-    addBoardInputEvent(event);
+    bloc.add(BoardTappedEvent(
+      eventPositionToCoordinate(event.localPosition),
+    ));
   }
 }
