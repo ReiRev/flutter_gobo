@@ -3,9 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
-import 'package:gobo/src/board/bloc/board_bloc.dart';
 import 'package:flame/src/events/messages/position_event.dart';
-import 'package:gobo/src/models/coordinate.dart';
 
 class BoardComponent extends RectangleComponent
     with TapCallbacks, FlameBlocReader<BoardBloc, BoardState> {
