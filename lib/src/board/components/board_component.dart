@@ -35,6 +35,10 @@ class BoardComponent extends RectangleComponent
   Map<Coordinate, StoneComponent> stones = {};
 
   void addStone(StoneComponent stone, Coordinate at) {
+    if (stones[at] != null) {
+      remove(stones[at]!);
+      stones.remove(at);
+    }
     stones[at] = stone
       ..radius = stoneRadius
       ..position = at.toPosition(intersectionWidth, intersectionHeight)
