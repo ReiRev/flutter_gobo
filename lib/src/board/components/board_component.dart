@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
@@ -10,21 +12,23 @@ class BoardComponent extends RectangleComponent
     required super.size,
     super.position,
     this.boardSize = 19,
-  })  : lineThickness = size * 0.3 / 140,
-        startPointRadius = size * 0.6 / 140,
-        intersectionWidth = size / boardSize,
+  })  : lineThickness = size * 0.3 / 140 * 19 / boardSize,
+        startPointRadius = size * 0.6 / 140 * 19 / boardSize,
         intersectionHeight = size / boardSize,
-        stoneRadius = size * 3.75 / 140,
+        intersectionWidth = size / boardSize,
+        stoneRadius = size * 3.75 / 140 * 19 / boardSize,
         super.square(
           anchor: Anchor.center,
-        );
+        ) {
+    // stoneRadius = min(intersectionWidth, intersectionHeight) / 2;
+  }
 
   final int boardSize;
   final double lineThickness;
   final double startPointRadius;
   final double intersectionWidth;
   final double intersectionHeight;
-  final double stoneRadius;
+  late final double stoneRadius;
 
   bool isStarPoint(int x, int y) {
     return (x == 3 || x == (boardSize / 2).floor() || x == boardSize - 1 - 3) &&
