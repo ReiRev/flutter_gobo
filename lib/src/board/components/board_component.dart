@@ -145,7 +145,6 @@ class BoardComponent extends RectangleComponent
     ));
   }
 
-  // TODO: implement as mixin
   @override
   void onTapDown(TapDownEvent event) {
     addBoardInputEvent(event);
