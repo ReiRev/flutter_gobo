@@ -1,12 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
-import 'package:flame_bloc/flame_bloc.dart';
-import 'package:gobo/src/bloc/board_bloc.dart';
-import 'package:flame/events.dart';
-import 'package:flame/components.dart';
-import 'package:flame/flame.dart';
-import 'package:flame/src/events/messages/position_event.dart';
-import 'package:gobo/src/mixins/flame_bloc_reader_or_null.dart';
 import 'dart:ui';
 
 import 'package:gobo/src/models/coordinate.dart';

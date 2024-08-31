@@ -1,7 +1,7 @@
 part of 'board_bloc.dart';
 
-class InputEvent extends Equatable {
-  const InputEvent(
+class BoardInputEvent extends Equatable {
+  const BoardInputEvent(
     this.type,
     this.coordinate,
   );

@@ -3,7 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
-import 'package:gobo/src/bloc/board_bloc.dart';
+import 'package:gobo/src/board/bloc/board_bloc.dart';
 import 'package:flame/src/events/messages/position_event.dart';
 import 'package:gobo/src/models/coordinate.dart';
 
@@ -51,8 +51,10 @@ class BoardComponent extends RectangleComponent
       onNewState: (BoardState state) {
         switch (state.lastBoardAction.actionType) {
           case BoardActionType.add:
+            if (stones[state.lastBoardAction.coordinate] != null) {}
             addStone(
-              WikipediaBlackStone(),
+              bloc.stoneOverlayBuilderMap[
+                  state.lastBoardAction.stoneOverlay]!(),
               state.lastBoardAction.coordinate,
             );
             break;
@@ -131,8 +133,8 @@ class BoardComponent extends RectangleComponent
     );
   }
 
-  void addInputEvent(PositionEvent event) {
-    bloc.add(InputEvent(
+  void addBoardInputEvent(PositionEvent event) {
+    bloc.add(BoardInputEvent(
       event.runtimeType,
       Coordinate(
         (event.localPosition.x / intersectionWidth).floor(),
@@ -144,6 +146,6 @@ class BoardComponent extends RectangleComponent
   // TODO: implement as mixin
   @override
   void onTapDown(TapDownEvent event) {
-    addInputEvent(event);
+    addBoardInputEvent(event);
   }
 }

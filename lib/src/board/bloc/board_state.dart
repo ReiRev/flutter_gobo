@@ -6,12 +6,12 @@ class BoardAction extends Equatable {
   const BoardAction({
     required this.actionType,
     required this.coordinate,
-    this.stoneOverlay = '',
-  });
+    this.stoneOverlay,
+  }) : assert(actionType == BoardActionType.add ? stoneOverlay != null : true);
 
   final BoardActionType actionType;
   final Coordinate coordinate;
-  final String stoneOverlay;
+  final String? stoneOverlay;
 
   const BoardAction.initial()
       : actionType = BoardActionType.none,
@@ -19,7 +19,7 @@ class BoardAction extends Equatable {
         stoneOverlay = '';
 
   @override
-  List<Object> get props => [actionType, coordinate, stoneOverlay];
+  List<Object> get props => [actionType, coordinate, stoneOverlay ?? ''];
 }
 
 class BoardState extends Equatable {

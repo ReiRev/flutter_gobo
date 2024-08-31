@@ -1,12 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
-import 'package:gobo/gobo.dart';
 
-import "./utils.dart";
 
 class StoneGame extends FlameGame {
   StoneGame({

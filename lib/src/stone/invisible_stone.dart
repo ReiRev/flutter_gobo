@@ -1,4 +1,4 @@
-import '../../paints/stone_paints.dart';
+import '../paints/stone_paints.dart';
 
 import 'stone_component.dart';
 

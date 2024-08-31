@@ -1,4 +1,6 @@
 library gobo;
 
-export './src/components/board/board.dart';
-export './src/components/stone/stone.dart';
+export 'src/stone/stone.dart';
+export 'src/board/board.dart';
+export 'src/game/gobo_game.dart';
+export 'src/models/models.dart';
