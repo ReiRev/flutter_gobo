@@ -49,8 +49,7 @@ class BoardComponent extends RectangleComponent
     }
     stones[at] = stone
       ..radius = stoneRadius
-      ..position = at.toPosition(intersectionWidth, intersectionHeight)
-      ..coordinate = at;
+      ..position = at.toPosition(intersectionWidth, intersectionHeight);
     add(stones[at]!);
   }
 
