@@ -18,4 +18,7 @@ abstract class StoneComponent extends CircleComponent with Snapshot {
       painter(radius),
     );
   }
+
+  @override
+  String toString();
 }

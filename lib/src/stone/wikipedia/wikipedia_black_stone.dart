@@ -5,4 +5,7 @@ class WikipediaBlackStone extends StoneComponent {
   WikipediaBlackStone({
     super.radius,
   }) : super(painter: StonePainters.wikipediaBlack);
+
+  @override
+  String toString() => 'WikipediaWhiteStone';
 }
