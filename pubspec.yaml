@@ -3,6 +3,9 @@ description: An awesome flutter package for Go/Igo/Weiqi/Baduk board.
 version: 0.0.5
 homepage: https://github.com/ReiRev/flutter_gobo
 repository: https://github.com/ReiRev/flutter_gobo
+funding:
+  - https://github.com/sponsors/ReiRev
+  - https://ko-fi.com/ReiRev
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -28,7 +31,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
+# flutter:
 
   # To add assets to your package, add an assets section, like this:
   # assets:
