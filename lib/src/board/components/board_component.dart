@@ -102,7 +102,8 @@ class BoardComponent extends RectangleComponent
               i * intersectionHeight + intersectionHeight / 2),
           Paint()
             ..color = const Color.fromRGBO(0, 0, 0, 1)
-            ..strokeWidth = lineThickness,
+            ..strokeWidth = lineThickness
+            ..strokeCap = StrokeCap.square,
         )
       },
     );
@@ -118,7 +119,8 @@ class BoardComponent extends RectangleComponent
               size.y - intersectionHeight / 2),
           Paint()
             ..color = const Color.fromRGBO(0, 0, 0, 1)
-            ..strokeWidth = lineThickness,
+            ..strokeWidth = lineThickness
+            ..strokeCap = StrokeCap.square,
         )
       },
     );
