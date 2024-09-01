@@ -31,14 +31,15 @@ class BoardComponent extends RectangleComponent
   late final double stoneRadius;
 
   bool isStarPoint(int x, int y) {
-    if (boardSize >= 13) {
-      return (x == 3 ||
-              x == (boardSize / 2).floor() ||
-              x == boardSize - 1 - 3) &&
-          (y == 3 || y == (boardSize / 2).floor() || y == boardSize - 1 - 3);
+    List<int> line_indices =
+        boardSize >= 13 ? [3, boardSize - 4] : [2, boardSize - 3];
+    if (boardSize % 2 == 1) {
+      line_indices.add((boardSize / 2).floor());
     }
-    return (x == 2 || x == (boardSize / 2).floor() || x == boardSize - 1 - 2) &&
-        (y == 2 || y == (boardSize / 2).floor() || y == boardSize - 1 - 2);
+    if (line_indices.contains(x) && line_indices.contains(y)) {
+      return true;
+    }
+    return false;
   }
 
   Map<Coordinate, StoneComponent> stones = {};
