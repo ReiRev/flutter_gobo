@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -31,12 +30,12 @@ class BoardComponent extends RectangleComponent
   late final double stoneRadius;
 
   bool isStarPoint(int x, int y) {
-    List<int> line_indices =
+    List<int> lineIndices =
         boardSize >= 13 ? [3, boardSize - 4] : [2, boardSize - 3];
     if (boardSize % 2 == 1) {
-      line_indices.add((boardSize / 2).floor());
+      lineIndices.add((boardSize / 2).floor());
     }
-    if (line_indices.contains(x) && line_indices.contains(y)) {
+    if (lineIndices.contains(x) && lineIndices.contains(y)) {
       return true;
     }
     return false;
