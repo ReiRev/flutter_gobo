@@ -10,25 +10,34 @@ class BoardComponent extends RectangleComponent
     required super.size,
     super.position,
     this.boardSize = 19,
-  })  : lineThickness = size * 0.3 / 140,
-        startPointRadius = size * 0.6 / 140,
-        intersectionWidth = size / boardSize,
+  })  : lineThickness = size * 0.3 / 140 * 19 / boardSize,
+        startPointRadius = size * 0.6 / 140 * 19 / boardSize,
         intersectionHeight = size / boardSize,
-        stoneRadius = size * 3.75 / 140,
+        intersectionWidth = size / boardSize,
+        stoneRadius = size * 3.75 / 140 * 19 / boardSize,
         super.square(
           anchor: Anchor.center,
-        );
+        ) {
+    // stoneRadius = min(intersectionWidth, intersectionHeight) / 2;
+  }
 
   final int boardSize;
   final double lineThickness;
   final double startPointRadius;
   final double intersectionWidth;
   final double intersectionHeight;
-  final double stoneRadius;
+  late final double stoneRadius;
 
   bool isStarPoint(int x, int y) {
-    return (x == 3 || x == (boardSize / 2).floor() || x == boardSize - 1 - 3) &&
-        (y == 3 || y == (boardSize / 2).floor() || y == boardSize - 1 - 3);
+    List<int> lineIndices =
+        boardSize >= 13 ? [3, boardSize - 4] : [2, boardSize - 3];
+    if (boardSize % 2 == 1) {
+      lineIndices.add((boardSize / 2).floor());
+    }
+    if (lineIndices.contains(x) && lineIndices.contains(y)) {
+      return true;
+    }
+    return false;
   }
 
   Map<Coordinate, StoneComponent> stones = {};
@@ -91,7 +100,8 @@ class BoardComponent extends RectangleComponent
               i * intersectionHeight + intersectionHeight / 2),
           Paint()
             ..color = const Color.fromRGBO(0, 0, 0, 1)
-            ..strokeWidth = lineThickness,
+            ..strokeWidth = lineThickness
+            ..strokeCap = StrokeCap.square,
         )
       },
     );
@@ -107,7 +117,8 @@ class BoardComponent extends RectangleComponent
               size.y - intersectionHeight / 2),
           Paint()
             ..color = const Color.fromRGBO(0, 0, 0, 1)
-            ..strokeWidth = lineThickness,
+            ..strokeWidth = lineThickness
+            ..strokeCap = StrokeCap.square,
         )
       },
     );
