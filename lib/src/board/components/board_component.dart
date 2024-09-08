@@ -169,14 +169,28 @@ class BoardComponent extends RectangleComponent
 
   @override
   void onTapDown(TapDownEvent event) {
-    bloc.add(BoardTappedEvent(
+    bloc.add(BoardTappedDownEvent(
+      eventPositionToCoordinate(event.localPosition),
+    ));
+  }
+
+  @override
+  void onTapUp(TapUpEvent event) {
+    bloc.add(BoardTappedUpEvent(
+      eventPositionToCoordinate(event.localPosition),
+    ));
+  }
+
+  @override
+  void onLongTapDown(TapDownEvent event) {
+    bloc.add(BoardLongTappedDownEvent(
       eventPositionToCoordinate(event.localPosition),
     ));
   }
 
   @override
   void onDoubleTapDown(DoubleTapDownEvent event) {
-    bloc.add(BoardDoubleTappedEvent(
+    bloc.add(BoardDoubleTappedDownEvent(
       eventPositionToCoordinate(event.localPosition),
     ));
   }

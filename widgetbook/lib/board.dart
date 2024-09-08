@@ -12,13 +12,13 @@ class MyBoardBloc extends BoardBloc {
   bool isBlack = true;
 
   @override
-  void onBoardTappedEvent(BoardInputEvent event, Emitter<BoardState> emit) {
+  void onBoardTappedUpEvent(BoardInputEvent event, Emitter<BoardState> emit) {
     putStone(isBlack ? 'black' : 'white', event.coordinate, emit);
     isBlack = !isBlack;
   }
 
   @override
-  void onBoardDoubleTappedEvent(
+  void onBoardLongTappedDownEvent(
       BoardInputEvent event, Emitter<BoardState> emit) {
     removeStone(event.coordinate, emit);
   }

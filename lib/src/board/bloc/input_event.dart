@@ -18,22 +18,42 @@ class BoardInputEvent extends Equatable {
   List<Object> get props => [type, coordinate];
 }
 
-class BoardTappedEvent extends BoardInputEvent {
-  const BoardTappedEvent(Coordinate coordinate)
-      : super(BoardTappedEvent, coordinate);
+class BoardTappedDownEvent extends BoardInputEvent {
+  const BoardTappedDownEvent(Coordinate coordinate)
+      : super(BoardTappedDownEvent, coordinate);
 
   @override
   String toString() {
-    return 'BoardTappedEvent, ($coordinate)';
+    return 'BoardTappedDownEvent, ($coordinate)';
   }
 }
 
-class BoardDoubleTappedEvent extends BoardInputEvent {
-  const BoardDoubleTappedEvent(Coordinate coordinate)
-      : super(BoardTappedEvent, coordinate);
+class BoardTappedUpEvent extends BoardInputEvent {
+  const BoardTappedUpEvent(Coordinate coordinate)
+      : super(BoardTappedUpEvent, coordinate);
 
   @override
   String toString() {
-    return 'BoardDoubleTappedEvent, ($coordinate)';
+    return 'BoardTappedUpEvent, ($coordinate)';
+  }
+}
+
+class BoardDoubleTappedDownEvent extends BoardInputEvent {
+  const BoardDoubleTappedDownEvent(Coordinate coordinate)
+      : super(BoardDoubleTappedDownEvent, coordinate);
+
+  @override
+  String toString() {
+    return 'BoardDoubleTappedDownEvent, ($coordinate)';
+  }
+}
+
+class BoardLongTappedDownEvent extends BoardInputEvent {
+  const BoardLongTappedDownEvent(Coordinate coordinate)
+      : super(BoardLongTappedDownEvent, coordinate);
+
+  @override
+  String toString() {
+    return 'BoardLongTappedDownEvent, ($coordinate)';
   }
 }
