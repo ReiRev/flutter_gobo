@@ -18,6 +18,13 @@ class MyBoardBloc extends BoardBloc {
   }
 }
 
+BoardBloc bloc = MyBoardBloc(
+  stoneOverlayBuilderMap: {
+    'black': () => WikipediaBlackStone(),
+    'white': () => WikipediaWhiteStone(),
+  },
+);
+
 @widgetbook.UseCase(name: 'Empty Board', type: BoardComponent)
 Widget buildBoardUseCase(BuildContext context) {
   BoardComponent board = BoardComponent(
@@ -27,12 +34,6 @@ Widget buildBoardUseCase(BuildContext context) {
         .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
   )..debugMode =
       context.knobs.boolean(label: 'debug mode', initialValue: false);
-  BoardBloc bloc = MyBoardBloc(
-    stoneOverlayBuilderMap: {
-      'black': () => WikipediaBlackStone(),
-      'white': () => WikipediaWhiteStone(),
-    },
-  );
 
   return Gobo(board: board, boardBloc: bloc);
 }
