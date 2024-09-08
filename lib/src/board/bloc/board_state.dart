@@ -63,6 +63,30 @@ class BoardState extends Equatable {
     );
   }
 
+  BoardState copyWithStoneAdded(
+    String stoneOverlay,
+    Coordinate at,
+  ) {
+    return copyWith(
+      lastBoardAction: BoardAction(
+        actionType: BoardActionType.add,
+        coordinate: at,
+        stoneOverlay: stoneOverlay,
+      ),
+    );
+  }
+
+  BoardState copyWithStoneRemoved(
+    Coordinate at,
+  ) {
+    return copyWith(
+      lastBoardAction: BoardAction(
+        actionType: BoardActionType.remove,
+        coordinate: at,
+      ),
+    );
+  }
+
   @override
   List<Object> get props => [_lastBoardAction];
 }
