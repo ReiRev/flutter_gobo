@@ -38,6 +38,7 @@ Widget buildBoardUseCase(BuildContext context) {
         .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
     boardSize: context.knobs.int
         .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+    labels: BoardAxesLabels(top: BoardAxisLabel.alphabetical()),
   )..debugMode =
       context.knobs.boolean(label: 'debug mode', initialValue: false);
 

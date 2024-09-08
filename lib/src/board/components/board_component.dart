@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
+import 'package:gobo/src/board/board_labels.dart';
 
 class BoardComponent extends RectangleComponent
     with
@@ -13,6 +14,7 @@ class BoardComponent extends RectangleComponent
     required super.size,
     super.position,
     this.boardSize = 19,
+    this.labels,
   })  : lineThickness = size * 0.3 / 140 * 19 / boardSize,
         startPointRadius = size * 0.6 / 140 * 19 / boardSize,
         intersectionHeight = size / boardSize,
@@ -30,6 +32,7 @@ class BoardComponent extends RectangleComponent
   final double intersectionWidth;
   final double intersectionHeight;
   late final double stoneRadius;
+  final BoardAxesLabels? labels;
 
   bool isStarPoint(int x, int y) {
     List<int> lineIndices =
@@ -66,6 +69,56 @@ class BoardComponent extends RectangleComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
+
+    // TODO: make this more beautiful
+    if (labels?.top != null) {
+      for (int i = 0; i < boardSize; i++) {
+        await add(TextComponent(
+          position: Vector2(
+            intersectionWidth * (i + 0.5),
+            -intersectionHeight * 0.5,
+          ),
+          size: Vector2(intersectionWidth, intersectionHeight),
+          text: labels?.top?.indexToLabel(i),
+          anchor: Anchor.center,
+          textRenderer: labels?.top?.textRenderer(
+            intersectionWidth,
+            intersectionHeight,
+          ),
+        ));
+      }
+    }
+
+    // render labels
+    // await add(TextComponent(
+    //   position: Vector2(-intersectionWidth * 0.5, intersectionHeight * 0.5),
+    //   size: Vector2(intersectionWidth, intersectionHeight),
+    //   text: 'A',
+    //   anchor: Anchor.center,
+    //   textRenderer: TextPaint(
+    //     style: TextStyle(
+    //       fontSize: intersectionWidth * 0.8,
+    //       color: Color.fromRGBO(255, 255, 255, 1),
+    //       fontFamily: 'DotGothic16',
+    //     ),
+    //   ),
+    // ));
+
+    // // render labels
+    // await add(TextComponent(
+    //   position: Vector2(intersectionWidth * 19.5, intersectionHeight * 0.5),
+    //   size: Vector2(intersectionWidth, intersectionHeight),
+    //   text: 'A',
+    //   anchor: Anchor.center,
+    //   textRenderer: TextPaint(
+    //     style: TextStyle(
+    //       fontSize: intersectionWidth * 0.8,
+    //       color: Color.fromRGBO(255, 255, 255, 1),
+    //       fontFamily: 'DotGothic16',
+    //     ),
+    //   ),
+    // ));
+
     await add(FlameBlocListener<BoardBloc, BoardState>(
       onInitialState: (BoardState state) {
         state.stonePositionMap.forEach((coordinate, stoneOverlay) {
