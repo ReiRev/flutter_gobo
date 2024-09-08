@@ -1,16 +1,12 @@
 import 'package:flame/components.dart';
 import 'dart:ui';
 
-import 'package:gobo/src/models/coordinate.dart';
-
 abstract class StoneComponent extends CircleComponent with Snapshot {
   StoneComponent({
     super.radius,
     required this.painter,
-    this.coordinate,
   }) : super(anchor: Anchor.center);
 
-  Coordinate? coordinate;
   final Paint Function(double radius) painter;
 
   @override
@@ -22,4 +18,7 @@ abstract class StoneComponent extends CircleComponent with Snapshot {
       painter(radius),
     );
   }
+
+  @override
+  String toString();
 }
