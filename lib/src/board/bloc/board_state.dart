@@ -46,7 +46,7 @@ class BoardState extends Equatable {
   BoardState copyWith({
     required BoardAction lastBoardAction,
   }) {
-    switch (lastBoardAction!.actionType) {
+    switch (lastBoardAction.actionType) {
       case BoardActionType.add:
         _stonePositionMap[lastBoardAction.coordinate] =
             lastBoardAction.stoneOverlay!;
@@ -59,7 +59,7 @@ class BoardState extends Equatable {
     }
     return BoardState(
       stonePositionMap: _stonePositionMap,
-      lastBoardAction: lastBoardAction ?? _lastBoardAction,
+      lastBoardAction: lastBoardAction,
     );
   }
 
