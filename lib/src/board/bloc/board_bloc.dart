@@ -10,6 +10,8 @@ class BoardBloc extends Bloc<BoardInputEvent, BoardState> {
     required this.stoneOverlayBuilderMap,
   }) : super(BoardState.initial()) {
     on<BoardInputEvent>(onBoardInputEvent);
+    on<BoardTappedEvent>(onBoardTappedEvent);
+    on<BoardDoubleTappedEvent>(onBoardDoubleTappedEvent);
   }
 
   final Map<String, StoneComponent Function()> stoneOverlayBuilderMap;
@@ -23,4 +25,9 @@ class BoardBloc extends Bloc<BoardInputEvent, BoardState> {
   }
 
   void onBoardInputEvent(BoardInputEvent event, Emitter<BoardState> emit) {}
+
+  void onBoardTappedEvent(BoardTappedEvent event, Emitter<BoardState> emit) {}
+
+  void onBoardDoubleTappedEvent(
+      BoardDoubleTappedEvent event, Emitter<BoardState> emit) {}
 }

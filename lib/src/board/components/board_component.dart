@@ -5,7 +5,10 @@ import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
 
 class BoardComponent extends RectangleComponent
-    with TapCallbacks, FlameBlocReader<BoardBloc, BoardState> {
+    with
+        TapCallbacks,
+        DoubleTapCallbacks,
+        FlameBlocReader<BoardBloc, BoardState> {
   BoardComponent({
     required super.size,
     super.position,
@@ -53,6 +56,13 @@ class BoardComponent extends RectangleComponent
     add(stones[at]!);
   }
 
+  void removeStone(Coordinate at) {
+    if (stones[at] != null) {
+      remove(stones[at]!);
+      stones.remove(at);
+    }
+  }
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
@@ -68,7 +78,7 @@ class BoardComponent extends RectangleComponent
       onNewState: (BoardState state) {
         switch (state.lastBoardAction.actionType) {
           case BoardActionType.add:
-            if (stones[state.lastBoardAction.coordinate] != null) {}
+            removeStone(state.lastBoardAction.coordinate);
             putStone(
               bloc.stoneOverlayBuilderMap[
                   state.lastBoardAction.stoneOverlay]!(),
@@ -76,10 +86,7 @@ class BoardComponent extends RectangleComponent
             );
             break;
           case BoardActionType.remove:
-            dynamic stone = stones[state.lastBoardAction.coordinate];
-            if (stone != null) {
-              remove(stone);
-            }
+            removeStone(state.lastBoardAction.coordinate);
             break;
           default:
             break;
@@ -163,6 +170,13 @@ class BoardComponent extends RectangleComponent
   @override
   void onTapDown(TapDownEvent event) {
     bloc.add(BoardTappedEvent(
+      eventPositionToCoordinate(event.localPosition),
+    ));
+  }
+
+  @override
+  void onDoubleTapDown(DoubleTapDownEvent event) {
+    bloc.add(BoardDoubleTappedEvent(
       eventPositionToCoordinate(event.localPosition),
     ));
   }

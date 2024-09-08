@@ -21,4 +21,19 @@ class BoardInputEvent extends Equatable {
 class BoardTappedEvent extends BoardInputEvent {
   const BoardTappedEvent(Coordinate coordinate)
       : super(BoardTappedEvent, coordinate);
+
+  @override
+  String toString() {
+    return 'BoardTappedEvent, ($coordinate)';
+  }
+}
+
+class BoardDoubleTappedEvent extends BoardInputEvent {
+  const BoardDoubleTappedEvent(Coordinate coordinate)
+      : super(BoardTappedEvent, coordinate);
+
+  @override
+  String toString() {
+    return 'BoardDoubleTappedEvent, ($coordinate)';
+  }
 }

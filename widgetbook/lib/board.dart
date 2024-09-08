@@ -12,9 +12,15 @@ class MyBoardBloc extends BoardBloc {
   bool isBlack = true;
 
   @override
-  void onBoardInputEvent(BoardInputEvent event, Emitter<BoardState> emit) {
+  void onBoardTappedEvent(BoardInputEvent event, Emitter<BoardState> emit) {
     putStone(isBlack ? 'black' : 'white', event.coordinate, emit);
     isBlack = !isBlack;
+  }
+
+  @override
+  void onBoardDoubleTappedEvent(
+      BoardInputEvent event, Emitter<BoardState> emit) {
+    removeStone(event.coordinate, emit);
   }
 }
 
