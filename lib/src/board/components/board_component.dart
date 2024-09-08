@@ -57,6 +57,14 @@ class BoardComponent extends RectangleComponent
   Future<void> onLoad() async {
     super.onLoad();
     await add(FlameBlocListener<BoardBloc, BoardState>(
+      onInitialState: (BoardState state) {
+        state.stonePositionMap.forEach((coordinate, stoneOverlay) {
+          putStone(
+            bloc.stoneOverlayBuilderMap[stoneOverlay]!(),
+            coordinate,
+          );
+        });
+      },
       onNewState: (BoardState state) {
         switch (state.lastBoardAction.actionType) {
           case BoardActionType.add:
