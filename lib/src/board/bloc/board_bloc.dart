@@ -15,22 +15,11 @@ class BoardBloc extends Bloc<BoardInputEvent, BoardState> {
   final Map<String, StoneComponent Function()> stoneOverlayBuilderMap;
 
   void putStone(String stoneOverlay, Coordinate at, Emitter<BoardState> emit) {
-    emit(state.copyWith(
-      lastBoardAction: BoardAction(
-        actionType: BoardActionType.add,
-        coordinate: at,
-        stoneOverlay: stoneOverlay,
-      ),
-    ));
+    emit(state.copyWithStoneAdded(stoneOverlay, at));
   }
 
   void removeStone(Coordinate at, Emitter<BoardState> emit) {
-    emit(state.copyWith(
-      lastBoardAction: BoardAction(
-        actionType: BoardActionType.remove,
-        coordinate: at,
-      ),
-    ));
+    emit(state.copyWithStoneRemoved(at));
   }
 
   void onBoardInputEvent(BoardInputEvent event, Emitter<BoardState> emit) {}
