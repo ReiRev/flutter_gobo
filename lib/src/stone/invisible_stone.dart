@@ -6,4 +6,7 @@ class InvisibleStone extends StoneComponent {
   InvisibleStone({
     super.radius,
   }) : super(painter: StonePainters.invisible);
+
+  @override
+  String toString() => 'InvisibleStone';
 }
