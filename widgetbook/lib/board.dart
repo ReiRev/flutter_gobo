@@ -12,11 +12,24 @@ class MyBoardBloc extends BoardBloc {
   bool isBlack = true;
 
   @override
-  void onBoardInputEvent(BoardInputEvent event, Emitter<BoardState> emit) {
+  void onBoardTappedUpEvent(BoardInputEvent event, Emitter<BoardState> emit) {
     putStone(isBlack ? 'black' : 'white', event.coordinate, emit);
     isBlack = !isBlack;
   }
+
+  @override
+  void onBoardLongTappedDownEvent(
+      BoardInputEvent event, Emitter<BoardState> emit) {
+    removeStone(event.coordinate, emit);
+  }
 }
+
+BoardBloc bloc = MyBoardBloc(
+  stoneOverlayBuilderMap: {
+    'black': () => WikipediaBlackStone(),
+    'white': () => WikipediaWhiteStone(),
+  },
+);
 
 @widgetbook.UseCase(name: 'Empty Board', type: BoardComponent)
 Widget buildBoardUseCase(BuildContext context) {
@@ -27,12 +40,6 @@ Widget buildBoardUseCase(BuildContext context) {
         .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
   )..debugMode =
       context.knobs.boolean(label: 'debug mode', initialValue: false);
-  BoardBloc bloc = MyBoardBloc(
-    stoneOverlayBuilderMap: {
-      'black': () => WikipediaBlackStone(),
-      'white': () => WikipediaWhiteStone(),
-    },
-  );
 
   return Gobo(board: board, boardBloc: bloc);
 }

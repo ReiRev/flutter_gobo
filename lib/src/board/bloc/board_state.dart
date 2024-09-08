@@ -40,14 +40,50 @@ class BoardState extends Equatable {
   get lastBoardAction => _lastBoardAction;
 
   // TODO: currently support only linear history, but
+  // TODO: should have more helpful name?
   // should support branching history.
   // should add BoardActionType.forceUpdate?
   BoardState copyWith({
-    BoardAction? lastBoardAction,
+    required BoardAction lastBoardAction,
   }) {
+    switch (lastBoardAction.actionType) {
+      case BoardActionType.add:
+        _stonePositionMap[lastBoardAction.coordinate] =
+            lastBoardAction.stoneOverlay!;
+        break;
+      case BoardActionType.remove:
+        _stonePositionMap.remove(lastBoardAction.coordinate);
+        break;
+      default:
+        break;
+    }
     return BoardState(
       stonePositionMap: _stonePositionMap,
-      lastBoardAction: lastBoardAction ?? _lastBoardAction,
+      lastBoardAction: lastBoardAction,
+    );
+  }
+
+  BoardState copyWithStoneAdded(
+    String stoneOverlay,
+    Coordinate at,
+  ) {
+    return copyWith(
+      lastBoardAction: BoardAction(
+        actionType: BoardActionType.add,
+        coordinate: at,
+        stoneOverlay: stoneOverlay,
+      ),
+    );
+  }
+
+  BoardState copyWithStoneRemoved(
+    Coordinate at,
+  ) {
+    return copyWith(
+      lastBoardAction: BoardAction(
+        actionType: BoardActionType.remove,
+        coordinate: at,
+      ),
     );
   }
 
