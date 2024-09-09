@@ -14,17 +14,16 @@ class BoardComponent extends RectangleComponent
     required super.size,
     super.position,
     this.boardSize = 19,
-    this.labels,
+    BoardAxesLabels? labels,
   })  : lineThickness = size * 0.3 / 140 * 19 / boardSize,
         startPointRadius = size * 0.6 / 140 * 19 / boardSize,
         intersectionHeight = size / boardSize,
         intersectionWidth = size / boardSize,
         stoneRadius = size * 3.75 / 140 * 19 / boardSize,
+        labels = labels ?? BoardAxesLabels.none(),
         super.square(
           anchor: Anchor.center,
-        ) {
-    // stoneRadius = min(intersectionWidth, intersectionHeight) / 2;
-  }
+        );
 
   final int boardSize;
   final double lineThickness;
@@ -32,7 +31,7 @@ class BoardComponent extends RectangleComponent
   final double intersectionWidth;
   final double intersectionHeight;
   late final double stoneRadius;
-  final BoardAxesLabels? labels;
+  final BoardAxesLabels labels;
 
   bool isStarPoint(int x, int y) {
     List<int> lineIndices =
@@ -66,58 +65,88 @@ class BoardComponent extends RectangleComponent
     }
   }
 
+  Future<void> addAxisLabels() async {
+    for (int i = 0; i < boardSize; i++) {
+      if (labels.top != null) {
+        await add(
+          TextComponent(
+            position: Vector2(
+              intersectionWidth * (i + 0.5),
+              -intersectionHeight * 0.5,
+            ),
+            size: Vector2(intersectionWidth, intersectionHeight),
+            text: labels.top?.indexToLabel(i),
+            anchor: Anchor.center,
+            textRenderer: labels.top?.textRenderer(
+              intersectionWidth,
+              intersectionHeight,
+            ),
+          ),
+        );
+      }
+
+      if (labels.bottom != null) {
+        await add(
+          TextComponent(
+            position: Vector2(
+              intersectionWidth * (i + 0.5),
+              size.y + intersectionHeight * 0.5,
+            ),
+            size: Vector2(intersectionWidth, intersectionHeight),
+            text: labels.bottom?.indexToLabel(i),
+            anchor: Anchor.center,
+            textRenderer: labels.bottom?.textRenderer(
+              intersectionWidth,
+              intersectionHeight,
+            ),
+          ),
+        );
+      }
+
+      if (labels.left != null) {
+        await add(
+          TextComponent(
+            position: Vector2(
+              -intersectionWidth * 0.5,
+              intersectionHeight * (i + 0.5),
+            ),
+            size: Vector2(intersectionWidth, intersectionHeight),
+            text: labels.left?.indexToLabel(i),
+            anchor: Anchor.center,
+            textRenderer: labels.left?.textRenderer(
+              intersectionWidth,
+              intersectionHeight,
+            ),
+          ),
+        );
+      }
+
+      if (labels.right != null) {
+        await add(
+          TextComponent(
+            position: Vector2(
+              size.x + intersectionWidth * 0.5,
+              intersectionHeight * (i + 0.5),
+            ),
+            size: Vector2(intersectionWidth, intersectionHeight),
+            text: labels.right?.indexToLabel(i),
+            anchor: Anchor.center,
+            textRenderer: labels.right?.textRenderer(
+              intersectionWidth,
+              intersectionHeight,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
-    // TODO: make this more beautiful
-    if (labels?.top != null) {
-      for (int i = 0; i < boardSize; i++) {
-        await add(TextComponent(
-          position: Vector2(
-            intersectionWidth * (i + 0.5),
-            -intersectionHeight * 0.5,
-          ),
-          size: Vector2(intersectionWidth, intersectionHeight),
-          text: labels?.top?.indexToLabel(i),
-          anchor: Anchor.center,
-          textRenderer: labels?.top?.textRenderer(
-            intersectionWidth,
-            intersectionHeight,
-          ),
-        ));
-      }
-    }
-
-    // render labels
-    // await add(TextComponent(
-    //   position: Vector2(-intersectionWidth * 0.5, intersectionHeight * 0.5),
-    //   size: Vector2(intersectionWidth, intersectionHeight),
-    //   text: 'A',
-    //   anchor: Anchor.center,
-    //   textRenderer: TextPaint(
-    //     style: TextStyle(
-    //       fontSize: intersectionWidth * 0.8,
-    //       color: Color.fromRGBO(255, 255, 255, 1),
-    //       fontFamily: 'DotGothic16',
-    //     ),
-    //   ),
-    // ));
-
-    // // render labels
-    // await add(TextComponent(
-    //   position: Vector2(intersectionWidth * 19.5, intersectionHeight * 0.5),
-    //   size: Vector2(intersectionWidth, intersectionHeight),
-    //   text: 'A',
-    //   anchor: Anchor.center,
-    //   textRenderer: TextPaint(
-    //     style: TextStyle(
-    //       fontSize: intersectionWidth * 0.8,
-    //       color: Color.fromRGBO(255, 255, 255, 1),
-    //       fontFamily: 'DotGothic16',
-    //     ),
-    //   ),
-    // ));
+    // await addAxisLabels();
+    addAxisLabels();
 
     await add(FlameBlocListener<BoardBloc, BoardState>(
       onInitialState: (BoardState state) {

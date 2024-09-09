@@ -57,4 +57,7 @@ class BoardAxesLabels {
     this.left,
     this.right,
   });
+
+  BoardAxesLabels.none()
+      : this(top: null, bottom: null, left: null, right: null);
 }
