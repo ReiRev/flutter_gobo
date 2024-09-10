@@ -25,16 +25,6 @@ class BoardAxisLabel {
     this.reversed = false,
   });
 
-  // @override
-  // String toString() {
-  //   // first three indexes
-  //   final i = indexToLabel(0);
-  //   final j = indexToLabel(1);
-  //   final k = indexToLabel(2);
-  //   final postfix = reversed ? '(reversed)' : '';
-  //   return '$i,$j,$k,...$postfix';
-  // }
-
   BoardAxisLabel.alphabetical({
     bool reversed = false,
     bool upperCase = true,
