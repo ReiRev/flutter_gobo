@@ -66,78 +66,12 @@ class BoardComponent extends RectangleComponent
   }
 
   Future<void> addAxisLabels() async {
-    for (int i = 0; i < boardSize; i++) {
-      if (labels.top != null) {
-        await add(
-          TextComponent(
-            position: Vector2(
-              intersectionWidth * (i + 0.5),
-              -intersectionHeight * 0.5,
-            ),
-            size: Vector2(intersectionWidth, intersectionHeight),
-            text: labels.top?.indexToLabel(i),
-            anchor: Anchor.center,
-            textRenderer: labels.top?.textRenderer(
-              intersectionWidth,
-              intersectionHeight,
-            ),
-          ),
-        );
-      }
-
-      if (labels.bottom != null) {
-        await add(
-          TextComponent(
-            position: Vector2(
-              intersectionWidth * (i + 0.5),
-              size.y + intersectionHeight * 0.5,
-            ),
-            size: Vector2(intersectionWidth, intersectionHeight),
-            text: labels.bottom?.indexToLabel(i),
-            anchor: Anchor.center,
-            textRenderer: labels.bottom?.textRenderer(
-              intersectionWidth,
-              intersectionHeight,
-            ),
-          ),
-        );
-      }
-
-      if (labels.left != null) {
-        await add(
-          TextComponent(
-            position: Vector2(
-              -intersectionWidth * 0.5,
-              intersectionHeight * (i + 0.5),
-            ),
-            size: Vector2(intersectionWidth, intersectionHeight),
-            text: labels.left?.indexToLabel(i),
-            anchor: Anchor.center,
-            textRenderer: labels.left?.textRenderer(
-              intersectionWidth,
-              intersectionHeight,
-            ),
-          ),
-        );
-      }
-
-      if (labels.right != null) {
-        await add(
-          TextComponent(
-            position: Vector2(
-              size.x + intersectionWidth * 0.5,
-              intersectionHeight * (i + 0.5),
-            ),
-            size: Vector2(intersectionWidth, intersectionHeight),
-            text: labels.right?.indexToLabel(i),
-            anchor: Anchor.center,
-            textRenderer: labels.right?.textRenderer(
-              intersectionWidth,
-              intersectionHeight,
-            ),
-          ),
-        );
-      }
+    for (final component in labels.createAxisLabels(
+      boardSize,
+      intersectionWidth,
+      intersectionHeight,
+    )) {
+      await add(component);
     }
   }
 

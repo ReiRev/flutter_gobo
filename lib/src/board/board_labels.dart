@@ -3,17 +3,19 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/text.dart';
 
+typedef TextRenderer = TextPaint Function(double width, double height);
+
 class BoardAxisLabel {
   final String Function(int index) indexToLabel;
-  final TextPaint Function(double width, double height) textRenderer;
+  final TextRenderer textRenderer;
   final bool reversed;
 
-  static TextPaint Function(double width, double height) defaultTextPaint =
-      (double width, double height) => TextPaint(
+  static TextRenderer Function(double scale) defaultTextRenderer =
+      (double scale) => (double width, double height) => TextPaint(
             style: TextStyle(
               color: const Color.fromRGBO(255, 255, 255, 1),
               fontFamily: 'Arial',
-              fontSize: width * 0.8,
+              fontSize: width * scale,
             ),
           );
 
@@ -23,26 +25,43 @@ class BoardAxisLabel {
     this.reversed = false,
   });
 
+  // @override
+  // String toString() {
+  //   // first three indexes
+  //   final i = indexToLabel(0);
+  //   final j = indexToLabel(1);
+  //   final k = indexToLabel(2);
+  //   final postfix = reversed ? '(reversed)' : '';
+  //   return '$i,$j,$k,...$postfix';
+  // }
+
   BoardAxisLabel.alphabetical({
     bool reversed = false,
+    bool upperCase = true,
+    double scale = 0.6,
     TextPaint Function(double width, double height)? textRenderer,
   }) : this(
-            reversed: reversed,
-            indexToLabel: (int index) {
-              final int charCode = 'A'.codeUnitAt(0) + index;
-              return String.fromCharCode(charCode);
-            },
-            textRenderer: textRenderer ?? defaultTextPaint);
+          reversed: reversed,
+          indexToLabel: (int index) {
+            final int charCode = upperCase
+                ? 'A'.codeUnitAt(0) + index
+                : 'a'.codeUnitAt(0) + index;
+            return String.fromCharCode(charCode);
+          },
+          textRenderer: textRenderer ?? defaultTextRenderer(scale),
+        );
 
   BoardAxisLabel.numerical({
     bool reversed = false,
+    double scale = 0.6,
     TextPaint Function(double width, double height)? textRenderer,
   }) : this(
-            reversed: reversed,
-            indexToLabel: (int index) {
-              return (index + 1).toString();
-            },
-            textRenderer: textRenderer ?? defaultTextPaint);
+          reversed: reversed,
+          indexToLabel: (int index) {
+            return (index + 1).toString();
+          },
+          textRenderer: textRenderer ?? defaultTextRenderer(scale),
+        );
 }
 
 class BoardAxesLabels {
@@ -60,4 +79,73 @@ class BoardAxesLabels {
 
   BoardAxesLabels.none()
       : this(top: null, bottom: null, left: null, right: null);
+
+  List<TextComponent> createAxisLabels(
+    int boardSize,
+    double intersectionWidth,
+    double intersectionHeight,
+  ) {
+    List<TextComponent> components = [];
+    List<(BoardAxisLabel, Vector2 Function(int))> axisLabels = [
+      if (top != null) ...[
+        (
+          top!,
+          (int i) => Vector2(
+                intersectionWidth * (i + 0.5),
+                -intersectionHeight * 0.5,
+              )
+        ),
+      ],
+      if (bottom != null) ...[
+        (
+          bottom!,
+          (int i) => Vector2(
+                intersectionWidth * (i + 0.5),
+                intersectionHeight * (boardSize + 0.5),
+              )
+        ),
+      ],
+      if (left != null) ...[
+        (
+          left!,
+          (int i) => Vector2(
+                -intersectionWidth * 0.5,
+                intersectionHeight * (i + 0.5),
+              )
+        ),
+      ],
+      if (right != null) ...[
+        (
+          right!,
+          (int i) => Vector2(
+                intersectionWidth * (boardSize + 0.5),
+                intersectionHeight * (i + 0.5),
+              )
+        ),
+      ],
+    ];
+
+    for (int i = 0; i < boardSize; i++) {
+      for (final axisLabel in axisLabels) {
+        final label = axisLabel.$1;
+        final position = axisLabel.$2(i);
+        components.add(
+          TextComponent(
+            position: position,
+            size: Vector2(intersectionWidth, intersectionHeight),
+            text: label.reversed
+                ? label.indexToLabel(boardSize - i - 1)
+                : label.indexToLabel(i),
+            anchor: Anchor.center,
+            textRenderer: label.textRenderer(
+              intersectionWidth,
+              intersectionHeight,
+            ),
+          ),
+        );
+      }
+    }
+
+    return components;
+  }
 }
