@@ -13,16 +13,16 @@ class BoardComponent extends RectangleComponent
     required super.size,
     super.position,
     this.boardSize = 19,
+    BoardAxesLabels? labels,
   })  : lineThickness = size * 0.3 / 140 * 19 / boardSize,
         startPointRadius = size * 0.6 / 140 * 19 / boardSize,
         intersectionHeight = size / boardSize,
         intersectionWidth = size / boardSize,
         stoneRadius = size * 3.75 / 140 * 19 / boardSize,
+        labels = labels ?? BoardAxesLabels.none(),
         super.square(
           anchor: Anchor.center,
-        ) {
-    // stoneRadius = min(intersectionWidth, intersectionHeight) / 2;
-  }
+        );
 
   final int boardSize;
   final double lineThickness;
@@ -30,6 +30,7 @@ class BoardComponent extends RectangleComponent
   final double intersectionWidth;
   final double intersectionHeight;
   late final double stoneRadius;
+  final BoardAxesLabels labels;
 
   bool isStarPoint(int x, int y) {
     List<int> lineIndices =
@@ -63,9 +64,23 @@ class BoardComponent extends RectangleComponent
     }
   }
 
+  Future<void> addAxisLabels() async {
+    for (final component in labels.createAxisLabels(
+      boardSize,
+      intersectionWidth,
+      intersectionHeight,
+    )) {
+      await add(component);
+    }
+  }
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
+
+    // await addAxisLabels();
+    addAxisLabels();
+
     await add(FlameBlocListener<BoardBloc, BoardState>(
       onInitialState: (BoardState state) {
         state.stonePositionMap.forEach((coordinate, stoneOverlay) {

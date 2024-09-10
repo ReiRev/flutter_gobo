@@ -14,12 +14,18 @@ import 'package:widgetbook_flutter_gobo/board.dart' as _i2;
 import 'package:widgetbook_flutter_gobo/stone.dart' as _i3;
 
 final directories = <_i1.WidgetbookNode>[
-  _i1.WidgetbookLeafComponent(
+  _i1.WidgetbookComponent(
     name: 'BoardComponent',
-    useCase: _i1.WidgetbookUseCase(
-      name: 'Empty Board',
-      builder: _i2.buildBoardUseCase,
-    ),
+    useCases: [
+      _i1.WidgetbookUseCase(
+        name: 'Basic Board',
+        builder: _i2.buildBoardUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Labelled Board',
+        builder: _i2.buildBoardWithLabelsUseCase,
+      ),
+    ],
   ),
   _i1.WidgetbookComponent(
     name: 'StoneComponent',
