@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'dart:ui';
 
-abstract class StoneComponent extends CircleComponent with Snapshot {
+class StoneComponent extends CircleComponent with Snapshot {
   StoneComponent({
     super.radius,
     required this.painter,

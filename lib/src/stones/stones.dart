@@ -1,12 +1,16 @@
+export 'stone_component.dart';
+export 'stone_paints.dart';
+
 import 'package:gobo/gobo.dart';
 
-export 'stone_component.dart';
-export 'invisible_stone.dart';
-export 'wikipedia/wikipedia.dart';
-export 'paints/stone_paints.dart';
-
 abstract final class Stones {
-  static StoneComponent invisible = InvisibleStone();
-  static StoneComponent wikipediaBlack = WikipediaBlackStone();
-  static StoneComponent wikipediaWhite = WikipediaWhiteStone();
+  static var invisible = () => StoneComponent(
+        painter: StonePainters.invisible,
+      );
+  static var wikipediaBlack = () => StoneComponent(
+        painter: StonePainters.wikipediaBlack,
+      );
+  static var wikipediaWhite = () => StoneComponent(
+        painter: StonePainters.wikipediaWhite,
+      );
 }

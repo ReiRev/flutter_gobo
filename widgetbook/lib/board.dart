@@ -26,8 +26,8 @@ class MyBoardBloc extends BoardBloc {
 
 BoardBloc bloc = MyBoardBloc(
   stoneOverlayBuilderMap: {
-    'black': () => WikipediaBlackStone(),
-    'white': () => WikipediaWhiteStone(),
+    'black': () => Stones.wikipediaBlack(),
+    'white': () => Stones.wikipediaWhite(),
   },
 );
 
