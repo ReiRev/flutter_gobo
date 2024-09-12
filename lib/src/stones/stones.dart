@@ -7,6 +7,12 @@ abstract final class Stones {
   static var invisible = () => StoneComponent(
         painter: StonePainters.invisible,
       );
+  static var black = () => StoneComponent(
+        painter: StonePainters.black,
+      );
+  static var white = () => StoneComponent(
+        painter: StonePainters.white,
+      );
   static var wikipediaBlack = () => StoneComponent(
         painter: StonePainters.wikipediaBlack,
       );

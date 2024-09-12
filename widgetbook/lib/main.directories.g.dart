@@ -42,6 +42,14 @@ final directories = <_i1.WidgetbookNode>[
         name: 'White Stone',
         builder: _i3.buildWhiteStoneUseCase,
       ),
+      _i1.WidgetbookUseCase(
+        name: 'Wikipedia Black Stone',
+        builder: _i3.buildWikipediaBlackStoneUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Wikipedia White Stone',
+        builder: _i3.buildWikipediaWhiteStoneUseCase,
+      ),
     ],
   ),
 ];

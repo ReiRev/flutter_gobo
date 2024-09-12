@@ -38,8 +38,30 @@ class StoneWrapper extends StatelessWidget {
   }
 }
 
+@widgetbook.UseCase(name: 'White Stone', type: StoneComponent)
+Widget buildWhiteStoneUseCase(BuildContext context) {
+  return StoneWrapper(
+    stone: Stones.white()
+      ..radius = context.knobs.double
+          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000)
+      ..debugMode =
+          context.knobs.boolean(label: 'debug mode', initialValue: false),
+  );
+}
+
 @widgetbook.UseCase(name: 'Black Stone', type: StoneComponent)
 Widget buildBlackStoneUseCase(BuildContext context) {
+  return StoneWrapper(
+    stone: Stones.black()
+      ..radius = context.knobs.double
+          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000)
+      ..debugMode =
+          context.knobs.boolean(label: 'debug mode', initialValue: false),
+  );
+}
+
+@widgetbook.UseCase(name: 'Wikipedia Black Stone', type: StoneComponent)
+Widget buildWikipediaBlackStoneUseCase(BuildContext context) {
   return StoneWrapper(
     stone: Stones.wikipediaBlack()
       ..radius = context.knobs.double
@@ -49,8 +71,8 @@ Widget buildBlackStoneUseCase(BuildContext context) {
   );
 }
 
-@widgetbook.UseCase(name: 'White Stone', type: StoneComponent)
-Widget buildWhiteStoneUseCase(BuildContext context) {
+@widgetbook.UseCase(name: 'Wikipedia White Stone', type: StoneComponent)
+Widget buildWikipediaWhiteStoneUseCase(BuildContext context) {
   return StoneWrapper(
     stone: Stones.wikipediaWhite()
       ..radius = context.knobs.double
