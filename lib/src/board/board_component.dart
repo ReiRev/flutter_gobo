@@ -4,6 +4,9 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
 
+const double referenceBoardWidth = 500;
+const double referenceBoardHeight = 500;
+
 class BoardComponent extends RectangleComponent
     with
         TapCallbacks,
@@ -11,13 +14,17 @@ class BoardComponent extends RectangleComponent
         FlameBlocReader<BoardBloc, BoardState> {
   BoardComponent({
     this.boardSize = 19,
-    required double width,
+    double? width,
     double? height,
     BoardTheme? theme,
     super.anchor = Anchor.center,
   })  : theme = theme ?? BoardThemes.basic(),
         super(
-          size: Vector2(width, height ?? width),
+          size: Vector2(referenceBoardHeight, referenceBoardWidth),
+          scale: Vector2(
+            width == null ? 1 : width / referenceBoardWidth,
+            height == null ? 1 : height / referenceBoardHeight,
+          ),
         );
 
   final int boardSize;
@@ -77,6 +84,12 @@ class BoardComponent extends RectangleComponent
     )) {
       await add(component);
     }
+  }
+
+  @override
+  set size(Vector2 size) {
+    scale =
+        Vector2(size.x / referenceBoardWidth, size.y / referenceBoardHeight);
   }
 
   @override
