@@ -44,6 +44,8 @@ class BoardComponent extends RectangleComponent
   double get intersectionWidth => style.intersectionWidth(this);
   double get intersectionHeight => style.intersectionHeight(this);
   double get stoneRadius => style.stoneRadius(this);
+  bool Function(int x, int y) get isStarPoint =>
+      (int x, int y) => style.isStarPoint(this, x, y);
   BoardAxisLabels get labels => style.labels;
 
   Map<Coordinate, StoneComponent> stones = {};
@@ -161,7 +163,7 @@ class BoardComponent extends RectangleComponent
         List.generate(
           boardSize,
           (y) => {
-            if (style.isStarPoint(this, x, y))
+            if (isStarPoint(x, y))
               {
                 canvas.drawCircle(
                   Offset(x * intersectionWidth + intersectionWidth / 2,
