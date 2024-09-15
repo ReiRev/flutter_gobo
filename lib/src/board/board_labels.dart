@@ -54,20 +54,20 @@ class BoardAxisLabel {
         );
 }
 
-class BoardAxesLabels {
+class BoardAxisLabels {
   final BoardAxisLabel? top;
   final BoardAxisLabel? bottom;
   final BoardAxisLabel? left;
   final BoardAxisLabel? right;
 
-  BoardAxesLabels({
+  const BoardAxisLabels({
     this.top,
     this.bottom,
     this.left,
     this.right,
   });
 
-  BoardAxesLabels.none()
+  const BoardAxisLabels.none()
       : this(top: null, bottom: null, left: null, right: null);
 
   List<TextComponent> createAxisLabels(

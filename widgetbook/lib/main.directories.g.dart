@@ -22,6 +22,10 @@ final directories = <_i1.WidgetbookNode>[
         builder: _i2.buildBoardUseCase,
       ),
       _i1.WidgetbookUseCase(
+        name: 'Book Board',
+        builder: _i2.buildBookBoardUseCase,
+      ),
+      _i1.WidgetbookUseCase(
         name: 'Labelled Board',
         builder: _i2.buildBoardWithLabelsUseCase,
       ),
@@ -41,6 +45,14 @@ final directories = <_i1.WidgetbookNode>[
       _i1.WidgetbookUseCase(
         name: 'White Stone',
         builder: _i3.buildWhiteStoneUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Wikipedia Black Stone',
+        builder: _i3.buildWikipediaBlackStoneUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Wikipedia White Stone',
+        builder: _i3.buildWikipediaWhiteStoneUseCase,
       ),
     ],
   ),

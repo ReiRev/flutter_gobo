@@ -4,45 +4,57 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
 
+const double referenceBoardWidth = 500;
+const double referenceBoardHeight = 500;
+
 class BoardComponent extends RectangleComponent
     with
         TapCallbacks,
         DoubleTapCallbacks,
         FlameBlocReader<BoardBloc, BoardState> {
   BoardComponent({
-    required super.size,
-    super.position,
     this.boardSize = 19,
-    BoardAxesLabels? labels,
-  })  : lineThickness = size * 0.3 / 140 * 19 / boardSize,
-        startPointRadius = size * 0.6 / 140 * 19 / boardSize,
-        intersectionHeight = size / boardSize,
-        intersectionWidth = size / boardSize,
-        stoneRadius = size * 3.75 / 140 * 19 / boardSize,
-        labels = labels ?? BoardAxesLabels.none(),
-        super.square(
-          anchor: Anchor.center,
+    double? width,
+    double? height,
+    BoardTheme? theme,
+    super.anchor = Anchor.center,
+  })  : theme = theme ?? BoardThemes.basic(),
+        super(
+          size: Vector2(referenceBoardHeight, referenceBoardWidth),
+          scale: Vector2(
+            width == null ? 1 : width / referenceBoardWidth,
+            height == null ? 1 : height / referenceBoardHeight,
+          ),
         );
 
   final int boardSize;
-  final double lineThickness;
-  final double startPointRadius;
-  final double intersectionWidth;
-  final double intersectionHeight;
-  late final double stoneRadius;
-  final BoardAxesLabels labels;
+  final BoardTheme theme;
 
-  bool isStarPoint(int x, int y) {
-    List<int> lineIndices =
-        boardSize >= 13 ? [3, boardSize - 4] : [2, boardSize - 3];
-    if (boardSize % 2 == 1) {
-      lineIndices.add((boardSize / 2).floor());
-    }
-    if (lineIndices.contains(x) && lineIndices.contains(y)) {
-      return true;
-    }
-    return false;
+  @override
+  double get width => size.x;
+
+  @override
+  set width(double width) {
+    size = Vector2(width, height);
   }
+
+  @override
+  double get height => size.y;
+
+  @override
+  set height(double height) {
+    size = Vector2(size.x, height);
+  }
+
+  double Function({int? x, int? y}) get lineThickness =>
+      ({int? x, int? y}) => theme.lineThickness(this, x: x, y: y);
+  double get startPointRadius => theme.startPointRadius(this);
+  double get intersectionWidth => theme.intersectionWidth(this);
+  double get intersectionHeight => theme.intersectionHeight(this);
+  double get stoneRadius => theme.stoneRadius(this);
+  bool Function(int x, int y) get isStarPoint =>
+      (int x, int y) => theme.isStarPoint(this, x, y);
+  BoardAxisLabels get labels => theme.labels;
 
   Map<Coordinate, StoneComponent> stones = {};
 
@@ -72,6 +84,12 @@ class BoardComponent extends RectangleComponent
     )) {
       await add(component);
     }
+  }
+
+  @override
+  set size(Vector2 size) {
+    scale =
+        Vector2(size.x / referenceBoardWidth, size.y / referenceBoardHeight);
   }
 
   @override
@@ -113,10 +131,7 @@ class BoardComponent extends RectangleComponent
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    canvas.drawRect(
-      size.toRect(),
-      Paint()..color = const Color.fromRGBO(214, 181, 105, 1),
-    );
+    canvas.drawRect(size.toRect(), theme.paint);
 
     // draw horizontal lines
     List.generate(
@@ -129,7 +144,7 @@ class BoardComponent extends RectangleComponent
               i * intersectionHeight + intersectionHeight / 2),
           Paint()
             ..color = const Color.fromRGBO(0, 0, 0, 1)
-            ..strokeWidth = lineThickness
+            ..strokeWidth = lineThickness(y: i)
             ..strokeCap = StrokeCap.square,
         )
       },
@@ -146,7 +161,7 @@ class BoardComponent extends RectangleComponent
               size.y - intersectionHeight / 2),
           Paint()
             ..color = const Color.fromRGBO(0, 0, 0, 1)
-            ..strokeWidth = lineThickness
+            ..strokeWidth = lineThickness(x: i)
             ..strokeCap = StrokeCap.square,
         )
       },

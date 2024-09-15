@@ -38,36 +38,65 @@ class StoneWrapper extends StatelessWidget {
   }
 }
 
-@widgetbook.UseCase(name: 'Black Stone', type: StoneComponent)
-Widget buildBlackStoneUseCase(BuildContext context) {
-  return StoneWrapper(
-    stone: WikipediaBlackStone(
-      radius: context.knobs.double
-          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000),
-      // onPressed: (_) => {popup(context, 'pressed')},
-    )..debugMode =
-        context.knobs.boolean(label: 'debug mode', initialValue: false),
-  );
-}
-
 @widgetbook.UseCase(name: 'White Stone', type: StoneComponent)
 Widget buildWhiteStoneUseCase(BuildContext context) {
   return StoneWrapper(
-    stone: WikipediaWhiteStone(
-      radius: context.knobs.double
-          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000),
-    )..debugMode =
-        context.knobs.boolean(label: 'debug mode', initialValue: false),
+    stone: Stones.white()
+      ..radius = context.knobs.double
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..opacity = context.knobs.double
+          .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
+      ..debugMode =
+          context.knobs.boolean(label: 'debug mode', initialValue: false),
+  );
+}
+
+@widgetbook.UseCase(name: 'Black Stone', type: StoneComponent)
+Widget buildBlackStoneUseCase(BuildContext context) {
+  return StoneWrapper(
+    stone: Stones.black()
+      ..radius = context.knobs.double
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..opacity = context.knobs.double
+          .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
+      ..debugMode =
+          context.knobs.boolean(label: 'debug mode', initialValue: false),
+  );
+}
+
+@widgetbook.UseCase(name: 'Wikipedia Black Stone', type: StoneComponent)
+Widget buildWikipediaBlackStoneUseCase(BuildContext context) {
+  return StoneWrapper(
+    stone: Stones.wikipediaBlack()
+      ..radius = context.knobs.double
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..opacity = context.knobs.double
+          .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
+      ..debugMode =
+          context.knobs.boolean(label: 'debug mode', initialValue: false),
+  );
+}
+
+@widgetbook.UseCase(name: 'Wikipedia White Stone', type: StoneComponent)
+Widget buildWikipediaWhiteStoneUseCase(BuildContext context) {
+  return StoneWrapper(
+    stone: Stones.wikipediaWhite()
+      ..radius = context.knobs.double
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..opacity = context.knobs.double
+          .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
+      ..debugMode =
+          context.knobs.boolean(label: 'debug mode', initialValue: false),
   );
 }
 
 @widgetbook.UseCase(name: 'Invisible Stone', type: StoneComponent)
 Widget buildInvisibleStoneUseCase(BuildContext context) {
   return StoneWrapper(
-    stone: InvisibleStone(
-      radius: context.knobs.double
-          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000),
-    )..debugMode =
-        context.knobs.boolean(label: 'debug mode', initialValue: false),
+    stone: Stones.invisible()
+      ..radius = context.knobs.double
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..debugMode =
+          context.knobs.boolean(label: 'debug mode', initialValue: false),
   );
 }

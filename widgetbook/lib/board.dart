@@ -26,18 +26,42 @@ class MyBoardBloc extends BoardBloc {
 
 BoardBloc bloc = MyBoardBloc(
   stoneOverlayBuilderMap: {
-    'black': () => WikipediaBlackStone(),
-    'white': () => WikipediaWhiteStone(),
+    'black': () => Stones.wikipediaBlack(),
+    'white': () => Stones.wikipediaWhite(),
   },
 );
 
 @widgetbook.UseCase(name: 'Basic Board', type: BoardComponent)
 Widget buildBoardUseCase(BuildContext context) {
   BoardComponent board = BoardComponent(
-    size: context.knobs.double
-        .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
+    width: context.knobs.double
+        .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
+    height: context.knobs.double
+        .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
     boardSize: context.knobs.int
         .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+  )..debugMode =
+      context.knobs.boolean(label: 'debug mode', initialValue: false);
+
+  return Gobo(board: board, boardBloc: bloc);
+}
+
+@widgetbook.UseCase(name: 'Book Board', type: BoardComponent)
+Widget buildBookBoardUseCase(BuildContext context) {
+  BoardBloc bloc = MyBoardBloc(
+    stoneOverlayBuilderMap: {
+      'black': () => Stones.black(),
+      'white': () => Stones.white(),
+    },
+  );
+  BoardComponent board = BoardComponent(
+    width: context.knobs.double
+        .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
+    height: context.knobs.double
+        .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
+    boardSize: context.knobs.int
+        .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+    theme: BoardThemes.book(),
   )..debugMode =
       context.knobs.boolean(label: 'debug mode', initialValue: false);
 
@@ -67,34 +91,39 @@ Widget buildBoardWithLabelsUseCase(BuildContext context) {
   ];
 
   BoardComponent board = BoardComponent(
-    size: context.knobs.double
-        .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
-    boardSize: context.knobs.int
-        .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
-    labels: BoardAxesLabels(
-      top: context.knobs.listOrNull(
-        label: "top label",
-        options: options,
-        labelBuilder: labelBuilder,
-      ),
-      bottom: context.knobs.listOrNull(
-        label: "bottom label",
-        options: options,
-        labelBuilder: labelBuilder,
-      ),
-      right: context.knobs.listOrNull(
-        label: "right label",
-        options: options,
-        labelBuilder: labelBuilder,
-      ),
-      left: context.knobs.listOrNull(
-        label: "left label",
-        options: options,
-        labelBuilder: labelBuilder,
-      ),
-    ),
-  )..debugMode =
-      context.knobs.boolean(label: 'debug mode', initialValue: false);
+      width: context.knobs.double
+          .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
+      height: context.knobs.double
+          .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
+      boardSize: context.knobs.int
+          .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+      theme: BoardTheme(
+        paint: Paint()..color = const Color.fromRGBO(214, 181, 105, 1),
+        labels: BoardAxisLabels(
+          top: context.knobs.listOrNull(
+            label: "top label",
+            options: options,
+            labelBuilder: labelBuilder,
+          ),
+          bottom: context.knobs.listOrNull(
+            label: "bottom label",
+            options: options,
+            labelBuilder: labelBuilder,
+          ),
+          right: context.knobs.listOrNull(
+            label: "right label",
+            options: options,
+            labelBuilder: labelBuilder,
+          ),
+          left: context.knobs.listOrNull(
+            label: "left label",
+            options: options,
+            labelBuilder: labelBuilder,
+          ),
+        ),
+      ))
+    ..debugMode =
+        context.knobs.boolean(label: 'debug mode', initialValue: false);
 
   return Gobo(board: board, boardBloc: bloc);
 }
