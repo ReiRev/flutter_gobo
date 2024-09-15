@@ -4,16 +4,19 @@ import 'package:flame_test/flame_test.dart';
 import 'package:gobo/gobo.dart';
 
 void main() {
-  final List<StoneComponent Function()> stoneCreators = [
-    () => InvisibleStone(),
-    () => WikipediaBlackStone(),
-    () => WikipediaWhiteStone()
-  ];
+  final Map<String, StoneComponent Function()> stoneCreators = {
+    "invisible": () => Stones.invisible(),
+    "black": () => Stones.black(),
+    "white": () => Stones.white(),
+    "wikipediaBlack": () => Stones.wikipediaBlack(),
+    "wikipediaWhite": () => Stones.wikipediaWhite(),
+  };
 
-  for (var stoneCreator in stoneCreators) {
+  stoneCreators.forEach((name, stoneCreator) {
     group(stoneCreator().toString(), () {
-      test('should have a painter', () {
-        expect(stoneCreator().painter, isNotNull);
+      test('should have a paint layers', () {
+        expect(stoneCreator().paintLayers, isNotNull);
+        expect(stoneCreator().paintLayers, isNotEmpty);
       });
 
       testGolden(
@@ -24,8 +27,8 @@ void main() {
             ..position = Vector2(50, 50));
         },
         size: Vector2(100, 100),
-        goldenFile: '_goldens/${stoneCreator().toString()}.png',
+        goldenFile: '_goldens/$name.png',
       );
     });
-  }
+  });
 }
