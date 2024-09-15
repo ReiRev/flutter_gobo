@@ -22,7 +22,7 @@ class BoardTheme {
   }
 
   double stoneRadius(BoardComponent board) {
-    return board.width * 3.75 / 140 * 19 / board.boardSize;
+    return board.width * 3.75 / 140 * 0.95 * 19 / board.boardSize;
   }
 
   bool isStarPoint(BoardComponent board, int x, int y) {
