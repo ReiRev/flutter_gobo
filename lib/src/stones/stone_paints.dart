@@ -15,7 +15,7 @@ abstract final class StonePainters {
         Paint()
           ..color = const Color(0xff000000)
           ..style = PaintingStyle.stroke
-          ..strokeWidth = referenceStoneRadius * 0.01,
+          ..strokeWidth = referenceStoneRadius * 0.08,
       ];
 
   // TODO: this is not the same as the wikipedia stones
