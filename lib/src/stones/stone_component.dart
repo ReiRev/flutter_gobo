@@ -1,22 +1,29 @@
 import 'package:flame/components.dart';
-import 'dart:ui';
+
+import 'package:gobo/src/stones/const.dart';
 
 class StoneComponent extends CircleComponent with Snapshot {
   StoneComponent({
-    super.radius,
-    required this.painter,
-  }) : super(anchor: Anchor.center);
-
-  final Paint Function(double radius) painter;
+    required super.paintLayers,
+    double? radius,
+  }) : super(
+            anchor: Anchor.center,
+            radius: referenceStoneRadius,
+            scale: radius == null
+                ? Vector2.all(1)
+                : Vector2.all(radius / referenceStoneRadius));
 
   @override
-  void render(Canvas canvas) {
-    // assert(radius != null);
-    canvas.drawCircle(
-      Offset(radius, radius),
-      radius,
-      painter(radius),
-    );
+  set radius(double value) {
+    scale = Vector2.all(value / referenceStoneRadius);
+  }
+
+  // TODO: Do I really need to override this?
+  @override
+  set opacity(double value) {
+    for (final paintLayer in paintLayers) {
+      paintLayer.color = paintLayer.color.withOpacity(value);
+    }
   }
 
   @override

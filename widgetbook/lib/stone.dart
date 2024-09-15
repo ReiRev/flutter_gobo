@@ -43,7 +43,9 @@ Widget buildWhiteStoneUseCase(BuildContext context) {
   return StoneWrapper(
     stone: Stones.white()
       ..radius = context.knobs.double
-          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000)
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..opacity = context.knobs.double
+          .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
       ..debugMode =
           context.knobs.boolean(label: 'debug mode', initialValue: false),
   );
@@ -54,7 +56,9 @@ Widget buildBlackStoneUseCase(BuildContext context) {
   return StoneWrapper(
     stone: Stones.black()
       ..radius = context.knobs.double
-          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000)
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..opacity = context.knobs.double
+          .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
       ..debugMode =
           context.knobs.boolean(label: 'debug mode', initialValue: false),
   );
@@ -65,7 +69,9 @@ Widget buildWikipediaBlackStoneUseCase(BuildContext context) {
   return StoneWrapper(
     stone: Stones.wikipediaBlack()
       ..radius = context.knobs.double
-          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000)
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..opacity = context.knobs.double
+          .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
       ..debugMode =
           context.knobs.boolean(label: 'debug mode', initialValue: false),
   );
@@ -76,7 +82,9 @@ Widget buildWikipediaWhiteStoneUseCase(BuildContext context) {
   return StoneWrapper(
     stone: Stones.wikipediaWhite()
       ..radius = context.knobs.double
-          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000)
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
+      ..opacity = context.knobs.double
+          .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
       ..debugMode =
           context.knobs.boolean(label: 'debug mode', initialValue: false),
   );
@@ -87,7 +95,7 @@ Widget buildInvisibleStoneUseCase(BuildContext context) {
   return StoneWrapper(
     stone: Stones.invisible()
       ..radius = context.knobs.double
-          .slider(label: 'stoneRadius', initialValue: 50, min: 1, max: 1000)
+          .slider(label: 'radius', initialValue: 50, min: 1, max: 1000)
       ..debugMode =
           context.knobs.boolean(label: 'debug mode', initialValue: false),
   );

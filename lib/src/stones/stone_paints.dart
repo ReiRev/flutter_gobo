@@ -1,31 +1,26 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/painting.dart';
+import 'const.dart';
 
 abstract final class StonePainters {
-  static Paint invisible(double radius) =>
-      Paint()..color = const Color(0x00000000);
+  static Paint invisible() => Paint()..color = const Color(0x00000000);
 
-  static Paint black(double radius) => Paint()..color = const Color(0xff000000);
+  static Paint black() => Paint()..color = Colors.black;
 
-  static Paint white(double radius) => Paint()
-    ..color = const Color(0xffffffff)
-    ..shader = const RadialGradient(
-      colors: [
-        Color(0xffffffff),
-        Color(0xffffffff),
-        Color(0xff000000),
-        Color(0xff000000),
-      ],
-      radius: 0.5,
-      stops: [0, 0.97, 0.97001, 1],
-    ).createShader(
-      Rect.fromCircle(
-        center: Offset(radius, radius),
-        radius: radius,
-      ),
-    );
+  static List<Paint> white() => [
+        Paint()
+          ..color = const Color(0xffffffff)
+          ..style = PaintingStyle.fill,
+        Paint()
+          ..color = const Color(0xff000000)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = referenceStoneRadius * 0.01,
+      ];
 
-  static Paint wikipediaBlack(double radius) => Paint()
+  // TODO: this is not the same as the wikipedia stones
+  // but I have no time to fix it now
+  static Paint wikipediaBlack() => Paint()
     ..shader = const RadialGradient(
       colors: [
         Color(0xFF777777),
@@ -34,15 +29,17 @@ abstract final class StonePainters {
       ],
       stops: [0, 0.3, 1],
       radius: 0.8,
-      center: Alignment(-0.3, -0.3),
+      center: Alignment(0.6, 0.6),
     ).createShader(
       Rect.fromCircle(
-        center: Offset(radius, radius),
-        radius: radius,
+        center: const Offset(0, 0),
+        radius: referenceStoneRadius,
       ),
     );
 
-  static Paint wikipediaWhite(double radius) => Paint()
+  // TODO: this is not the same as the wikipedia stones
+  // but I have no time to fix it now
+  static Paint wikipediaWhite() => Paint()
     ..shader = const RadialGradient(
       colors: [
         Color(0xffffffff),
@@ -50,12 +47,12 @@ abstract final class StonePainters {
         Color(0xff777777),
       ],
       stops: [0.7, 0.9, 1],
-      radius: 0.49,
-      center: Alignment(-0.03, -0.01),
+      radius: 0.48,
+      center: Alignment(0.97, 0.99),
     ).createShader(
       Rect.fromCircle(
-        center: Offset(radius, radius),
-        radius: radius,
+        center: const Offset(0, 0),
+        radius: referenceStoneRadius,
       ),
     );
 }

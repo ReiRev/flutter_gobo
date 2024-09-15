@@ -4,19 +4,19 @@ export 'stone_paints.dart';
 import 'package:gobo/gobo.dart';
 
 abstract final class Stones {
-  static var invisible = () => StoneComponent(
-        painter: StonePainters.invisible,
-      );
+  static var invisible = ({double? radius}) =>
+      StoneComponent(paintLayers: [StonePainters.invisible()], radius: radius);
   static var black = () => StoneComponent(
-        painter: StonePainters.black,
+        paintLayers: [StonePainters.black()],
       );
-  static var white = () => StoneComponent(
-        painter: StonePainters.white,
+  static var white = ({double? radius}) => StoneComponent(
+        paintLayers: StonePainters.white(),
+        radius: radius,
       );
   static var wikipediaBlack = () => StoneComponent(
-        painter: StonePainters.wikipediaBlack,
+        paintLayers: [StonePainters.wikipediaBlack()],
       );
   static var wikipediaWhite = () => StoneComponent(
-        painter: StonePainters.wikipediaWhite,
+        paintLayers: [StonePainters.wikipediaWhite()],
       );
 }
