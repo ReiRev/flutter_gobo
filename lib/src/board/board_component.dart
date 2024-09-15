@@ -12,16 +12,16 @@ class BoardComponent extends RectangleComponent
   BoardComponent({
     this.boardSize = 19,
     required double width,
-    required double height,
-    BoardStyle? style,
+    double? height,
+    BoardTheme? theme,
     super.anchor = Anchor.center,
-  })  : style = style ?? BoardStyles.basic(),
+  })  : theme = theme ?? BoardThemes.basic(),
         super(
-          size: Vector2(width, height),
+          size: Vector2(width, height ?? width),
         );
 
   final int boardSize;
-  final BoardStyle style;
+  final BoardTheme theme;
 
   @override
   double get width => size.x;
@@ -39,14 +39,15 @@ class BoardComponent extends RectangleComponent
     size = Vector2(size.x, height);
   }
 
-  double get lineThickness => style.lineThickness(this);
-  double get startPointRadius => style.startPointRadius(this);
-  double get intersectionWidth => style.intersectionWidth(this);
-  double get intersectionHeight => style.intersectionHeight(this);
-  double get stoneRadius => style.stoneRadius(this);
+  double Function({int? x, int? y}) get lineThickness =>
+      ({int? x, int? y}) => theme.lineThickness(this, x: x, y: y);
+  double get startPointRadius => theme.startPointRadius(this);
+  double get intersectionWidth => theme.intersectionWidth(this);
+  double get intersectionHeight => theme.intersectionHeight(this);
+  double get stoneRadius => theme.stoneRadius(this);
   bool Function(int x, int y) get isStarPoint =>
-      (int x, int y) => style.isStarPoint(this, x, y);
-  BoardAxisLabels get labels => style.labels;
+      (int x, int y) => theme.isStarPoint(this, x, y);
+  BoardAxisLabels get labels => theme.labels;
 
   Map<Coordinate, StoneComponent> stones = {};
 
@@ -117,10 +118,7 @@ class BoardComponent extends RectangleComponent
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    canvas.drawRect(
-      size.toRect(),
-      Paint()..color = const Color.fromRGBO(214, 181, 105, 1),
-    );
+    canvas.drawRect(size.toRect(), theme.paint);
 
     // draw horizontal lines
     List.generate(
@@ -133,7 +131,7 @@ class BoardComponent extends RectangleComponent
               i * intersectionHeight + intersectionHeight / 2),
           Paint()
             ..color = const Color.fromRGBO(0, 0, 0, 1)
-            ..strokeWidth = lineThickness
+            ..strokeWidth = lineThickness(y: i)
             ..strokeCap = StrokeCap.square,
         )
       },
@@ -150,7 +148,7 @@ class BoardComponent extends RectangleComponent
               size.y - intersectionHeight / 2),
           Paint()
             ..color = const Color.fromRGBO(0, 0, 0, 1)
-            ..strokeWidth = lineThickness
+            ..strokeWidth = lineThickness(x: i)
             ..strokeCap = StrokeCap.square,
         )
       },

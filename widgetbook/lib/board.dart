@@ -35,11 +35,33 @@ BoardBloc bloc = MyBoardBloc(
 Widget buildBoardUseCase(BuildContext context) {
   BoardComponent board = BoardComponent(
     width: context.knobs.double
-        .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
+        .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
     height: context.knobs.double
-        .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
+        .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
     boardSize: context.knobs.int
         .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+  )..debugMode =
+      context.knobs.boolean(label: 'debug mode', initialValue: false);
+
+  return Gobo(board: board, boardBloc: bloc);
+}
+
+@widgetbook.UseCase(name: 'Book Board', type: BoardComponent)
+Widget buildBookBoardUseCase(BuildContext context) {
+  BoardBloc bloc = MyBoardBloc(
+    stoneOverlayBuilderMap: {
+      'black': () => Stones.black(),
+      'white': () => Stones.white(),
+    },
+  );
+  BoardComponent board = BoardComponent(
+    width: context.knobs.double
+        .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
+    height: context.knobs.double
+        .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
+    boardSize: context.knobs.int
+        .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+    theme: BoardThemes.book(),
   )..debugMode =
       context.knobs.boolean(label: 'debug mode', initialValue: false);
 
@@ -70,12 +92,12 @@ Widget buildBoardWithLabelsUseCase(BuildContext context) {
 
   BoardComponent board = BoardComponent(
       width: context.knobs.double
-          .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
+          .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
       height: context.knobs.double
-          .slider(label: 'size', initialValue: 500, min: 1, max: 1000),
+          .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
       boardSize: context.knobs.int
           .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
-      style: BoardStyle(
+      theme: BoardTheme(
         paint: Paint()..color = const Color.fromRGBO(214, 181, 105, 1),
         labels: BoardAxisLabels(
           top: context.knobs.listOrNull(

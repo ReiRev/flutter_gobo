@@ -1,11 +1,11 @@
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
 
-class BoardStyle {
+class BoardTheme {
   final Paint paint;
   final BoardAxisLabels labels;
 
-  double lineThickness(BoardComponent board) {
+  double lineThickness(BoardComponent board, {int? x, int? y}) {
     return board.width * 0.3 / 140 * 19 / board.boardSize;
   }
 
@@ -38,7 +38,7 @@ class BoardStyle {
     return false;
   }
 
-  BoardStyle({
+  BoardTheme({
     required this.paint,
     this.labels = const BoardAxisLabels.none(),
   });
