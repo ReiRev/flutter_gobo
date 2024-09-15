@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/painting.dart';
 import 'const.dart';
 
 abstract final class StonePainters {
