@@ -10,39 +10,41 @@ class BoardComponent extends RectangleComponent
         DoubleTapCallbacks,
         FlameBlocReader<BoardBloc, BoardState> {
   BoardComponent({
-    required super.size,
-    super.position,
     this.boardSize = 19,
-    BoardAxesLabels? labels,
-  })  : lineThickness = size * 0.3 / 140 * 19 / boardSize,
-        startPointRadius = size * 0.6 / 140 * 19 / boardSize,
-        intersectionHeight = size / boardSize,
-        intersectionWidth = size / boardSize,
-        stoneRadius = size * 3.75 / 140 * 19 / boardSize,
-        labels = labels ?? BoardAxesLabels.none(),
-        super.square(
-          anchor: Anchor.center,
+    required double width,
+    required double height,
+    BoardStyle? style,
+    super.anchor = Anchor.center,
+  })  : style = style ?? BoardStyles.basic(),
+        super(
+          size: Vector2(width, height),
         );
 
   final int boardSize;
-  final double lineThickness;
-  final double startPointRadius;
-  final double intersectionWidth;
-  final double intersectionHeight;
-  late final double stoneRadius;
-  final BoardAxesLabels labels;
+  final BoardStyle style;
 
-  bool isStarPoint(int x, int y) {
-    List<int> lineIndices =
-        boardSize >= 13 ? [3, boardSize - 4] : [2, boardSize - 3];
-    if (boardSize % 2 == 1) {
-      lineIndices.add((boardSize / 2).floor());
-    }
-    if (lineIndices.contains(x) && lineIndices.contains(y)) {
-      return true;
-    }
-    return false;
+  @override
+  double get width => size.x;
+
+  @override
+  set width(double width) {
+    size = Vector2(width, height);
   }
+
+  @override
+  double get height => size.y;
+
+  @override
+  set height(double height) {
+    size = Vector2(size.x, height);
+  }
+
+  double get lineThickness => style.lineThickness(this);
+  double get startPointRadius => style.startPointRadius(this);
+  double get intersectionWidth => style.intersectionWidth(this);
+  double get intersectionHeight => style.intersectionHeight(this);
+  double get stoneRadius => style.stoneRadius(this);
+  BoardAxisLabels get labels => style.labels;
 
   Map<Coordinate, StoneComponent> stones = {};
 
@@ -159,7 +161,7 @@ class BoardComponent extends RectangleComponent
         List.generate(
           boardSize,
           (y) => {
-            if (isStarPoint(x, y))
+            if (style.isStarPoint(this, x, y))
               {
                 canvas.drawCircle(
                   Offset(x * intersectionWidth + intersectionWidth / 2,
