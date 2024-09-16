@@ -1,3 +1,14 @@
+## 0.0.7
+
+* release v0.0.6 by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/66
+* Develop/widgetbook responsive board by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/69
+* Develop/add line number to side of the board by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/71
+* Develop/add book style by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/74
+* remove BLOC by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/75
+* add a pub.dev badge by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/76
+
+**Full Changelog**: https://github.com/ReiRev/flutter_gobo/compare/v0.0.6...v0.0.7
+
 ## 0.0.6
 
 * update to v0.0.5 by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/46
