@@ -6,14 +6,12 @@ class Gobo extends StatelessWidget {
   const Gobo({
     super.key,
     required this.board,
-    required this.boardBloc,
   });
 
   final BoardComponent board;
-  final BoardBloc boardBloc;
 
   @override
   Widget build(BuildContext context) {
-    return GameWidget(game: GoboGame(board: board, boardBloc: boardBloc));
+    return GameWidget(game: GoboGame(board: board));
   }
 }
