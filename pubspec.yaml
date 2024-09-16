@@ -1,6 +1,6 @@
 name: gobo
 description: An awesome Flutter package for creating and managing Go/Igo/Weiqi/Baduk board games, featuring a clear decoupling of UI and logic for enhanced customization and maintainability.
-version: 0.0.6
+version: 0.0.7
 homepage: https://github.com/ReiRev/flutter_gobo
 repository: https://github.com/ReiRev/flutter_gobo
 funding:
