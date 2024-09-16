@@ -1,17 +1,11 @@
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
-import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/painting.dart';
 import 'package:gobo/gobo.dart';
 
 const double referenceBoardWidth = 500;
 const double referenceBoardHeight = 500;
 
-class BoardComponent extends RectangleComponent
-    with
-        TapCallbacks,
-        DoubleTapCallbacks,
-        FlameBlocReader<BoardBloc, BoardState> {
+class BoardComponent extends RectangleComponent {
   BoardComponent({
     this.boardSize = 19,
     double? width,
@@ -96,36 +90,7 @@ class BoardComponent extends RectangleComponent
   Future<void> onLoad() async {
     super.onLoad();
 
-    // await addAxisLabels();
     addAxisLabels();
-
-    await add(FlameBlocListener<BoardBloc, BoardState>(
-      onInitialState: (BoardState state) {
-        state.stonePositionMap.forEach((coordinate, stoneOverlay) {
-          putStone(
-            bloc.stoneOverlayBuilderMap[stoneOverlay]!(),
-            coordinate,
-          );
-        });
-      },
-      onNewState: (BoardState state) {
-        switch (state.lastBoardAction.actionType) {
-          case BoardActionType.add:
-            removeStone(state.lastBoardAction.coordinate);
-            putStone(
-              bloc.stoneOverlayBuilderMap[
-                  state.lastBoardAction.stoneOverlay]!(),
-              state.lastBoardAction.coordinate,
-            );
-            break;
-          case BoardActionType.remove:
-            removeStone(state.lastBoardAction.coordinate);
-            break;
-          default:
-            break;
-        }
-      },
-    ));
   }
 
   @override
@@ -195,33 +160,5 @@ class BoardComponent extends RectangleComponent
       (eventPosition.x / intersectionWidth).floor(),
       (eventPosition.y / intersectionHeight).floor(),
     );
-  }
-
-  @override
-  void onTapDown(TapDownEvent event) {
-    bloc.add(BoardTappedDownEvent(
-      eventPositionToCoordinate(event.localPosition),
-    ));
-  }
-
-  @override
-  void onTapUp(TapUpEvent event) {
-    bloc.add(BoardTappedUpEvent(
-      eventPositionToCoordinate(event.localPosition),
-    ));
-  }
-
-  @override
-  void onLongTapDown(TapDownEvent event) {
-    bloc.add(BoardLongTappedDownEvent(
-      eventPositionToCoordinate(event.localPosition),
-    ));
-  }
-
-  @override
-  void onDoubleTapDown(DoubleTapDownEvent event) {
-    bloc.add(BoardDoubleTappedDownEvent(
-      eventPositionToCoordinate(event.localPosition),
-    ));
   }
 }

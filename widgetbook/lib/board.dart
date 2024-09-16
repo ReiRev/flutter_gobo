@@ -1,39 +1,52 @@
-import 'package:bloc/bloc.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 import 'package:gobo/gobo.dart';
 
-class MyBoardBloc extends BoardBloc {
-  MyBoardBloc({
-    required super.stoneOverlayBuilderMap,
+class WikipediaBoard extends BoardComponent with TapCallbacks {
+  WikipediaBoard({
+    super.width,
+    super.height,
+    super.boardSize,
+    super.theme,
   });
 
   bool isBlack = true;
 
   @override
-  void onBoardTappedUpEvent(BoardInputEvent event, Emitter<BoardState> emit) {
-    putStone(isBlack ? 'black' : 'white', event.coordinate, emit);
+  void onTapDown(TapDownEvent event) {
+    putStone(
+      isBlack ? Stones.wikipediaBlack() : Stones.wikipediaWhite(),
+      eventPositionToCoordinate(event.localPosition),
+    );
     isBlack = !isBlack;
-  }
-
-  @override
-  void onBoardLongTappedDownEvent(
-      BoardInputEvent event, Emitter<BoardState> emit) {
-    removeStone(event.coordinate, emit);
   }
 }
 
-BoardBloc bloc = MyBoardBloc(
-  stoneOverlayBuilderMap: {
-    'black': () => Stones.wikipediaBlack(),
-    'white': () => Stones.wikipediaWhite(),
-  },
-);
+class BookBoard extends BoardComponent with TapCallbacks {
+  BookBoard({
+    super.width,
+    super.height,
+    super.boardSize,
+    super.theme,
+  });
+
+  bool isBlack = true;
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    putStone(
+      isBlack ? Stones.black() : Stones.white(),
+      eventPositionToCoordinate(event.localPosition),
+    );
+    isBlack = !isBlack;
+  }
+}
 
 @widgetbook.UseCase(name: 'Basic Board', type: BoardComponent)
 Widget buildBoardUseCase(BuildContext context) {
-  BoardComponent board = BoardComponent(
+  BoardComponent board = WikipediaBoard(
     width: context.knobs.double
         .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
     height: context.knobs.double
@@ -43,18 +56,12 @@ Widget buildBoardUseCase(BuildContext context) {
   )..debugMode =
       context.knobs.boolean(label: 'debug mode', initialValue: false);
 
-  return Gobo(board: board, boardBloc: bloc);
+  return Gobo(board: board);
 }
 
 @widgetbook.UseCase(name: 'Book Board', type: BoardComponent)
 Widget buildBookBoardUseCase(BuildContext context) {
-  BoardBloc bloc = MyBoardBloc(
-    stoneOverlayBuilderMap: {
-      'black': () => Stones.black(),
-      'white': () => Stones.white(),
-    },
-  );
-  BoardComponent board = BoardComponent(
+  BoardComponent board = BookBoard(
     width: context.knobs.double
         .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
     height: context.knobs.double
@@ -65,7 +72,7 @@ Widget buildBookBoardUseCase(BuildContext context) {
   )..debugMode =
       context.knobs.boolean(label: 'debug mode', initialValue: false);
 
-  return Gobo(board: board, boardBloc: bloc);
+  return Gobo(board: board);
 }
 
 @widgetbook.UseCase(name: 'Labelled Board', type: BoardComponent)
@@ -91,39 +98,39 @@ Widget buildBoardWithLabelsUseCase(BuildContext context) {
   ];
 
   BoardComponent board = BoardComponent(
-      width: context.knobs.double
-          .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
-      height: context.knobs.double
-          .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
-      boardSize: context.knobs.int
-          .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
-      theme: BoardTheme(
-        paint: Paint()..color = const Color.fromRGBO(214, 181, 105, 1),
-        labels: BoardAxisLabels(
-          top: context.knobs.listOrNull(
-            label: "top label",
-            options: options,
-            labelBuilder: labelBuilder,
-          ),
-          bottom: context.knobs.listOrNull(
-            label: "bottom label",
-            options: options,
-            labelBuilder: labelBuilder,
-          ),
-          right: context.knobs.listOrNull(
-            label: "right label",
-            options: options,
-            labelBuilder: labelBuilder,
-          ),
-          left: context.knobs.listOrNull(
-            label: "left label",
-            options: options,
-            labelBuilder: labelBuilder,
-          ),
+    width: context.knobs.double
+        .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
+    height: context.knobs.double
+        .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
+    boardSize: context.knobs.int
+        .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+    theme: BoardTheme(
+      paint: Paint()..color = const Color.fromRGBO(214, 181, 105, 1),
+      labels: BoardAxisLabels(
+        top: context.knobs.listOrNull(
+          label: "top label",
+          options: options,
+          labelBuilder: labelBuilder,
         ),
-      ))
-    ..debugMode =
-        context.knobs.boolean(label: 'debug mode', initialValue: false);
+        bottom: context.knobs.listOrNull(
+          label: "bottom label",
+          options: options,
+          labelBuilder: labelBuilder,
+        ),
+        right: context.knobs.listOrNull(
+          label: "right label",
+          options: options,
+          labelBuilder: labelBuilder,
+        ),
+        left: context.knobs.listOrNull(
+          label: "left label",
+          options: options,
+          labelBuilder: labelBuilder,
+        ),
+      ),
+    ),
+  )..debugMode =
+      context.knobs.boolean(label: 'debug mode', initialValue: false);
 
-  return Gobo(board: board, boardBloc: bloc);
+  return Gobo(board: board);
 }
