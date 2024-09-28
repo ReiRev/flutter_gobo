@@ -3,8 +3,51 @@ import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 import 'package:gobo/gobo.dart';
+import 'package:golo/golo.dart' as golo;
+import './utils.dart';
 
-class WikipediaBoard extends BoardComponent with TapCallbacks {
+class WidgetbookBoard extends BoardComponent with TapCallbacks {
+  WidgetbookBoard({
+    super.width,
+    super.height,
+    super.boardSize,
+    super.theme,
+  }) : game = golo.Game(boardSize: boardSize);
+
+  bool isBlack = true;
+  final golo.Game game;
+  StoneComponent get blackStone => Stones.black();
+  StoneComponent get whiteStone => Stones.white();
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    Coordinate coordinate = eventPositionToCoordinate(event.localPosition);
+    try {
+      game.play(
+        isBlack ? golo.Player.black : golo.Player.white,
+        coordinate.x,
+        coordinate.y,
+      );
+      isBlack = !isBlack;
+      putStone(
+        isBlack ? blackStone : whiteStone,
+        coordinate,
+      );
+      for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < boardSize; y++) {
+          if (game.boardState.at(x, y) == golo.CoordinateStatus.empty &&
+              stones[Coordinate(x, y)] != null) {
+            removeStone(Coordinate(x, y));
+          }
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+class WikipediaBoard extends WidgetbookBoard {
   WikipediaBoard({
     super.width,
     super.height,
@@ -12,19 +55,13 @@ class WikipediaBoard extends BoardComponent with TapCallbacks {
     super.theme,
   });
 
-  bool isBlack = true;
-
   @override
-  void onTapDown(TapDownEvent event) {
-    putStone(
-      isBlack ? Stones.wikipediaBlack() : Stones.wikipediaWhite(),
-      eventPositionToCoordinate(event.localPosition),
-    );
-    isBlack = !isBlack;
-  }
+  StoneComponent get blackStone => Stones.wikipediaBlack();
+  @override
+  StoneComponent get whiteStone => Stones.wikipediaWhite();
 }
 
-class BookBoard extends BoardComponent with TapCallbacks {
+class BookBoard extends WidgetbookBoard {
   BookBoard({
     super.width,
     super.height,
@@ -32,16 +69,10 @@ class BookBoard extends BoardComponent with TapCallbacks {
     super.theme,
   });
 
-  bool isBlack = true;
-
   @override
-  void onTapDown(TapDownEvent event) {
-    putStone(
-      isBlack ? Stones.black() : Stones.white(),
-      eventPositionToCoordinate(event.localPosition),
-    );
-    isBlack = !isBlack;
-  }
+  StoneComponent get blackStone => Stones.black();
+  @override
+  StoneComponent get whiteStone => Stones.white();
 }
 
 @widgetbook.UseCase(name: 'Basic Board', type: BoardComponent)
@@ -97,7 +128,7 @@ Widget buildBoardWithLabelsUseCase(BuildContext context) {
     BoardAxisLabel.alphabetical(reversed: true, upperCase: false),
   ];
 
-  BoardComponent board = BoardComponent(
+  BoardComponent board = WikipediaBoard(
     width: context.knobs.double
         .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
     height: context.knobs.double
