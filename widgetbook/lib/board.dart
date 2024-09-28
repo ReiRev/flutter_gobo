@@ -4,7 +4,6 @@ import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 import 'package:gobo/gobo.dart';
 import 'package:golo/golo.dart' as golo;
-import './utils.dart';
 
 class WidgetbookBoard extends BoardComponent with TapCallbacks {
   WidgetbookBoard({
@@ -42,6 +41,7 @@ class WidgetbookBoard extends BoardComponent with TapCallbacks {
         }
       }
     } catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   }
