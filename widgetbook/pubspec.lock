@@ -310,7 +310,15 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.6"
+    version: "0.0.7"
+  golo:
+    dependency: "direct main"
+    description:
+      name: golo
+      sha256: "0cbe7c6875a8990a846fd1a15a081e546bc04375b6c6249f33f48526c6292de1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   graphs:
     dependency: transitive
     description:
