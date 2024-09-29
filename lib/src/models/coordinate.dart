@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flame/components.dart';
 
+/// Coordinates on the board.
 class Coordinate extends Equatable {
   const Coordinate(
     this.x,
@@ -10,6 +11,7 @@ class Coordinate extends Equatable {
   final int x;
   final int y;
 
+  /// Converts the coordinate to a position on the board.
   Vector2 toPosition(double intersectionWidth, double intersectionHeight) {
     return Vector2(
       x * intersectionWidth + intersectionWidth / 2,

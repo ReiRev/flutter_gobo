@@ -2,6 +2,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:gobo/gobo.dart';
 
+/// A game widget that displays a [GoboGame] with a [BoardComponent].
 class Gobo extends StatelessWidget {
   const Gobo({
     super.key,
