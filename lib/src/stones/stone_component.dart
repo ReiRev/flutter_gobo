@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 
-import 'package:gobo/src/stones/const.dart';
+import './const.dart';
 
 class StoneComponent extends CircleComponent with Snapshot {
   StoneComponent({
