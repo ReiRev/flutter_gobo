@@ -1,3 +1,4 @@
+/// An awesome Flutter package for creating and managing Go/Igo/Weiqi/Baduk board games, featuring a clear decoupling of UI and logic for enhanced customization and maintainability.
 library gobo;
 
 export 'src/stones/stones.dart';

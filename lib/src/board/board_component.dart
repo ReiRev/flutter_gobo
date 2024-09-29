@@ -5,6 +5,7 @@ import 'package:gobo/gobo.dart';
 const double referenceBoardWidth = 500;
 const double referenceBoardHeight = 500;
 
+/// A component that represents a Go board.
 class BoardComponent extends RectangleComponent {
   BoardComponent({
     this.boardSize = 19,
@@ -21,9 +22,13 @@ class BoardComponent extends RectangleComponent {
           ),
         );
 
+  /// The size of the board. ex. 19
   final int boardSize;
+
+  /// The theme of the board represented as [BoardTheme].
   final BoardTheme theme;
 
+  /// The width of the board.
   @override
   double get width => size.x;
 
@@ -32,6 +37,7 @@ class BoardComponent extends RectangleComponent {
     size = Vector2(width, height);
   }
 
+  /// The height of the board.
   @override
   double get height => size.y;
 
@@ -40,37 +46,55 @@ class BoardComponent extends RectangleComponent {
     size = Vector2(size.x, height);
   }
 
+  /// The thickness of the lines on the board.
   double Function({int? x, int? y}) get lineThickness =>
       ({int? x, int? y}) => theme.lineThickness(this, x: x, y: y);
+
+  /// The radius of the start point.
   double get startPointRadius => theme.startPointRadius(this);
+
+  /// The width of the intersection line.
   double get intersectionWidth => theme.intersectionWidth(this);
+
+  /// The height of the intersection line.
   double get intersectionHeight => theme.intersectionHeight(this);
+
+  /// The radius of the stone.
   double get stoneRadius => theme.stoneRadius(this);
+
+  /// A function that returns true if the given coordinate is a star point.
   bool Function(int x, int y) get isStarPoint =>
       (int x, int y) => theme.isStarPoint(this, x, y);
+
+  /// The labels of the board.
   BoardAxisLabels get labels => theme.labels;
 
-  Map<Coordinate, StoneComponent> stones = {};
+  final Map<Coordinate, StoneComponent> _stones = {};
 
+  /// The stones on the board.
+  Map<Coordinate, StoneComponent> get stones => _stones;
+
+  /// Places a stone on the board at the given coordinate.
   void putStone(StoneComponent stone, Coordinate at) {
-    if (stones[at] != null) {
-      remove(stones[at]!);
-      stones.remove(at);
+    if (_stones[at] != null) {
+      remove(_stones[at]!);
+      _stones.remove(at);
     }
-    stones[at] = stone
+    _stones[at] = stone
       ..radius = stoneRadius
       ..position = at.toPosition(intersectionWidth, intersectionHeight);
-    add(stones[at]!);
+    add(_stones[at]!);
   }
 
+  /// Removes a stone from the board at the given coordinate.
   void removeStone(Coordinate at) {
-    if (stones[at] != null) {
-      remove(stones[at]!);
-      stones.remove(at);
+    if (_stones[at] != null) {
+      remove(_stones[at]!);
+      _stones.remove(at);
     }
   }
 
-  Future<void> addAxisLabels() async {
+  Future<void> _addAxisLabels() async {
     for (final component in labels.createAxisLabels(
       boardSize,
       intersectionWidth,
@@ -90,7 +114,7 @@ class BoardComponent extends RectangleComponent {
   Future<void> onLoad() async {
     super.onLoad();
 
-    addAxisLabels();
+    _addAxisLabels();
   }
 
   @override
@@ -154,7 +178,7 @@ class BoardComponent extends RectangleComponent {
     );
   }
 
-  // write func to convert the event position to the coordinate on the board
+  /// Converts an event position to a coordinate on the board.
   Coordinate eventPositionToCoordinate(Vector2 eventPosition) {
     return Coordinate(
       (eventPosition.x / intersectionWidth).floor(),
