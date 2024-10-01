@@ -11,7 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:widgetbook/widgetbook.dart' as _i1;
 import 'package:widgetbook_flutter_gobo/board.dart' as _i2;
-import 'package:widgetbook_flutter_gobo/stone.dart' as _i3;
+import 'package:widgetbook_flutter_gobo/stone.dart' as _i4;
+import 'package:widgetbook_flutter_gobo/symbol.dart' as _i3;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookComponent(
@@ -31,28 +32,35 @@ final directories = <_i1.WidgetbookNode>[
       ),
     ],
   ),
+  _i1.WidgetbookLeafComponent(
+    name: 'ShapeComponent',
+    useCase: _i1.WidgetbookUseCase(
+      name: 'Triangle',
+      builder: _i3.buildWhiteStoneUseCase,
+    ),
+  ),
   _i1.WidgetbookComponent(
     name: 'StoneComponent',
     useCases: [
       _i1.WidgetbookUseCase(
         name: 'Black Stone',
-        builder: _i3.buildBlackStoneUseCase,
+        builder: _i4.buildBlackStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'Invisible Stone',
-        builder: _i3.buildInvisibleStoneUseCase,
+        builder: _i4.buildInvisibleStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'White Stone',
-        builder: _i3.buildWhiteStoneUseCase,
+        builder: _i4.buildWhiteStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'Wikipedia Black Stone',
-        builder: _i3.buildWikipediaBlackStoneUseCase,
+        builder: _i4.buildWikipediaBlackStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'Wikipedia White Stone',
-        builder: _i3.buildWikipediaWhiteStoneUseCase,
+        builder: _i4.buildWikipediaWhiteStoneUseCase,
       ),
     ],
   ),
