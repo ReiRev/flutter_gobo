@@ -2,8 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 import 'dart:math';
 
-class Triangle extends ShapeComponent {
-  Triangle({
+class Circle extends ShapeComponent {
+  Circle({
     required this.radius,
     this.color = const Color(0xFFFFFFFF),
     this.strokeWidth = 2,
@@ -11,10 +11,10 @@ class Triangle extends ShapeComponent {
     super.angle = 0,
   });
 
-  final double radius;
   final Color color;
   final double strokeWidth;
   final bool fill;
+  final double radius;
 
   @override
   void render(Canvas canvas) {
@@ -23,15 +23,7 @@ class Triangle extends ShapeComponent {
       ..strokeCap = StrokeCap.round
       ..style = fill ? PaintingStyle.fill : PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
-
-    double size = 100;
-    final path = Path()
-      // add minus sign to flip the triangle vertically
-      ..moveTo(size * cos(pi * 90 / 180), -size * sin(pi * 90 / 180))
-      ..lineTo(size * cos(pi * 210 / 180), -size * sin(pi * 210 / 180))
-      ..lineTo(size * cos(pi * 330 / 180), -size * sin(pi * 330 / 180))
-      ..close();
-
-    canvas.drawPath(path, paint);
+    var radius = 100.0;
+    canvas.drawCircle(const Offset(0, 0), radius, paint);
   }
 }

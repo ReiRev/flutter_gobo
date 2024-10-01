@@ -32,12 +32,18 @@ final directories = <_i1.WidgetbookNode>[
       ),
     ],
   ),
-  _i1.WidgetbookLeafComponent(
+  _i1.WidgetbookComponent(
     name: 'ShapeComponent',
-    useCase: _i1.WidgetbookUseCase(
-      name: 'Triangle',
-      builder: _i3.buildWhiteStoneUseCase,
-    ),
+    useCases: [
+      _i1.WidgetbookUseCase(
+        name: 'Circle',
+        builder: _i3.buildCircleUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Triangle',
+        builder: _i3.buildTriangleUseCase,
+      ),
+    ],
   ),
   _i1.WidgetbookComponent(
     name: 'StoneComponent',
