@@ -1,5 +1,6 @@
 export 'triangle.dart';
 export 'circle.dart';
+export 'square.dart';
 
 // import 'package:flame/game.dart';
 

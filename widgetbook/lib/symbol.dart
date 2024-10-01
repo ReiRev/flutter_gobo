@@ -75,3 +75,22 @@ Widget buildCircleUseCase(BuildContext context) {
     // ..fill = context.knobs.boolean(label: 'fill', initialValue: true),
   );
 }
+
+@widgetbook.UseCase(name: 'Square', type: ShapeComponent)
+Widget buildSquareUseCase(BuildContext context) {
+  return SymbolWrapper(
+    symbol: gobo.Square(
+      radius: context.knobs.double
+          .slider(label: 'radius', initialValue: 100, min: 1, max: 1000),
+      fill: context.knobs.boolean(label: 'fill', initialValue: true),
+      color: context.knobs.color(label: 'color', initialValue: Colors.white),
+      strokeWidth: context.knobs.double
+          .slider(label: 'stroke width', initialValue: 2, min: 0, max: 100),
+    )
+      ..debugMode =
+          context.knobs.boolean(label: 'debug mode', initialValue: false)
+      ..angle = context.knobs.double
+          .slider(label: 'angle', initialValue: 0, min: 0, max: 360),
+    // ..fill = context.knobs.boolean(label: 'fill', initialValue: true),
+  );
+}

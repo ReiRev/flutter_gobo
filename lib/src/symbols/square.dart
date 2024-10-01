@@ -2,8 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 import 'dart:math';
 
-class Triangle extends ShapeComponent {
-  Triangle({
+class Square extends ShapeComponent {
+  Square({
     required this.radius,
     this.color = const Color(0xFFFFFFFF),
     this.strokeWidth = 2,
@@ -11,10 +11,10 @@ class Triangle extends ShapeComponent {
     super.angle = 0,
   });
 
-  final double radius;
   final Color color;
   final double strokeWidth;
   final bool fill;
+  final double radius;
 
   @override
   void render(Canvas canvas) {
@@ -26,9 +26,10 @@ class Triangle extends ShapeComponent {
 
     final path = Path()
       // add minus sign to flip the triangle vertically
-      ..moveTo(radius * cos(pi * 90 / 180), -radius * sin(pi * 90 / 180))
-      ..lineTo(radius * cos(pi * 210 / 180), -radius * sin(pi * 210 / 180))
-      ..lineTo(radius * cos(pi * 330 / 180), -radius * sin(pi * 330 / 180))
+      ..moveTo(-radius / sqrt(2), radius / sqrt(2))
+      ..lineTo(radius / sqrt(2), radius / sqrt(2))
+      ..lineTo(radius / sqrt(2), -radius / sqrt(2))
+      ..lineTo(-radius / sqrt(2), -radius / sqrt(2))
       ..close();
 
     canvas.drawPath(path, paint);

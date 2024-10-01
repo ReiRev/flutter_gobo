@@ -40,6 +40,10 @@ final directories = <_i1.WidgetbookNode>[
         builder: _i3.buildCircleUseCase,
       ),
       _i1.WidgetbookUseCase(
+        name: 'Square',
+        builder: _i3.buildSquareUseCase,
+      ),
+      _i1.WidgetbookUseCase(
         name: 'Triangle',
         builder: _i3.buildTriangleUseCase,
       ),

@@ -22,7 +22,6 @@ class Circle extends ShapeComponent {
       ..strokeCap = StrokeCap.round
       ..style = fill ? PaintingStyle.fill : PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
-    var radius = 100.0;
     canvas.drawCircle(const Offset(0, 0), radius, paint);
   }
 }
