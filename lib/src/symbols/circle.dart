@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
-import 'dart:math';
 
 class Circle extends ShapeComponent {
   Circle({
