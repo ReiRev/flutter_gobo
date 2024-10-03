@@ -47,7 +47,12 @@ Widget buildWhiteStoneUseCase(BuildContext context) {
       ..opacity = context.knobs.double
           .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
       ..debugMode =
-          context.knobs.boolean(label: 'debug mode', initialValue: false),
+          context.knobs.boolean(label: 'debug mode', initialValue: false)
+      ..symbol = context.knobs.listOrNull(label: "symbol", options: [
+        Symbols.circle(fill: false, color: Colors.black),
+        Symbols.triangle(fill: false, color: Colors.black),
+        Symbols.square(fill: false, color: Colors.black),
+      ]),
   );
 }
 
@@ -60,7 +65,12 @@ Widget buildBlackStoneUseCase(BuildContext context) {
       ..opacity = context.knobs.double
           .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
       ..debugMode =
-          context.knobs.boolean(label: 'debug mode', initialValue: false),
+          context.knobs.boolean(label: 'debug mode', initialValue: false)
+      ..symbol = context.knobs.listOrNull(label: "symbol", options: [
+        Symbols.circle(fill: false),
+        Symbols.triangle(fill: false),
+        Symbols.square(fill: false),
+      ]),
   );
 }
 
@@ -73,7 +83,12 @@ Widget buildWikipediaBlackStoneUseCase(BuildContext context) {
       ..opacity = context.knobs.double
           .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
       ..debugMode =
-          context.knobs.boolean(label: 'debug mode', initialValue: false),
+          context.knobs.boolean(label: 'debug mode', initialValue: false)
+      ..symbol = context.knobs.listOrNull(label: "symbol", options: [
+        Symbols.circle(fill: false),
+        Symbols.triangle(fill: false),
+        Symbols.square(fill: false),
+      ]),
   );
 }
 
@@ -86,7 +101,12 @@ Widget buildWikipediaWhiteStoneUseCase(BuildContext context) {
       ..opacity = context.knobs.double
           .slider(label: 'opacity', initialValue: 1, min: 0, max: 1)
       ..debugMode =
-          context.knobs.boolean(label: 'debug mode', initialValue: false),
+          context.knobs.boolean(label: 'debug mode', initialValue: false)
+      ..symbol = context.knobs.listOrNull(label: "symbol", options: [
+        Symbols.circle(fill: false, color: Colors.black),
+        Symbols.triangle(fill: false, color: Colors.black),
+        Symbols.square(fill: false, color: Colors.black),
+      ]),
   );
 }
 
