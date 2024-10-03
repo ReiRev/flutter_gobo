@@ -12,6 +12,7 @@
 import 'package:widgetbook/widgetbook.dart' as _i1;
 import 'package:widgetbook_flutter_gobo/board.dart' as _i2;
 import 'package:widgetbook_flutter_gobo/stone.dart' as _i3;
+import 'package:widgetbook_flutter_gobo/symbol.dart' as _i4;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookComponent(
@@ -53,6 +54,23 @@ final directories = <_i1.WidgetbookNode>[
       _i1.WidgetbookUseCase(
         name: 'Wikipedia White Stone',
         builder: _i3.buildWikipediaWhiteStoneUseCase,
+      ),
+    ],
+  ),
+  _i1.WidgetbookComponent(
+    name: 'SymbolComponent',
+    useCases: [
+      _i1.WidgetbookUseCase(
+        name: 'Circle',
+        builder: _i4.buildCircleUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Square',
+        builder: _i4.buildSquareUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Triangle',
+        builder: _i4.buildTriangleUseCase,
       ),
     ],
   ),
