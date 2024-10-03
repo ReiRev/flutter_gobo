@@ -1,2 +1,2 @@
-const double referenceSymbolRadius = 80;
+const double referenceSymbolRadius = 70;
 const double referenceSymbolStrokeWidth = 10;
