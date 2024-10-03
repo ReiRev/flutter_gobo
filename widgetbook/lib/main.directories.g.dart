@@ -11,8 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:widgetbook/widgetbook.dart' as _i1;
 import 'package:widgetbook_flutter_gobo/board.dart' as _i2;
-import 'package:widgetbook_flutter_gobo/stone.dart' as _i4;
-import 'package:widgetbook_flutter_gobo/symbol.dart' as _i3;
+import 'package:widgetbook_flutter_gobo/stone.dart' as _i3;
+import 'package:widgetbook_flutter_gobo/symbol.dart' as _i4;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookComponent(
@@ -33,44 +33,44 @@ final directories = <_i1.WidgetbookNode>[
     ],
   ),
   _i1.WidgetbookComponent(
-    name: 'ShapeComponent',
-    useCases: [
-      _i1.WidgetbookUseCase(
-        name: 'Circle',
-        builder: _i3.buildCircleUseCase,
-      ),
-      _i1.WidgetbookUseCase(
-        name: 'Square',
-        builder: _i3.buildSquareUseCase,
-      ),
-      _i1.WidgetbookUseCase(
-        name: 'Triangle',
-        builder: _i3.buildTriangleUseCase,
-      ),
-    ],
-  ),
-  _i1.WidgetbookComponent(
     name: 'StoneComponent',
     useCases: [
       _i1.WidgetbookUseCase(
         name: 'Black Stone',
-        builder: _i4.buildBlackStoneUseCase,
+        builder: _i3.buildBlackStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'Invisible Stone',
-        builder: _i4.buildInvisibleStoneUseCase,
+        builder: _i3.buildInvisibleStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'White Stone',
-        builder: _i4.buildWhiteStoneUseCase,
+        builder: _i3.buildWhiteStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'Wikipedia Black Stone',
-        builder: _i4.buildWikipediaBlackStoneUseCase,
+        builder: _i3.buildWikipediaBlackStoneUseCase,
       ),
       _i1.WidgetbookUseCase(
         name: 'Wikipedia White Stone',
-        builder: _i4.buildWikipediaWhiteStoneUseCase,
+        builder: _i3.buildWikipediaWhiteStoneUseCase,
+      ),
+    ],
+  ),
+  _i1.WidgetbookComponent(
+    name: 'SymbolComponent',
+    useCases: [
+      _i1.WidgetbookUseCase(
+        name: 'Circle',
+        builder: _i4.buildCircleUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Square',
+        builder: _i4.buildSquareUseCase,
+      ),
+      _i1.WidgetbookUseCase(
+        name: 'Triangle',
+        builder: _i4.buildTriangleUseCase,
       ),
     ],
   ),

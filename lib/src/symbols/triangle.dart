@@ -1,20 +1,15 @@
-import 'package:flame/components.dart';
+import 'symbol_component.dart';
 import 'package:flutter/painting.dart';
 import 'dart:math';
 
-class Triangle extends ShapeComponent {
+class Triangle extends SymbolComponent {
   Triangle({
-    required this.radius,
-    this.color = const Color(0xFFFFFFFF),
-    this.strokeWidth = 2,
-    this.fill = true,
+    required super.radius,
+    super.color = const Color(0xFFFFFFFF),
+    super.strokeWidth = 2,
+    super.fill = true,
     super.angle = 0,
   });
-
-  final double radius;
-  final Color color;
-  final double strokeWidth;
-  final bool fill;
 
   @override
   void render(Canvas canvas) {
@@ -32,5 +27,10 @@ class Triangle extends ShapeComponent {
       ..close();
 
     canvas.drawPath(path, paint);
+  }
+
+  @override
+  String toString() {
+    return 'Triangle';
   }
 }

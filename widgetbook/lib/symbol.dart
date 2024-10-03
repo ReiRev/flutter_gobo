@@ -3,7 +3,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
-import 'package:gobo/gobo.dart' as gobo;
+import 'package:gobo/gobo.dart';
 
 class SymbolGame extends FlameGame {
   SymbolGame({
@@ -38,10 +38,10 @@ class SymbolWrapper extends StatelessWidget {
   }
 }
 
-@widgetbook.UseCase(name: 'Triangle', type: ShapeComponent)
+@widgetbook.UseCase(name: 'Triangle', type: SymbolComponent)
 Widget buildTriangleUseCase(BuildContext context) {
   return SymbolWrapper(
-    symbol: gobo.Triangle(
+    symbol: Symbols.triangle(
       radius: context.knobs.double
           .slider(label: 'radius', initialValue: 100, min: 1, max: 1000),
       fill: context.knobs.boolean(label: 'fill', initialValue: true),
@@ -57,10 +57,10 @@ Widget buildTriangleUseCase(BuildContext context) {
   );
 }
 
-@widgetbook.UseCase(name: 'Circle', type: ShapeComponent)
+@widgetbook.UseCase(name: 'Circle', type: SymbolComponent)
 Widget buildCircleUseCase(BuildContext context) {
   return SymbolWrapper(
-    symbol: gobo.Circle(
+    symbol: Symbols.circle(
       radius: context.knobs.double
           .slider(label: 'radius', initialValue: 100, min: 1, max: 1000),
       fill: context.knobs.boolean(label: 'fill', initialValue: true),
@@ -76,10 +76,10 @@ Widget buildCircleUseCase(BuildContext context) {
   );
 }
 
-@widgetbook.UseCase(name: 'Square', type: ShapeComponent)
+@widgetbook.UseCase(name: 'Square', type: SymbolComponent)
 Widget buildSquareUseCase(BuildContext context) {
   return SymbolWrapper(
-    symbol: gobo.Square(
+    symbol: Symbols.square(
       radius: context.knobs.double
           .slider(label: 'radius', initialValue: 100, min: 1, max: 1000),
       fill: context.knobs.boolean(label: 'fill', initialValue: true),

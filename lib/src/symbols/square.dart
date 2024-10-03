@@ -1,20 +1,15 @@
-import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
+import 'symbol_component.dart';
 import 'dart:math';
 
-class Square extends ShapeComponent {
+class Square extends SymbolComponent {
   Square({
-    required this.radius,
-    this.color = const Color(0xFFFFFFFF),
-    this.strokeWidth = 2,
-    this.fill = true,
+    required super.radius,
+    super.color = const Color(0xFFFFFFFF),
+    super.strokeWidth = 2,
+    super.fill = true,
     super.angle = 0,
   });
-
-  final Color color;
-  final double strokeWidth;
-  final bool fill;
-  final double radius;
 
   @override
   void render(Canvas canvas) {
@@ -33,5 +28,10 @@ class Square extends ShapeComponent {
       ..close();
 
     canvas.drawPath(path, paint);
+  }
+
+  @override
+  String toString() {
+    return 'Square';
   }
 }

@@ -1,19 +1,14 @@
-import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
+import 'symbol_component.dart';
 
-class Circle extends ShapeComponent {
+class Circle extends SymbolComponent {
   Circle({
-    required this.radius,
-    this.color = const Color(0xFFFFFFFF),
-    this.strokeWidth = 2,
-    this.fill = true,
+    required super.radius,
+    super.color = const Color(0xFFFFFFFF),
+    super.strokeWidth = 2,
+    super.fill = true,
     super.angle = 0,
   });
-
-  final Color color;
-  final double strokeWidth;
-  final bool fill;
-  final double radius;
 
   @override
   void render(Canvas canvas) {
@@ -23,5 +18,10 @@ class Circle extends ShapeComponent {
       ..style = fill ? PaintingStyle.fill : PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
     canvas.drawCircle(const Offset(0, 0), radius, paint);
+  }
+
+  @override
+  String toString() {
+    return 'Circle';
   }
 }
