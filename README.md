@@ -1,3 +1,8 @@
+<!-- markdownlint-disable MD013 -->
+<p align="center">
+    <img alt="gobo" width="300px" src="img/gobo-logo.svg">
+</p>
+
 # gobo
 
 <p align="center">
