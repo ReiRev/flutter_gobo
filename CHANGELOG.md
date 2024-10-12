@@ -1,3 +1,14 @@
+## 0.0.8
+
+* Release/v0.0.7 by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/77
+* Develop/integrate golo to widgetbook by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/80
+* fix lint by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/81
+* Develop/add dartdoc comments by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/82
+* Develop/add symbol on the stone by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/85
+* Develop/add readme by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/87
+
+**Full Changelog**: https://github.com/ReiRev/flutter_gobo/compare/v0.0.7...v0.0.8
+
 ## 0.0.7
 
 * release v0.0.6 by @ReiRev in https://github.com/ReiRev/flutter_gobo/pull/66
