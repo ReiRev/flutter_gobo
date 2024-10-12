@@ -5,6 +5,60 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 import 'package:gobo/gobo.dart';
 import 'package:golo/golo.dart' as golo;
 
+class FreeBoard extends BoardComponent with TapCallbacks, DoubleTapCallbacks {
+  FreeBoard({
+    super.width,
+    super.height,
+    super.boardSize,
+    super.theme,
+  });
+
+  bool isBlack = true;
+  StoneComponent get blackStone => Stones.wikipediaBlack();
+  StoneComponent get whiteStone => Stones.wikipediaWhite();
+
+  @override
+  void onTapUp(TapUpEvent event) {
+    Coordinate coordinate = eventPositionToCoordinate(event.localPosition);
+    try {
+      isBlack = !isBlack;
+      putStone(
+        isBlack ? blackStone : whiteStone,
+        coordinate,
+      );
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
+
+  @override
+  void onDoubleTapDown(DoubleTapDownEvent event) {
+    Coordinate coordinate = eventPositionToCoordinate(event.localPosition);
+    try {
+      removeStone(coordinate);
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
+}
+
+@widgetbook.UseCase(name: 'Free Board', type: BoardComponent)
+Widget buildFreeBoardUseCase(BuildContext context) {
+  BoardComponent board = FreeBoard(
+    width: context.knobs.double
+        .slider(label: 'width', initialValue: 500, min: 1, max: 1000),
+    height: context.knobs.double
+        .slider(label: 'height', initialValue: 500, min: 1, max: 1000),
+    boardSize: context.knobs.int
+        .slider(label: 'board size', initialValue: 19, min: 1, max: 40),
+  )..debugMode =
+      context.knobs.boolean(label: 'debug mode', initialValue: false);
+
+  return Gobo(board: board);
+}
+
 class WidgetbookBoard extends BoardComponent with TapCallbacks {
   WidgetbookBoard({
     super.width,
