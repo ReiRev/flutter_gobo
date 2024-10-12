@@ -27,6 +27,10 @@ final directories = <_i1.WidgetbookNode>[
         builder: _i2.buildBookBoardUseCase,
       ),
       _i1.WidgetbookUseCase(
+        name: 'Free Board',
+        builder: _i2.buildFreeBoardUseCase,
+      ),
+      _i1.WidgetbookUseCase(
         name: 'Labelled Board',
         builder: _i2.buildBoardWithLabelsUseCase,
       ),
