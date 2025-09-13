@@ -65,9 +65,8 @@ class WidgetbookBoard extends BoardComponent with TapCallbacks {
     super.height,
     super.boardSize,
     super.theme,
-  }) : game = golo.Game(boardSize: boardSize);
+  }) : game = golo.Game(width: boardSize);
 
-  bool isBlack = true;
   final golo.Game game;
   StoneComponent get blackStone => Stones.black();
   StoneComponent get whiteStone => Stones.white();
@@ -76,19 +75,17 @@ class WidgetbookBoard extends BoardComponent with TapCallbacks {
   void onTapDown(TapDownEvent event) {
     Coordinate coordinate = eventPositionToCoordinate(event.localPosition);
     try {
-      game.play(
-        isBlack ? golo.Player.black : golo.Player.white,
-        coordinate.x,
-        coordinate.y,
-      );
-      isBlack = !isBlack;
+      game.play((
+        x: coordinate.x,
+        y: coordinate.y,
+      ));
       putStone(
-        isBlack ? blackStone : whiteStone,
+        game.currentPlayer == golo.Stone.black ? blackStone : whiteStone,
         coordinate,
       );
-      for (int x = 0; x < boardSize; x++) {
-        for (int y = 0; y < boardSize; y++) {
-          if (game.boardState.at(x, y) == golo.CoordinateStatus.empty &&
+      for (var y = 0; y < game.board.height; y++) {
+        for (var x = 0; x < game.board.width; x++) {
+          if (game.board.state[y][x] == null &&
               stones[Coordinate(x, y)] != null) {
             removeStone(Coordinate(x, y));
           }
