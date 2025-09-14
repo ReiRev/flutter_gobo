@@ -189,23 +189,23 @@ Widget buildBoardWithLabelsUseCase(BuildContext context) {
     theme: BoardTheme(
       paint: Paint()..color = const Color.fromRGBO(214, 181, 105, 1),
       labels: BoardAxisLabels(
-        top: context.knobs.objectOrNull.dropdown<BoardAxisLabel>(
-          label: 'top label',
+        top: context.knobs.listOrNull(
+          label: "top label",
           options: options,
           labelBuilder: labelBuilder,
         ),
-        bottom: context.knobs.objectOrNull.dropdown<BoardAxisLabel>(
-          label: 'bottom label',
+        bottom: context.knobs.listOrNull(
+          label: "bottom label",
           options: options,
           labelBuilder: labelBuilder,
         ),
-        right: context.knobs.objectOrNull.dropdown<BoardAxisLabel>(
-          label: 'right label',
+        right: context.knobs.listOrNull(
+          label: "right label",
           options: options,
           labelBuilder: labelBuilder,
         ),
-        left: context.knobs.objectOrNull.dropdown<BoardAxisLabel>(
-          label: 'left label',
+        left: context.knobs.listOrNull(
+          label: "left label",
           options: options,
           labelBuilder: labelBuilder,
         ),
