@@ -8,7 +8,57 @@ import 'package:gobo/gobo.dart';
 import 'package:golo/golo.dart' as golo;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'download.dart';
+import 'dart:async';
+import 'dart:html' as html;
+
+// Web-only helpers for downloading and picking text files (SGF).
+bool saveTextFile(String filename, String text) {
+  final blob = html.Blob([text], 'application/x-go-sgf;charset=utf-8');
+  final url = html.Url.createObjectUrlFromBlob(blob);
+  final anchor = html.AnchorElement(href: url)
+    ..download = filename
+    ..style.display = 'none';
+  html.document.body?.append(anchor);
+  anchor.click();
+  anchor.remove();
+  html.Url.revokeObjectUrl(url);
+  return true;
+}
+
+Future<String?> pickTextFile(
+    {String accept = '.sgf,application/x-go-sgf,text/plain'}) async {
+  final input = html.FileUploadInputElement()
+    ..accept = accept
+    ..multiple = false
+    ..style.display = 'none';
+  html.document.body?.append(input);
+
+  final completer = Completer<String?>();
+  void cleanup() => input.remove();
+
+  input.onChange.listen((_) {
+    final file = input.files?.isNotEmpty == true ? input.files!.first : null;
+    if (file == null) {
+      cleanup();
+      completer.complete(null);
+      return;
+    }
+    final reader = html.FileReader();
+    reader.onLoadEnd.listen((_) {
+      cleanup();
+      final result = reader.result;
+      completer.complete(result is String ? result : null);
+    });
+    reader.onError.listen((_) {
+      cleanup();
+      completer.complete(null);
+    });
+    reader.readAsText(file);
+  });
+
+  input.click();
+  return completer.future;
+}
 
 abstract class BoardEvent extends Equatable {
   const BoardEvent();
@@ -37,6 +87,14 @@ class BoardUndoPressed extends BoardEvent {
   List<Object?> get props => const [];
 }
 
+class BoardImportSgf extends BoardEvent {
+  final String sgf;
+  const BoardImportSgf(this.sgf);
+
+  @override
+  List<Object?> get props => [sgf];
+}
+
 class BoardState extends Equatable {
   final golo.Board board;
 
@@ -61,6 +119,16 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
         emit(BoardState(_game.board));
       } catch (e) {
         print(e);
+      }
+    });
+    on<BoardImportSgf>((e, emit) {
+      try {
+        _game = golo.Game.fromSgf(e.sgf);
+        _game.application = "GOLO Example Game Editor";
+        emit(BoardState(_game.board));
+      } catch (err) {
+        // ignore: avoid_print
+        print('Failed to import SGF: $err');
       }
     });
     on<BoardPassPressed>((e, emit) {
@@ -208,9 +276,6 @@ class InfoBar extends StatelessWidget {
               style: const TextStyle(color: Colors.white),
               child: Row(
                 children: [
-                  const Text('Captures',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 12),
                   // Black
                   Container(
                     width: 12,
@@ -237,6 +302,23 @@ class InfoBar extends StatelessWidget {
                   Text('$whiteCaptures'),
                   const Spacer(),
                   TextButton.icon(
+                    onPressed: () async {
+                      final text = await pickTextFile(
+                          accept: '.sgf,application/x-go-sgf,text/plain');
+                      if (text == null) {
+                        print("Failed to load SGF");
+                        return;
+                      }
+                      context.read<BoardBloc>().add(BoardImportSgf(text));
+                    },
+                    icon: const Icon(Icons.upload_file, color: Colors.white),
+                    label: const Text(
+                      'fromSGF',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  TextButton.icon(
                     onPressed: context.read<BoardBloc>().canUndo
                         ? () => context
                             .read<BoardBloc>()
@@ -248,7 +330,7 @@ class InfoBar extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 4),
                   TextButton.icon(
                     onPressed: () =>
                         context.read<BoardBloc>().add(const BoardPassPressed()),
@@ -258,7 +340,7 @@ class InfoBar extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 4),
                   TextButton.icon(
                     onPressed: () {
                       final sgf = context.read<BoardBloc>().toSgf();
