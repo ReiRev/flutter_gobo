@@ -5,12 +5,13 @@ version: 0.1.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
+  flutter: 3.32.0
 
 dependencies:
   flutter:
     sdk: flutter
   widgetbook_annotation: ^3.1.0
-  widgetbook: ^3.8.1
+  widgetbook: ^3.15.0
   gobo:
     path: ../
   flame: ^1.18.0

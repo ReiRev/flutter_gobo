@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'dart:async';
 import 'dart:js_interop';
-import 'dart:js_util' as js_util;
 import 'package:web/web.dart' as web;
 
 // Web-only helpers for downloading and picking text files (SGF).
@@ -52,7 +51,8 @@ Future<String?> pickTextFile(
         completer.complete(null);
         return;
       }
-      js_util.promiseToFuture<String>(file.text()).then((value) {
+      file.text().toDart.then((jsString) {
+        final value = jsString.toDart;
         cleanup();
         completer.complete(value);
       }).catchError((_) {
