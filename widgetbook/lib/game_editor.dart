@@ -9,7 +9,6 @@ import 'package:gobo/gobo.dart';
 import 'package:golo/golo.dart' as golo;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'dart:js_interop';
 import 'dart:js_util' as js_util;
