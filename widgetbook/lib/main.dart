@@ -51,7 +51,7 @@ class WidgetbookApp extends StatelessWidget {
       directories: directories,
       addons: [
         AlignmentAddon(initialAlignment: Alignment.center),
-        DeviceFrameAddon(devices: Devices.all),
+        ViewportAddon(Viewports.all),
         InspectorAddon(enabled: true),
       ],
     );
