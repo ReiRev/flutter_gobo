@@ -14,7 +14,7 @@ import 'package:widgetbook/widgetbook.dart' as _widgetbook;
 import 'package:widgetbook_flutter_gobo/board.dart'
     as _widgetbook_flutter_gobo_board;
 import 'package:widgetbook_flutter_gobo/game_editor.dart'
-    as _widgetbook_flutter_gobo_example_game;
+    as _widgetbook_flutter_gobo_game_editor;
 import 'package:widgetbook_flutter_gobo/stone.dart'
     as _widgetbook_flutter_gobo_stone;
 import 'package:widgetbook_flutter_gobo/symbol.dart'
@@ -45,8 +45,8 @@ final directories = <_widgetbook.WidgetbookNode>[
   _widgetbook.WidgetbookLeafComponent(
     name: 'FlameGame',
     useCase: _widgetbook.WidgetbookUseCase(
-      name: 'Example Game Editor',
-      builder: _widgetbook_flutter_gobo_example_game.buildGameEditor,
+      name: 'Game Editor',
+      builder: _widgetbook_flutter_gobo_game_editor.buildGameEditor,
     ),
   ),
   _widgetbook.WidgetbookComponent(

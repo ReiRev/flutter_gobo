@@ -9,52 +9,56 @@ import 'package:golo/golo.dart' as golo;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'dart:async';
-import 'dart:html' as html;
+import 'dart:js_interop';
+import 'dart:js_util' as js_util;
+import 'package:web/web.dart' as web;
 
 // Web-only helpers for downloading and picking text files (SGF).
 bool saveTextFile(String filename, String text) {
-  final blob = html.Blob([text], 'application/x-go-sgf;charset=utf-8');
-  final url = html.Url.createObjectUrlFromBlob(blob);
-  final anchor = html.AnchorElement(href: url)
+  final parts = (<web.BlobPart>[text.toJS]).toJS;
+  final blob = web.Blob(parts);
+  final url = web.URL.createObjectURL(blob);
+  final anchor = web.HTMLAnchorElement()
+    ..href = url
     ..download = filename
     ..style.display = 'none';
-  html.document.body?.append(anchor);
+  web.document.body?.append(anchor);
   anchor.click();
   anchor.remove();
-  html.Url.revokeObjectUrl(url);
+  web.URL.revokeObjectURL(url);
   return true;
 }
 
-Future<String?> pickTextFile(
-    {String accept = '.sgf,application/x-go-sgf,text/plain'}) async {
-  final input = html.FileUploadInputElement()
+Future<String?> pickTextFile({String accept = '.sgf,application/x-go-sgf,text/plain'}) async {
+  final input = web.HTMLInputElement()
+    ..type = 'file'
     ..accept = accept
     ..multiple = false
     ..style.display = 'none';
-  html.document.body?.append(input);
+  web.document.body?.append(input);
 
   final completer = Completer<String?>();
   void cleanup() => input.remove();
 
-  input.onChange.listen((_) {
-    final file = input.files?.isNotEmpty == true ? input.files!.first : null;
-    if (file == null) {
-      cleanup();
-      completer.complete(null);
-      return;
-    }
-    final reader = html.FileReader();
-    reader.onLoadEnd.listen((_) {
-      cleanup();
-      final result = reader.result;
-      completer.complete(result is String ? result : null);
-    });
-    reader.onError.listen((_) {
-      cleanup();
-      completer.complete(null);
-    });
-    reader.readAsText(file);
-  });
+  input.addEventListener(
+    'change',
+    ((web.Event _) {
+      final files = input.files;
+      final file = (files != null && files.length > 0) ? files.item(0) : null;
+      if (file == null) {
+        cleanup();
+        completer.complete(null);
+        return;
+      }
+      js_util.promiseToFuture<String>(file.text()).then((value) {
+        cleanup();
+        completer.complete(value);
+      }).catchError((_) {
+        cleanup();
+        completer.complete(null);
+      });
+    }).toJS,
+  );
 
   input.click();
   return completer.future;

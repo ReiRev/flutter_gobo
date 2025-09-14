@@ -19,6 +19,7 @@ dependencies:
   flame_bloc: ^1.12.1
   golo: 1.0.0
   equatable: ^2.0.7
+  web: ^0.5.1
 
 dev_dependencies:
   flutter_test:
