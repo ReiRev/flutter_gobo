@@ -1,53 +1,53 @@
 name: Build & Deploy GitHub Pages
 
 on:
-  push:
-    branches: ["main"]
+    push:
+        branches: ["main"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.24.0"
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  flutter-version: "3.33.0"
 
-      - name: build widgetbook
-        working-directory: widgetbook
-        run: |
-          flutter clean
-          flutter pub get
-          flutter build web -t lib/main.dart
-          sed -i 's/base href="\/"/base href="\/flutter_gobo\/"/g' build/web/index.html
-          echo "Widgetbook build completed"
+            - name: build widgetbook
+              working-directory: widgetbook
+              run: |
+                  flutter clean
+                  flutter pub get
+                  flutter build web -t lib/main.dart
+                  sed -i 's/base href="\/"/base href="\/flutter_gobo\/"/g' build/web/index.html
+                  echo "Widgetbook build completed"
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: widgetbook/build/web
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: widgetbook/build/web
 
-  # Deploy job
-  deploy:
-    # Add a dependency to the build job
-    needs: build
+    # Deploy job
+    deploy:
+        # Add a dependency to the build job
+        needs: build
 
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
+        # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+        permissions:
+            pages: write # to deploy to Pages
+            id-token: write # to verify the deployment originates from an appropriate source
 
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+        # Deploy to the github-pages environment
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
 
-    # Specify runner + deployment step
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
+        # Specify runner + deployment step
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
