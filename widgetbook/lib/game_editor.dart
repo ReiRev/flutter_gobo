@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_bloc/flame_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:gobo/gobo.dart';
 import 'package:golo/golo.dart' as golo;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'dart:js_interop';
 import 'dart:js_util' as js_util;
@@ -123,7 +125,7 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
         _game.play((x: e.coordinate.x, y: e.coordinate.y));
         emit(BoardState(_game.board));
       } catch (e) {
-        print(e);
+        debugPrint('$e');
       }
     });
     on<BoardImportSgf>((e, emit) {
@@ -132,8 +134,7 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
         _game.application = "GOLO Example Game Editor";
         emit(BoardState(_game.board));
       } catch (err) {
-        // ignore: avoid_print
-        print('Failed to import SGF: $err');
+        debugPrint('Failed to import SGF: $err');
       }
     });
     on<BoardPassPressed>((e, emit) {
@@ -310,8 +311,9 @@ class InfoBar extends StatelessWidget {
                     onPressed: () async {
                       final text = await pickTextFile(
                           accept: '.sgf,application/x-go-sgf,text/plain');
+                      if (!context.mounted) return;
                       if (text == null) {
-                        print("Failed to load SGF");
+                        debugPrint("Failed to load SGF");
                         return;
                       }
                       context.read<BoardBloc>().add(BoardImportSgf(text));
