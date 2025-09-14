@@ -29,7 +29,8 @@ bool saveTextFile(String filename, String text) {
   return true;
 }
 
-Future<String?> pickTextFile({String accept = '.sgf,application/x-go-sgf,text/plain'}) async {
+Future<String?> pickTextFile(
+    {String accept = '.sgf,application/x-go-sgf,text/plain'}) async {
   final input = web.HTMLInputElement()
     ..type = 'file'
     ..accept = accept
