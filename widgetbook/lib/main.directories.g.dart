@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_import, prefer_relative_imports, directives_ordering
@@ -9,72 +10,84 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:widgetbook/widgetbook.dart' as _i1;
-import 'package:widgetbook_flutter_gobo/board.dart' as _i2;
-import 'package:widgetbook_flutter_gobo/stone.dart' as _i3;
-import 'package:widgetbook_flutter_gobo/symbol.dart' as _i4;
+import 'package:widgetbook/widgetbook.dart' as _widgetbook;
+import 'package:widgetbook_flutter_gobo/board.dart'
+    as _widgetbook_flutter_gobo_board;
+import 'package:widgetbook_flutter_gobo/game_editor.dart'
+    as _widgetbook_flutter_gobo_example_game;
+import 'package:widgetbook_flutter_gobo/stone.dart'
+    as _widgetbook_flutter_gobo_stone;
+import 'package:widgetbook_flutter_gobo/symbol.dart'
+    as _widgetbook_flutter_gobo_symbol;
 
-final directories = <_i1.WidgetbookNode>[
-  _i1.WidgetbookComponent(
+final directories = <_widgetbook.WidgetbookNode>[
+  _widgetbook.WidgetbookComponent(
     name: 'BoardComponent',
     useCases: [
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Basic Board',
-        builder: _i2.buildBoardUseCase,
+        builder: _widgetbook_flutter_gobo_board.buildBoardUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Book Board',
-        builder: _i2.buildBookBoardUseCase,
+        builder: _widgetbook_flutter_gobo_board.buildBookBoardUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Free Board',
-        builder: _i2.buildFreeBoardUseCase,
+        builder: _widgetbook_flutter_gobo_board.buildFreeBoardUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Labelled Board',
-        builder: _i2.buildBoardWithLabelsUseCase,
+        builder: _widgetbook_flutter_gobo_board.buildBoardWithLabelsUseCase,
       ),
     ],
   ),
-  _i1.WidgetbookComponent(
+  _widgetbook.WidgetbookLeafComponent(
+    name: 'FlameGame',
+    useCase: _widgetbook.WidgetbookUseCase(
+      name: 'Example Game Editor',
+      builder: _widgetbook_flutter_gobo_example_game.buildGameEditor,
+    ),
+  ),
+  _widgetbook.WidgetbookComponent(
     name: 'StoneComponent',
     useCases: [
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Black Stone',
-        builder: _i3.buildBlackStoneUseCase,
+        builder: _widgetbook_flutter_gobo_stone.buildBlackStoneUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Invisible Stone',
-        builder: _i3.buildInvisibleStoneUseCase,
+        builder: _widgetbook_flutter_gobo_stone.buildInvisibleStoneUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'White Stone',
-        builder: _i3.buildWhiteStoneUseCase,
+        builder: _widgetbook_flutter_gobo_stone.buildWhiteStoneUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Wikipedia Black Stone',
-        builder: _i3.buildWikipediaBlackStoneUseCase,
+        builder: _widgetbook_flutter_gobo_stone.buildWikipediaBlackStoneUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Wikipedia White Stone',
-        builder: _i3.buildWikipediaWhiteStoneUseCase,
+        builder: _widgetbook_flutter_gobo_stone.buildWikipediaWhiteStoneUseCase,
       ),
     ],
   ),
-  _i1.WidgetbookComponent(
+  _widgetbook.WidgetbookComponent(
     name: 'SymbolComponent',
     useCases: [
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Circle',
-        builder: _i4.buildCircleUseCase,
+        builder: _widgetbook_flutter_gobo_symbol.buildCircleUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Square',
-        builder: _i4.buildSquareUseCase,
+        builder: _widgetbook_flutter_gobo_symbol.buildSquareUseCase,
       ),
-      _i1.WidgetbookUseCase(
+      _widgetbook.WidgetbookUseCase(
         name: 'Triangle',
-        builder: _i4.buildTriangleUseCase,
+        builder: _widgetbook_flutter_gobo_symbol.buildTriangleUseCase,
       ),
     ],
   ),
