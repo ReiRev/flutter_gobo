@@ -8,6 +8,7 @@ import 'package:gobo/gobo.dart';
 import 'package:golo/golo.dart' as golo;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'download.dart';
 
 abstract class BoardEvent extends Equatable {
   const BoardEvent();
@@ -20,6 +21,20 @@ class BoardCoordinatePressed extends BoardEvent {
 
   @override
   List<Object?> get props => [coordinate.x, coordinate.y];
+}
+
+class BoardPassPressed extends BoardEvent {
+  const BoardPassPressed();
+
+  @override
+  List<Object?> get props => const [];
+}
+
+class BoardUndoPressed extends BoardEvent {
+  const BoardUndoPressed();
+
+  @override
+  List<Object?> get props => const [];
 }
 
 class BoardState extends Equatable {
@@ -39,6 +54,7 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
   BoardBloc({required int boardSize})
       : _game = golo.Game(width: boardSize),
         super(BoardState(golo.Game(width: boardSize).board)) {
+    _game.application = "GOLO Example Game Editor";
     on<BoardCoordinatePressed>((BoardCoordinatePressed e, emit) {
       try {
         _game.play((x: e.coordinate.x, y: e.coordinate.y));
@@ -47,9 +63,20 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
         print(e);
       }
     });
-    // Emit snapshot from _game to avoid depending on the temp Game in super
+    on<BoardPassPressed>((e, emit) {
+      _game.pass();
+      emit(BoardState(_game.board));
+    });
+    on<BoardUndoPressed>((e, emit) {
+      final b = _game.undo();
+      if (b != null) {
+        emit(BoardState(b));
+      }
+    });
   }
   golo.Game _game;
+  bool get canUndo => _game.canUndo;
+  String toSgf() => _game.toSgf();
 }
 
 class Board extends BoardComponent
@@ -157,22 +184,150 @@ class GameEditor extends FlameGame {
   }
 }
 
+class InfoBar extends StatelessWidget {
+  const InfoBar({
+    super.key,
+    this.height = 44,
+    this.backgroundColor = const Color(0xFF9F8109),
+  });
+
+  final double height;
+  final Color backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      color: backgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: BlocBuilder<BoardBloc, BoardState>(
+        builder: (context, state) {
+          final int blackCaptures = state.board.getCaptures(golo.Stone.black);
+          final int whiteCaptures = state.board.getCaptures(golo.Stone.white);
+          return DefaultTextStyle.merge(
+              style: const TextStyle(color: Colors.white),
+              child: Row(
+                children: [
+                  const Text('Captures',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(width: 12),
+                  // Black
+                  Container(
+                    width: 12,
+                    height: 12,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Text('$blackCaptures'),
+                  const SizedBox(width: 16),
+                  // White (show with border to be visible on light bg)
+                  Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black54, width: 1),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Text('$whiteCaptures'),
+                  const Spacer(),
+                  TextButton.icon(
+                    onPressed: context.read<BoardBloc>().canUndo
+                        ? () => context
+                            .read<BoardBloc>()
+                            .add(const BoardUndoPressed())
+                        : null,
+                    icon: const Icon(Icons.undo, color: Colors.white),
+                    label: const Text(
+                      'undo',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  TextButton.icon(
+                    onPressed: () =>
+                        context.read<BoardBloc>().add(const BoardPassPressed()),
+                    icon: const Icon(Icons.flag_outlined, color: Colors.white),
+                    label: const Text(
+                      'pass',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  TextButton.icon(
+                    onPressed: () {
+                      final sgf = context.read<BoardBloc>().toSgf();
+                      final now = DateTime.now();
+                      String two(int n) => n.toString().padLeft(2, '0');
+                      final ts =
+                          '${now.year}${two(now.month)}${two(now.day)}-${two(now.hour)}${two(now.minute)}${two(now.second)}';
+                      final filename = 'golo-$ts.sgf';
+                      saveTextFile(filename, sgf);
+                    },
+                    icon: const Icon(Icons.download, color: Colors.white),
+                    label: const Text(
+                      'toSGF',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ));
+        },
+      ),
+    );
+  }
+}
+
 class GameEditorWrapper extends StatelessWidget {
   const GameEditorWrapper(
       {super.key,
       required this.width,
       required this.height,
+      required this.infoBarHeight,
       required this.boardSize});
 
   final double width;
   final double height;
+  final double infoBarHeight;
   final int boardSize;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BoardBloc(boardSize: boardSize);
-    final board = Board(width: width, height: height, boardSize: boardSize);
-    return GameWidget(game: GameEditor(bloc: bloc, board: board));
+    final board = Board(
+      width: width,
+      height: height,
+      boardSize: boardSize,
+    );
+    return BlocProvider.value(
+      value: bloc,
+      child: SizedBox(
+        width: width,
+        height: height + infoBarHeight,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Top settings bar (separated widget)
+            InfoBar(
+              height: infoBarHeight,
+            ),
+            // The game takes the remaining space
+            Expanded(
+              child: ClipRect(
+                child: GameWidget(
+                  game: GameEditor(bloc: bloc, board: board),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -182,8 +337,16 @@ Widget buildGameEditor(BuildContext context) {
       .slider(label: 'width', initialValue: 500, min: 100, max: 1200);
   final h = context.knobs.double
       .slider(label: 'height', initialValue: 500, min: 100, max: 1200);
+  final infoBarHeight = context.knobs.double
+      .slider(label: 'info bar height', initialValue: 50, min: 5, max: 100);
   final size = context.knobs.int
       .slider(label: 'board size', initialValue: 19, min: 5, max: 25);
 
-  return Center(child: GameEditorWrapper(width: w, height: h, boardSize: size));
+  return Center(
+      child: GameEditorWrapper(
+    width: w,
+    height: h,
+    infoBarHeight: infoBarHeight,
+    boardSize: size,
+  ));
 }
