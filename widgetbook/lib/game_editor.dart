@@ -260,19 +260,18 @@ class GameEditor extends FlameGame {
 class InfoBar extends StatelessWidget {
   const InfoBar({
     super.key,
-    this.height = 44,
     this.backgroundColor = const Color(0xFF9F8109),
+    this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
   });
 
-  final double height;
   final Color backgroundColor;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
       color: backgroundColor,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: padding,
       child: BlocBuilder<BoardBloc, BoardState>(
         builder: (context, state) {
           final int blackCaptures = state.board.getCaptures(golo.Stone.black);
@@ -376,12 +375,10 @@ class GameEditorWrapper extends StatelessWidget {
       {super.key,
       required this.width,
       required this.height,
-      required this.infoBarHeight,
       required this.boardSize});
 
   final double width;
   final double height;
-  final double infoBarHeight;
   final int boardSize;
 
   @override
@@ -396,22 +393,22 @@ class GameEditorWrapper extends StatelessWidget {
       value: bloc,
       child: SizedBox(
         width: width,
-        height: height + infoBarHeight,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Top settings bar (separated widget)
-            InfoBar(
-              height: infoBarHeight,
-            ),
-            // The game takes the remaining space
-            Expanded(
+            const InfoBar(),
+            // The game takes the remaining space defined by the board size
+            SizedBox(
+              height: height,
               child: ClipRect(
                 child: GameWidget(
                   game: GameEditor(bloc: bloc, board: board),
                 ),
               ),
             ),
+            Slider(value: 10, onChanged: (double _) => {})
           ],
         ),
       ),
@@ -425,8 +422,6 @@ Widget buildGameEditor(BuildContext context) {
       .slider(label: 'width', initialValue: 500, min: 100, max: 1200);
   final h = context.knobs.double
       .slider(label: 'height', initialValue: 500, min: 100, max: 1200);
-  final infoBarHeight = context.knobs.double
-      .slider(label: 'info bar height', initialValue: 50, min: 5, max: 100);
   final size = context.knobs.int
       .slider(label: 'board size', initialValue: 19, min: 5, max: 25);
 
@@ -434,7 +429,6 @@ Widget buildGameEditor(BuildContext context) {
       child: GameEditorWrapper(
     width: w,
     height: h,
-    infoBarHeight: infoBarHeight,
     boardSize: size,
   ));
 }
