@@ -307,10 +307,10 @@ packages:
     dependency: "direct main"
     description:
       name: golo
-      sha256: d6cff7d1d5aad4a4beea164dbcbbebda72b0a0667774e0ee5597b31c79c22a48
+      sha256: c06af7c6d8898596ef8f3f29809797e208ab738f1c161902f09abe87dfb431ef
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.2"
   graphs:
     dependency: transitive
     description:
