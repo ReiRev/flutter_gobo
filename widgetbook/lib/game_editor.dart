@@ -86,16 +86,23 @@ class BoardPassPressed extends BoardEvent {
   List<Object?> get props => const [];
 }
 
-class BoardUndoPressed extends BoardEvent {
-  const BoardUndoPressed();
+class BoardGoBackPressed extends BoardEvent {
+  const BoardGoBackPressed();
 
   @override
   List<Object?> get props => const [];
 }
 
-class BoardImportSgf extends BoardEvent {
+class BoardGoNextPressed extends BoardEvent {
+  const BoardGoNextPressed();
+
+  @override
+  List<Object?> get props => const [];
+}
+
+class BoardSgfImported extends BoardEvent {
   final String sgf;
-  const BoardImportSgf(this.sgf);
+  const BoardSgfImported(this.sgf);
 
   @override
   List<Object?> get props => [sgf];
@@ -121,13 +128,17 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     _game.application = "GOLO Example Game Editor";
     on<BoardCoordinatePressed>((BoardCoordinatePressed e, emit) {
       try {
+        // remove existing node.
+        if (_game.rootId != _game.currentId) {
+          _game.remove(includeSelf: false);
+        }
         _game.play((x: e.coordinate.x, y: e.coordinate.y));
         emit(BoardState(_game.board));
       } catch (e) {
         debugPrint('$e');
       }
     });
-    on<BoardImportSgf>((e, emit) {
+    on<BoardSgfImported>((e, emit) {
       try {
         _game = golo.Game.fromSgf(e.sgf);
         _game.application = "GOLO Example Game Editor";
@@ -140,11 +151,13 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
       _game.pass();
       emit(BoardState(_game.board));
     });
-    on<BoardUndoPressed>((e, emit) {
-      final b = _game.undo();
-      if (b != null) {
-        emit(BoardState(b));
-      }
+    on<BoardGoBackPressed>((e, emit) {
+      _game.goBack();
+      emit(BoardState(_game.board));
+    });
+    on<BoardGoNextPressed>((e, emit) {
+      _game.goNext();
+      emit(BoardState(_game.board));
     });
   }
   golo.Game _game;
@@ -305,6 +318,27 @@ class InfoBar extends StatelessWidget {
                   const SizedBox(width: 6),
                   Text('$whiteCaptures'),
                   const Spacer(),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: const Icon(Icons.undo, color: Colors.white),
+                    onPressed: context.read<BoardBloc>().canUndo
+                        ? () => context
+                            .read<BoardBloc>()
+                            .add(const BoardGoBackPressed())
+                        : null,
+                  ),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: const Icon(Icons.redo, color: Colors.white),
+                    onPressed: context.read<BoardBloc>().canUndo
+                        ? () => context
+                            .read<BoardBloc>()
+                            .add(const BoardGoNextPressed())
+                        : null,
+                  ),
+                  const Spacer(),
                   TextButton.icon(
                     onPressed: () async {
                       final text = await pickTextFile(
@@ -314,7 +348,7 @@ class InfoBar extends StatelessWidget {
                         debugPrint("Failed to load SGF");
                         return;
                       }
-                      context.read<BoardBloc>().add(BoardImportSgf(text));
+                      context.read<BoardBloc>().add(BoardSgfImported(text));
                     },
                     icon: const Icon(Icons.upload_file, color: Colors.white),
                     label: const Text(
@@ -322,30 +356,7 @@ class InfoBar extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  TextButton.icon(
-                    onPressed: context.read<BoardBloc>().canUndo
-                        ? () => context
-                            .read<BoardBloc>()
-                            .add(const BoardUndoPressed())
-                        : null,
-                    icon: const Icon(Icons.undo, color: Colors.white),
-                    label: const Text(
-                      'undo',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  TextButton.icon(
-                    onPressed: () =>
-                        context.read<BoardBloc>().add(const BoardPassPressed()),
-                    icon: const Icon(Icons.flag_outlined, color: Colors.white),
-                    label: const Text(
-                      'pass',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(width: 4),
+                  const Spacer(),
                   TextButton.icon(
                     onPressed: () {
                       final sgf = context.read<BoardBloc>().toSgf();
@@ -408,7 +419,6 @@ class GameEditorWrapper extends StatelessWidget {
                 ),
               ),
             ),
-            Slider(value: 10, onChanged: (double _) => {})
           ],
         ),
       ),
